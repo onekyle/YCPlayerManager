@@ -107,6 +107,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     [self.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         
     }];
+    [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerFinishPlay:)];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
