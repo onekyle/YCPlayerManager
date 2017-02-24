@@ -10,6 +10,13 @@
 
 static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationContext;
 
+@interface YCMediaPlayer ()
+
+/** 监听播放进度的timer*/
+@property (nonatomic ,strong) id playbackTimeObserver;
+
+@end
+
 @implementation YCMediaPlayer
 
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString
@@ -65,16 +72,32 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     }
 }
 
-- (AVPlayerItem *)getPlayItemWithURLString:(NSString *)url{
+- (AVPlayerItem *)getPlayItemWithURLString:(NSString *)url
+{
     if ([url containsString:@"http"]) {
         AVPlayerItem *playerItem=[AVPlayerItem playerItemWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         return playerItem;
-    }else{
+    } else {
         AVAsset *movieAsset  = [[AVURLAsset alloc]initWithURL:[NSURL fileURLWithPath:url] options:nil];
         AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:movieAsset];
         return playerItem;
     }
-    
+}
+
+- (void)addMediaPlayerPlayProgressTimeObserver
+{
+    CMTime playerDuration = [self playerItemDuration];
+    if (CMTIME_IS_INVALID(playerDuration))
+    {
+        return;
+    }
+    __weak typeof(self) weakSelf = self;
+    self.playbackTimeObserver =  [weakSelf.player
+                                  addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0, NSEC_PER_SEC)
+                                  queue:dispatch_get_main_queue() /* If you pass NULL, the main queue is used. */
+                                  usingBlock:^(CMTime time){
+                                      [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerPlayPeriodicTimeChange:)];
+                                                                          }];
 }
 
 - (void)moviePlayDidEnd:(NSNotification *)notification
@@ -111,6 +134,8 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
         case AVPlayerStatusUnknown:
         {
             self.status = YCMediaPlayerStatusBuffering;
+            [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerBuffering:)];
+            
         }
             break;
             
@@ -118,18 +143,51 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
         {
             self.status = YCMediaPlayerStatusReadyToPlay;
             [self.player play];
+            [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerReadyToPlay:)];
+            [self addMediaPlayerPlayProgressTimeObserver];
             /* Once the AVPlayerItem becomes ready to play, i.e.
              [playerItem status] == AVPlayerItemStatusReadyToPlay,
              its duration can be fetched from the item. */
-            
-            
-            
         }
             break;
             
+        case AVPlayerStatusFailed:
+        {
+            self.status = YCMediaPlayerStatusFailed;
+            [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerFailedPlay:)];
+        }
+            break;
         default:
             break;
     }
+}
+
+- (void)setStatus:(YCMediaPlayerStatus)status
+{
+    _status = status;
+    
+}
+
+- (BOOL)playerDelegateCanCall:(SEL)method
+{
+    return [self.playerDelegate conformsToProtocol:@protocol(YCMediaPlayerDelegate)] && [self.playerDelegate respondsToSelector:method];
+}
+
+- (void)playerDelegateSafeCallAndPassOn:(SEL)method
+{
+    if ([self playerDelegateCanCall:method]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [self.playerDelegate performSelector:method withObject:self];
+#pragma clang diagnostic pop
+    }
+}
+
+- (CMTime)playerItemDuration{
+    if (_currentItem.status == AVPlayerItemStatusReadyToPlay){
+        return([_currentItem duration]);
+    }
+    return(kCMTimeInvalid);
 }
 
 @end

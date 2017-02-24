@@ -6,13 +6,16 @@
 //
 //
 
-NS_ASSUME_NONNULL_BEGIN
 
 @import AVFoundation;
 
+#import "YCMediaPlayerDelegate.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
 // 播放器的几种状态
 typedef NS_ENUM(NSInteger, YCMediaPlayerStatus) {
-    YCMediaPlayerStatusFailed,        // 播放失败
+    YCMediaPlayerStatusFailed = -1,        // 播放失败
     YCMediaPlayerStatusBuffering,     // 缓冲中
     YCMediaPlayerStatusReadyToPlay,  // 将要播放
     YCMediaPlayerStatusPlaying,       // 播放中
@@ -29,6 +32,8 @@ typedef NS_ENUM(NSInteger, YCMediaPlayerStatus) {
 @property (nonatomic, copy) NSString *mediaURLString;
 
 @property (nonatomic, assign) YCMediaPlayerStatus status;
+
+@property (nonatomic, weak) id<YCMediaPlayerDelegate> playerDelegate;
 
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString;
 
