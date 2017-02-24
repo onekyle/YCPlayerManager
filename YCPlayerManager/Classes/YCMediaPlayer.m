@@ -37,9 +37,6 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     if (_currentItem == currentItem) {
         return;
     }
-    if (_currentItem==currentItem) {
-        return;
-    }
     if (_currentItem) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
         [_currentItem removeObserver:self forKeyPath:@"status"];

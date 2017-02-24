@@ -29,6 +29,9 @@ typedef NS_ENUM(NSInteger, YCMediaPlayerStatus) {
 @property (nonatomic, copy) NSString *mediaURLString;
 
 @property (nonatomic, assign) YCMediaPlayerStatus status;
+
+- (instancetype)initWithMediaURLString:(NSString *)mediaURLString;
+
 @end
 
 NS_ASSUME_NONNULL_END
