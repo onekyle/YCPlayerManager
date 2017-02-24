@@ -1,0 +1,6 @@
+framework module YCPlayerManager {
+  umbrella header "YCPlayerManager-umbrella.h"
+
+  export *
+  module * { export * }
+}

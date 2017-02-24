@@ -1,0 +1,6 @@
+framework module Pods_YCPlayerManager_Example {
+  umbrella header "Pods-YCPlayerManager_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}

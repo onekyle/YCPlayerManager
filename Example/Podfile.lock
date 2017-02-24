@@ -1,0 +1,16 @@
+PODS:
+  - YCPlayerManager (0.1.0)
+
+DEPENDENCIES:
+  - YCPlayerManager (from `../`)
+
+EXTERNAL SOURCES:
+  YCPlayerManager:
+    :path: ../
+
+SPEC CHECKSUMS:
+  YCPlayerManager: 390ddf6333e5ee73706abeb5ca2e1f8c8a4df136
+
+PODFILE CHECKSUM: 7f3095bf8187a49606d3f796263432b2eb134ff0
+
+COCOAPODS: 1.1.1
