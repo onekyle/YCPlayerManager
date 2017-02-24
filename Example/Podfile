@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'YCPlayerManager_Example' do
+  pod 'YCPlayerManager', :path => '../'
+
+  target 'YCPlayerManager_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
