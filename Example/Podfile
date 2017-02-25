@@ -1,4 +1,4 @@
-use_frameworks!
+
 
 target 'YCPlayerManager_Example' do
   pod 'YCPlayerManager', :path => '../'

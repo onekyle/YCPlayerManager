@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		131F36CC1E60203900EF82BB /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = 131F36C91E60203900EF82BB /* .gitkeep */; };
-		131F36CD1E60203900EF82BB /* YCMediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 131F36CB1E60203900EF82BB /* YCMediaPlayer.m */; };
-		131F36D11E60543300EF82BB /* YCPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 131F36D01E60543300EF82BB /* YCPlayerView.m */; };
-		5F40526FD93C41817E2FB175 /* Pods_YCPlayerManager_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 169135D97E5DE60A12F4AAA3 /* Pods_YCPlayerManager_Example.framework */; };
+		1AEB080708B0AF9409515680 /* libPods-YCPlayerManager_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9ABACDB07AEC7E70483152 /* libPods-YCPlayerManager_Tests.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -24,9 +21,9 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		6F6C95E0A2F0A9A1D3B24E2A /* libPods-YCPlayerManager_Example.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57E421BA6E0EC39557ED14B8 /* libPods-YCPlayerManager_Example.a */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
-		92C5B57E8C35BB0874D9E235 /* Pods_YCPlayerManager_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437F878BE49E0E9E844EB084 /* Pods_YCPlayerManager_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,16 +38,9 @@
 
 /* Begin PBXFileReference section */
 		09891096C3F532179CC1B33A /* Pods-YCPlayerManager_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YCPlayerManager_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YCPlayerManager_Tests/Pods-YCPlayerManager_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		131F36C91E60203900EF82BB /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
-		131F36CA1E60203900EF82BB /* YCMediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCMediaPlayer.h; sourceTree = "<group>"; };
-		131F36CB1E60203900EF82BB /* YCMediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCMediaPlayer.m; sourceTree = "<group>"; };
-		131F36CE1E60366600EF82BB /* YCMediaPlayerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YCMediaPlayerDelegate.h; sourceTree = "<group>"; };
-		131F36CF1E60543300EF82BB /* YCPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCPlayerView.h; sourceTree = "<group>"; };
-		131F36D01E60543300EF82BB /* YCPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCPlayerView.m; sourceTree = "<group>"; };
-		169135D97E5DE60A12F4AAA3 /* Pods_YCPlayerManager_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YCPlayerManager_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		19B642D29C659CB33BBF0558 /* Pods-YCPlayerManager_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YCPlayerManager_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YCPlayerManager_Tests/Pods-YCPlayerManager_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		3E0700E5AF342B41A34045BD /* Pods-YCPlayerManager_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YCPlayerManager_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YCPlayerManager_Example/Pods-YCPlayerManager_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		437F878BE49E0E9E844EB084 /* Pods_YCPlayerManager_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YCPlayerManager_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57E421BA6E0EC39557ED14B8 /* libPods-YCPlayerManager_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YCPlayerManager_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* YCPlayerManager_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YCPlayerManager_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -75,6 +65,7 @@
 		88B407388AA784B456E59F80 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		BC03735F9E60D91DD0814180 /* Pods-YCPlayerManager_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YCPlayerManager_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-YCPlayerManager_Example/Pods-YCPlayerManager_Example.release.xcconfig"; sourceTree = "<group>"; };
 		CC42FFE073C3529D26801A71 /* YCPlayerManager.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = YCPlayerManager.podspec; path = ../YCPlayerManager.podspec; sourceTree = "<group>"; };
+		DD9ABACDB07AEC7E70483152 /* libPods-YCPlayerManager_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YCPlayerManager_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBBF8F4C76E2ECB6BEC94A9C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,7 +77,7 @@
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
-				5F40526FD93C41817E2FB175 /* Pods_YCPlayerManager_Example.framework in Frameworks */,
+				6F6C95E0A2F0A9A1D3B24E2A /* libPods-YCPlayerManager_Example.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,27 +88,13 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				92C5B57E8C35BB0874D9E235 /* Pods_YCPlayerManager_Tests.framework in Frameworks */,
+				1AEB080708B0AF9409515680 /* libPods-YCPlayerManager_Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		131F36C81E60203900EF82BB /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				131F36C91E60203900EF82BB /* .gitkeep */,
-				131F36CE1E60366600EF82BB /* YCMediaPlayerDelegate.h */,
-				131F36CA1E60203900EF82BB /* YCMediaPlayer.h */,
-				131F36CB1E60203900EF82BB /* YCMediaPlayer.m */,
-				131F36CF1E60543300EF82BB /* YCPlayerView.h */,
-				131F36D01E60543300EF82BB /* YCPlayerView.m */,
-			);
-			name = Classes;
-			path = ../../YCPlayerManager/Classes;
-			sourceTree = "<group>";
-		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -146,8 +123,8 @@
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
-				169135D97E5DE60A12F4AAA3 /* Pods_YCPlayerManager_Example.framework */,
-				437F878BE49E0E9E844EB084 /* Pods_YCPlayerManager_Tests.framework */,
+				57E421BA6E0EC39557ED14B8 /* libPods-YCPlayerManager_Example.a */,
+				DD9ABACDB07AEC7E70483152 /* libPods-YCPlayerManager_Tests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -155,7 +132,6 @@
 		6003F593195388D20070C39A /* Example for YCPlayerManager */ = {
 			isa = PBXGroup;
 			children = (
-				131F36C81E60203900EF82BB /* Classes */,
 				6003F59C195388D20070C39A /* YCAppDelegate.h */,
 				6003F59D195388D20070C39A /* YCAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -305,7 +281,6 @@
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
-				131F36CC1E60203900EF82BB /* .gitkeep in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
@@ -419,11 +394,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				131F36D11E60543300EF82BB /* YCPlayerView.m in Sources */,
 				6003F59E195388D20070C39A /* YCAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* YCViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
-				131F36CD1E60203900EF82BB /* YCMediaPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

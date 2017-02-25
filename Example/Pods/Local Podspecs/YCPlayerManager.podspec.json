@@ -19,9 +19,5 @@
     "ios": "8.0"
   },
   "source_files": "YCPlayerManager/Classes/**/*",
-  "resource_bundles": {
-    "YCPlayerManager": [
-      "YCPlayerManager/YCPlayerManager.bundle"
-    ]
-  }
+  "resources": "YCPlayerManager/YCPlayerManager.bundle"
 }
