@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol YCPlayerViewDelegate <NSObject>
+@protocol YCPlayerViewEventControlDelegate <NSObject>
 
+- (void)didClickPlayerViewPlayerControlButton:(UIButton *)sender;
 
+- (void)didClickPlayerViewCloseButton:(UIButton *)sender;
 
+- (void)didClickPlayerViewProgressSlider:(UISlider *)sender;
+
+- (void)didTapPlayerViewProgressSlider:(UISlider *)sender;
 @end
 
 @class YCMediaPlayer;
@@ -19,8 +24,13 @@
 
 @property (nonatomic, strong) YCMediaPlayer *mediaPlayer;
 
+@property (nonatomic, weak) id<YCPlayerViewEventControlDelegate> eventControl;
+
 @property (nonatomic, assign) NSTimeInterval currentTime;
 
 @property (nonatomic, assign) NSTimeInterval duration;
+
+/** 播放暂停按钮*/
+@property (nonatomic, strong, nullable) UIButton    *playerControlBtn;
 
 @end

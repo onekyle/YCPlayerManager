@@ -10,6 +10,9 @@
 #import "YCMediaPlayer.h"
 
 @interface YCPlayerView ()
+{
+    BOOL _isProgerssSliderActivity;
+}
 
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 
@@ -28,8 +31,7 @@
 /** 显示播放视频的title*/
 @property (nonatomic, strong) UILabel   *titleLabel;
 
-/** 播放暂停按钮*/
-@property (nonatomic, strong, nullable) UIButton    *playerControlBtn;
+
 
 /** 播放进度*/
 @property (nonatomic,strong) UISlider       *progressSlider;
@@ -76,7 +78,9 @@
 {
     _currentTime = currentTime;
     self.leftTimeLabel.text = [self changeToStringByTime:currentTime];
-    self.progressSlider.value = currentTime / self.duration;
+    if (!_isProgerssSliderActivity) {
+        self.progressSlider.value = currentTime / self.duration;
+    }
 }
 
 - (void)setDuration:(NSTimeInterval)duration
@@ -116,8 +120,9 @@
     //添加暂停和开启按钮
     self.playerControlBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.playerControlBtn.showsTouchWhenHighlighted = YES;
-    [self.playerControlBtn setImage:[self imageWithImageName:@"player_play_nor"] forState:UIControlStateNormal];
-    [self.playerControlBtn setImage:[self imageWithImageName:@"player_pause_nor"] forState:UIControlStateSelected];
+    [self.playerControlBtn setImage:[self imageWithImageName:@"player_pause_nor"] forState:UIControlStateNormal];
+    [self.playerControlBtn setImage:[self imageWithImageName:@"player_play_nor"] forState:UIControlStateSelected];
+    [self.playerControlBtn addTarget:self action:@selector(didClickPlayerControlButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.bottomView addSubview:self.playerControlBtn];
     
@@ -126,14 +131,12 @@
     [self.progressSlider setThumbImage:[self imageWithImageName:@"player_slider_pos"] forState:UIControlStateNormal];
     self.progressSlider.maximumTrackTintColor = [UIColor clearColor];
     self.progressSlider.value = 0.0;//指定初始值
-    
-//    [self.progressSlider addTarget:self action:@selector(didDragSlider:)  forControlEvents:UIControlEventValueChanged];
-//    
-//    [self.progressSlider addTarget:self action:@selector(didClickProgressSlider:) forControlEvents:UIControlEventTouchUpInside];
-    
-//    self.tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapSlider:)];
-//    self.tap.delegate = self;
-//    [self.progressSlider addGestureRecognizer:self.tap];
+
+    [self.progressSlider addTarget:self action:@selector(didStartDragProgressSlider:)  forControlEvents:UIControlEventValueChanged];
+    [self.progressSlider addTarget:self action:@selector(didClickProgressSlider:) forControlEvents:UIControlEventTouchUpInside];
+
+    UITapGestureRecognizer *progerssSliderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapProgerssSlider:)];
+    [self.progressSlider addGestureRecognizer:progerssSliderTap];
     
     self.progressSlider.backgroundColor = [UIColor clearColor];
     [self.bottomView addSubview:self.progressSlider];
@@ -182,9 +185,48 @@
     self.rightTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
 }
 
+- (void)didStartDragProgressSlider:(UISlider *)sender
+{
+    _isProgerssSliderActivity = YES;
+}
+
+- (void)didClickProgressSlider:(UISlider *)sender
+{
+    _isProgerssSliderActivity = NO;
+    if ([self eventControlCanCall:@selector(didClickPlayerViewProgressSlider:)]) {
+        [self.eventControl didClickPlayerViewProgressSlider:sender];
+    }
+}
+
+- (void)didTapProgerssSlider:(UIGestureRecognizer *)tap
+{
+    CGPoint touchLocation = [tap locationInView:self.progressSlider];
+    CGFloat value = (self.progressSlider.maximumValue - self.progressSlider.minimumValue) * (touchLocation.x/self.progressSlider.frame.size.width);
+    [self.progressSlider setValue:value animated:YES];
+    _isProgerssSliderActivity = NO;
+    if ([self eventControlCanCall:@selector(didTapPlayerViewProgressSlider:)]) {
+        [self.eventControl didTapPlayerViewProgressSlider:self.progressSlider];
+    }
+}
+
+- (void)didClickPlayerControlButton:(UIButton *)sender
+{
+    if ([self eventControlCanCall:@selector(didClickPlayerViewPlayerControlButton:)]) {
+        [self.eventControl didClickPlayerViewPlayerControlButton:sender];
+    }
+}
+
 - (void)colseTheVideo:(UIButton *)sender
 {
-    NSLog(@"colseTheVideo");
+    if ([self eventControlCanCall:@selector(didClickPlayerViewCloseButton:)]) {
+        [self.eventControl didClickPlayerViewCloseButton:sender];
+    }
+}
+
+
+- (BOOL)eventControlCanCall:(SEL)method
+{
+    return [self.eventControl conformsToProtocol:@protocol(YCPlayerViewEventControlDelegate)] && [self.eventControl respondsToSelector:method];
 }
 
 - (NSBundle *)currentBundle
