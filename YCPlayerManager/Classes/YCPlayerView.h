@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol YCPlayerViewDelegate <NSObject>
+
+
+
+@end
+
 @class YCMediaPlayer;
 @interface YCPlayerView : UIView
 
-@property (nonatomic, strong, readonly) YCMediaPlayer *mediaPlayer;
+@property (nonatomic, strong) YCMediaPlayer *mediaPlayer;
+
+@property (nonatomic, assign) NSTimeInterval currentTime;
+
+@property (nonatomic, assign) NSTimeInterval duration;
 
 @end

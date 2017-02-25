@@ -8,9 +8,11 @@
 
 #import "YCViewController.h"
 #import <YCPlayerManager/YCMediaPlayer.h>
+#import <YCPlayerManager/YCPlayerView.h>
 
 @interface YCViewController () <YCMediaPlayerDelegate>
 @property (nonatomic, strong) YCMediaPlayer *player;
+@property (nonatomic, strong) YCPlayerView *playerView;
 @end
 
 @implementation YCViewController
@@ -21,9 +23,10 @@
     
     _player = [[YCMediaPlayer alloc] initWithMediaURLString:@"http://movies.apple.com/media/us/iphone/2010/tours/apple-iphone4-design_video-us-20100607_848x480.mov"];
     _player.playerDelegate = self;
-    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player.player];
-    playerLayer.frame = CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.width);
-    [self.view.layer addSublayer:playerLayer];
+    _playerView = [[YCPlayerView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.height - 20)];
+    _playerView.mediaPlayer = _player;
+    _playerView.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:_playerView];
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,7 +38,8 @@
 /** 播放进度*/
 - (void)mediaPlayerPlayPeriodicTimeChange:(YCMediaPlayer *)mediaPlayer
 {
-    double nowTime = CMTimeGetSeconds([mediaPlayer.player currentTime]);
+    Float64 nowTime = CMTimeGetSeconds([mediaPlayer.player currentTime]);
+    _playerView.currentTime = nowTime;
     NSLog(@"nowtime: %f",nowTime);
 }
 ///播放状态
@@ -52,7 +56,8 @@
 /** 准备播放的代理方法*/
 - (void)mediaPlayerReadyToPlay:(YCMediaPlayer *)mediaPlayer
 {
-    NSLog(@"mediaPlayerReadyToPlay");
+    _playerView.duration = mediaPlayer.duration;
+    [mediaPlayer.player play];
 }
 /** 播放完毕的代理方法*/
 - (void)mediaPlayerFinishPlay:(YCMediaPlayer *)mediaPlayer

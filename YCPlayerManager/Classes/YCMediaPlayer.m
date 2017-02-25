@@ -19,6 +19,26 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 
 @implementation YCMediaPlayer
 
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.player.currentItem cancelPendingSeeks];
+    [self.player.currentItem.asset cancelLoading];
+    [self.player pause];
+    
+    [self.player removeTimeObserver:self.playbackTimeObserver];
+    
+    //移除观察者
+    [_currentItem removeObserver:self forKeyPath:@"status"];
+    [_currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+    [_currentItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+    [_currentItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+    
+    [self.player replaceCurrentItemWithPlayerItem:nil];
+    _player = nil;
+    _currentItem = nil;
+}
+
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString
 {
     self = [super init];
@@ -34,7 +54,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     [self setCurrentItem:[self getPlayItemWithURLString:mediaURLString]];
     if (!self.player) {
         _player = [AVPlayer playerWithPlayerItem:_currentItem];
-        _player.usesExternalPlaybackWhileExternalScreenIsActive=YES;
+        _player.usesExternalPlaybackWhileExternalScreenIsActive = YES;
     }
     self.status = YCMediaPlayerStatusBuffering;
 }
@@ -93,7 +113,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     }
     __weak typeof(self) weakSelf = self;
     self.playbackTimeObserver =  [weakSelf.player
-                                  addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1.0, NSEC_PER_SEC)
+                                  addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC)
                                   queue:dispatch_get_main_queue() /* If you pass NULL, the main queue is used. */
                                   usingBlock:^(CMTime time){
                                       [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerPlayPeriodicTimeChange:)];
@@ -103,7 +123,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 - (void)moviePlayDidEnd:(NSNotification *)notification
 {
     self.status = YCMediaPlayerStatusFinished;
-    
+    [self.player removeTimeObserver:self.playbackTimeObserver];
     [self.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         
     }];
@@ -143,7 +163,6 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
         case AVPlayerStatusReadyToPlay:
         {
             self.status = YCMediaPlayerStatusReadyToPlay;
-            [self.player play];
             [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerReadyToPlay:)];
             [self addMediaPlayerPlayProgressTimeObserver];
             /* Once the AVPlayerItem becomes ready to play, i.e.
@@ -189,6 +208,11 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
         return([_currentItem duration]);
     }
     return(kCMTimeInvalid);
+}
+
+- (NSTimeInterval)duration
+{
+    return CMTimeGetSeconds(self.playerItemDuration);
 }
 
 @end

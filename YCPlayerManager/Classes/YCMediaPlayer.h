@@ -35,6 +35,8 @@ typedef NS_ENUM(NSInteger, YCMediaPlayerStatus) {
 
 @property (nonatomic, weak) id<YCMediaPlayerDelegate> playerDelegate;
 
+- (NSTimeInterval)duration;
+
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString;
 
 @end
