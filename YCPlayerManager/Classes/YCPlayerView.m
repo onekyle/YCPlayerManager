@@ -31,8 +31,6 @@
 /** 显示播放视频的title*/
 @property (nonatomic, strong) UILabel   *titleLabel;
 
-
-
 /** 播放进度*/
 @property (nonatomic,strong) UISlider       *progressSlider;
 
@@ -183,6 +181,11 @@
     CGFloat timeLabelH = 20;
     self.leftTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
     self.rightTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
+}
+
+- (void)setPlayerControlStatusPaused:(BOOL)Paused
+{
+    self.playerControlBtn.selected = YES;
 }
 
 - (void)didStartDragProgressSlider:(UISlider *)sender

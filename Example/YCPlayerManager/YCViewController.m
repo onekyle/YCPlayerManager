@@ -23,7 +23,7 @@
     
     _mediaPlayer = [[YCMediaPlayer alloc] initWithMediaURLString:@"http://movies.apple.com/media/us/iphone/2010/tours/apple-iphone4-design_video-us-20100607_848x480.mov"];
     _mediaPlayer.playerDelegate = self;
-    _playerView = [[YCPlayerView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.height - 20)];
+    _playerView = [[YCPlayerView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.width)];
     _playerView.mediaPlayer = _mediaPlayer;
     _playerView.backgroundColor = [UIColor blackColor];
     _playerView.eventControl = self;
@@ -74,7 +74,7 @@
 {
     Float64 nowTime = CMTimeGetSeconds([mediaPlayer.player currentTime]);
     _playerView.currentTime = nowTime;
-    NSLog(@"nowtime: %f",nowTime);
+//    NSLog(@"nowtime: %f",nowTime);
 }
 ///播放状态
 /** 播放失败的代理方法*/
@@ -96,6 +96,7 @@
 /** 播放完毕的代理方法*/
 - (void)mediaPlayerFinishPlay:(YCMediaPlayer *)mediaPlayer
 {
+    [self.playerView setPlayerControlStatusPaused:YES];
     NSLog(@"mediaPlayerFinishPlay");
 }
 #pragma mark -

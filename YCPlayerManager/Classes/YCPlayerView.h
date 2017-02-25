@@ -33,4 +33,6 @@
 /** 播放暂停按钮*/
 @property (nonatomic, strong, nullable) UIButton    *playerControlBtn;
 
+- (void)setPlayerControlStatusPaused:(BOOL)Paused;
+
 @end

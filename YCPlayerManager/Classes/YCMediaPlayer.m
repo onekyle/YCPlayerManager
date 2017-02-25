@@ -123,7 +123,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 - (void)moviePlayDidEnd:(NSNotification *)notification
 {
     self.status = YCMediaPlayerStatusFinished;
-    [self.player removeTimeObserver:self.playbackTimeObserver];
+//    [self.player removeTimeObserver:self.playbackTimeObserver];
     [self.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         
     }];
