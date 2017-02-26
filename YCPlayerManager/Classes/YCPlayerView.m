@@ -14,31 +14,6 @@
     BOOL _isProgerssSliderActivity;
 }
 
-@property (nonatomic, strong) AVPlayerLayer *playerLayer;
-
-/** 菊花加载框*/
-@property (nonatomic, strong) UIActivityIndicatorView   *loadingView;
-
-/** 关闭按钮*/
-@property (nonatomic, strong) UIButton *closeBtn;
-
-/** 底部操作工具视图*/
-@property (nonatomic, strong) UIView    *bottomView;
-
-/** 顶部操作工具视图*/
-@property (nonatomic, strong) UIView    *topView;
-
-/** 显示播放视频的title*/
-@property (nonatomic, strong) UILabel   *titleLabel;
-
-/** 播放进度*/
-@property (nonatomic,strong) UISlider       *progressSlider;
-
-/** 时间显示label*/
-@property (nonatomic,strong) UILabel        *leftTimeLabel;
-@property (nonatomic,strong) UILabel        *rightTimeLabel;
-
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @end
 
 @implementation YCPlayerView
@@ -58,6 +33,9 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self _setUpUI];
+        self.playerLayer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
+        self.frame = frame;
+        [self setUpLayoutWithFrame:frame];
     }
     return self;
 }
@@ -67,6 +45,7 @@
     _mediaPlayer = mediaPlayer;
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:mediaPlayer.player];
     self.playerLayer.frame = self.layer.bounds;
+    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
     //视频的默认填充模式，AVLayerVideoGravityResizeAspect
 //    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
     [self.layer insertSublayer:_playerLayer atIndex:0];
@@ -145,15 +124,13 @@
     [self.bottomView addSubview:self.rightTimeLabel];
 }
 
-- (void)layoutSubviews
+- (void)setUpLayoutWithFrame:(CGRect)frame
 {
-    [super layoutSubviews];
     
-    self.playerLayer.frame = self.layer.bounds;
     
     CGFloat w,h;
-    w = self.frame.size.width;
-    h = self.frame.size.height;
+    w = frame.size.width;
+    h = frame.size.height;
     
     self.loadingView.center = self.center;
     
@@ -176,7 +153,7 @@
     CGFloat progressSliderDefaultH = self.progressSlider.frame.size.height;
     CGFloat progressSliderW = bottomViewW - 90;
     self.progressSlider.frame = CGRectMake((bottomViewW - progressSliderW) / 2, (bottomViewH - progressSliderDefaultH) / 2, progressSliderW, progressSliderDefaultH);
-
+    
     CGFloat timeLabelW = bottomViewW - 90;
     CGFloat timeLabelH = 20;
     self.leftTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
@@ -224,6 +201,26 @@
     if ([self eventControlCanCall:@selector(didClickPlayerViewCloseButton:)]) {
         [self.eventControl didClickPlayerViewCloseButton:sender];
     }
+}
+
+- (void)changeToSuspendTypeWithFrame:(CGRect)suspendFrame
+{
+    self.transform = CGAffineTransformIdentity;
+    
+    [self setUpLayoutWithFrame:suspendFrame];
+    
+    CGFloat w = suspendFrame.size.width;
+    CGFloat h = suspendFrame.size.height;
+    
+    CGFloat topViewH = 40;
+    CGFloat topViewW = w;
+    self.topView.frame = CGRectMake(0, 0, topViewW, topViewH);
+    CGFloat titleLabelHeight = CGRectGetHeight(self.titleLabel.frame);
+    self.titleLabel.frame = CGRectMake(45, (topViewH - titleLabelHeight) / 2, topViewW - 90, titleLabelHeight);
+    
+    CGFloat bottomViewH = 40;
+    self.bottomView.frame = CGRectMake(0, h - bottomViewH, w, bottomViewH);
+    
 }
 
 
