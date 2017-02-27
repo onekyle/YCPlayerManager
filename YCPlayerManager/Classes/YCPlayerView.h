@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YCMediaPlayerDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol YCPlayerViewComponentDelegate <NSObject>
 
 @property (nonatomic, strong) YCMediaPlayer *mediaPlayer;
+
+@property (nonatomic, assign) YCMediaPlayerStatus playerStatus;
 
 @property (nonatomic, weak) id<YCPlayerViewEventControlDelegate> eventControl;
 

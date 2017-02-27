@@ -37,6 +37,18 @@
     return self;
 }
 
+- (void)setPlayerView:(UIView<YCPlayerViewComponentDelegate> *)playerView
+{
+    if (_playerView != playerView) {
+        [_playerView removeFromSuperview];
+        _playerView = playerView;
+        _playerView.eventControl = self;
+        if (self.mediaURLString.length) {
+            _playerView.mediaPlayer = _mediaPlayer;
+        }
+    }
+}
+
 - (void)setMediaURLString:(NSString *)mediaURLString
 {
     if (![_mediaURLString isEqualToString:mediaURLString]) {
@@ -57,8 +69,9 @@
 {
     if (self.player.rate != 1.0) {
         [self.player currentTime];
-        if ([self currentTime] == self.mediaPlayer.duration)
+        if ([self currentTime] == self.mediaPlayer.duration) {
             self.playerView.currentTime = 0.0f;
+        }
         sender.selected = NO;
         [self.player play];
     } else {
@@ -97,38 +110,22 @@
 {
     Float64 nowTime = CMTimeGetSeconds([mediaPlayer.player currentTime]);
     _playerView.currentTime = nowTime;
-    //    NSLog(@"nowtime: %f",nowTime);
-}
-///播放状态
-/** 播放失败的代理方法*/
-- (void)mediaPlayerFailedPlay:(YCMediaPlayer *)mediaPlayer
-{
-    //    NSLog(@"mediaPlayerFailedPlay");
-    [self.playerView setPlayerControlStatusPaused:YES];
-}
-/** 正在缓冲的代理方法*/
-- (void)mediaPlayerBuffering:(YCMediaPlayer *)mediaPlayer
-{
-    NSLog(@"mediaPlayerBuffering");
-}
-/** 准备播放的代理方法*/
-- (void)mediaPlayerReadyToPlay:(YCMediaPlayer *)mediaPlayer
-{
-    _playerView.duration = mediaPlayer.duration;
-    [mediaPlayer.player play];
-    [self.playerView setPlayerControlStatusPaused:NO];
-}
-/** 播放完毕的代理方法*/
-- (void)mediaPlayerFinishPlay:(YCMediaPlayer *)mediaPlayer
-{
-    [self.playerView setPlayerControlStatusPaused:YES];
-    NSLog(@"mediaPlayerFinishPlay");
 }
 
 - (void)mediaPlayerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
 {
     [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
+
+- (void)mediaPlayerPlay:(YCMediaPlayer *)mediaPlayer statusChanged:(YCMediaPlayerStatus)status
+{
+    if (status == YCMediaPlayerStatusReadyToPlay) {
+        [mediaPlayer.player play];
+    }
+    self.playerView.playerStatus = status;
+}
+
+
 #pragma mark -
 
 - (AVPlayer *)player

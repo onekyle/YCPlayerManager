@@ -18,6 +18,7 @@
 
 @implementation YCPlayerView
 @synthesize mediaPlayer = _mediaPlayer;
+@synthesize playerStatus = _playerStatus;
 @synthesize eventControl = _eventControl;
 @synthesize currentTime = _currentTime;
 @synthesize duration = _duration;
@@ -66,6 +67,40 @@
     //视频的默认填充模式，AVLayerVideoGravityResizeAspect
 //    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
     [self.layer insertSublayer:_playerLayer atIndex:0];
+}
+
+- (void)setPlayerStatus:(YCMediaPlayerStatus)playerStatus
+{
+    _playerStatus = playerStatus;
+    switch (playerStatus) {
+        case YCMediaPlayerStatusFailed:
+            [self.loadingView stopAnimating];
+            [self setPlayerControlStatusPaused:YES];
+            break;
+        case YCMediaPlayerStatusBuffering:
+            [self.loadingView startAnimating];
+            [self setPlayerControlStatusPaused:YES];
+            break;
+        case YCMediaPlayerStatusReadyToPlay:
+            [self.loadingView stopAnimating];
+            self.duration = self.mediaPlayer.duration;
+            [self setPlayerControlStatusPaused:NO];
+            break;
+        case YCMediaPlayerStatusPlaying:
+            [self.loadingView stopAnimating];
+            [self setPlayerControlStatusPaused:NO];
+            break;
+        case YCMediaPlayerStatusStopped:
+            [self.loadingView stopAnimating];
+            [self setPlayerControlStatusPaused:YES];
+            break;
+        case YCMediaPlayerStatusFinished:
+            [self.loadingView stopAnimating];
+            [self setPlayerControlStatusPaused:YES];
+            break;
+        default:
+            break;
+    }
 }
 
 - (void)setCurrentTime:(NSTimeInterval)currentTime
@@ -187,6 +222,8 @@
     CGFloat timeLabelH = 20;
     self.leftTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
     self.rightTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
+    
+    [self bringSubviewToFront:self.loadingView];
 }
 
 - (void)setPlayerControlStatusPaused:(BOOL)Paused

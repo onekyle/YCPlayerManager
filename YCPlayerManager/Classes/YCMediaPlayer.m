@@ -116,18 +116,20 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
                                   addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC)
                                   queue:dispatch_get_main_queue() /* If you pass NULL, the main queue is used. */
                                   usingBlock:^(CMTime time){
-                                      [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerPlayPeriodicTimeChange:)];
+                                      if ([self playerDelegateCanCall:@selector(mediaPlayerPlayPeriodicTimeChange:)]) {
+                                          [self.playerDelegate mediaPlayerPlayPeriodicTimeChange:self];
+                                      }
                                                                           }];
 }
 
 - (void)moviePlayDidEnd:(NSNotification *)notification
 {
-    self.status = YCMediaPlayerStatusFinished;
 //    [self.player removeTimeObserver:self.playbackTimeObserver];
     [self.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         
     }];
-    [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerFinishPlay:)];
+    self.status = YCMediaPlayerStatusFinished;
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
@@ -142,14 +144,13 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
             // 计算缓冲进度
             NSTimeInterval currentLoadedTime = [self availableDuration];
             NSTimeInterval duration       = CMTimeGetSeconds(self.currentItem.duration);
-            if ([self.playerDelegate conformsToProtocol:@protocol(YCMediaPlayerDelegate)] && [self.playerDelegate respondsToSelector:@selector(mediaPlayerBufferingWithCurrentLoadedTime:duration:)]) {
+            if ([self playerDelegateCanCall:@selector(mediaPlayerBufferingWithCurrentLoadedTime:duration:)]) {
                 [self.playerDelegate mediaPlayerBufferingWithCurrentLoadedTime:currentLoadedTime duration:duration];
             }
         } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
             // 当缓冲是空的时候
             if (self.currentItem.playbackBufferEmpty) {
                 self.status = YCMediaPlayerStatusBuffering;
-                [self playerDelegateCanCall:@selector(mediaPlayerBuffering:)];
             }
         } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
             if (self.currentItem.playbackLikelyToKeepUp && self.status == YCMediaPlayerStatusBuffering){
@@ -179,15 +180,12 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
         case AVPlayerStatusUnknown:
         {
             self.status = YCMediaPlayerStatusBuffering;
-            [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerBuffering:)];
-            
         }
             break;
             
         case AVPlayerStatusReadyToPlay:
         {
             self.status = YCMediaPlayerStatusReadyToPlay;
-            [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerReadyToPlay:)];
             [self addMediaPlayerPlayProgressTimeObserver];
             /* Once the AVPlayerItem becomes ready to play, i.e.
              [playerItem status] == AVPlayerItemStatusReadyToPlay,
@@ -198,7 +196,6 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
         case AVPlayerStatusFailed:
         {
             self.status = YCMediaPlayerStatusFailed;
-            [self playerDelegateSafeCallAndPassOn:@selector(mediaPlayerFailedPlay:)];
         }
             break;
         default:
@@ -209,7 +206,9 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 - (void)setStatus:(YCMediaPlayerStatus)status
 {
     _status = status;
-    
+    if ([self playerDelegateCanCall:@selector(mediaPlayerPlay:statusChanged:)]) {
+        [self.playerDelegate mediaPlayerPlay:self statusChanged:status];
+    }
 }
 
     
@@ -218,16 +217,6 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 - (BOOL)playerDelegateCanCall:(SEL)method
 {
     return [self.playerDelegate conformsToProtocol:@protocol(YCMediaPlayerDelegate)] && [self.playerDelegate respondsToSelector:method];
-}
-
-- (void)playerDelegateSafeCallAndPassOn:(SEL)method
-{
-    if ([self playerDelegateCanCall:method]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [self.playerDelegate performSelector:method withObject:self];
-#pragma clang diagnostic pop
-    }
 }
 
 - (CMTime)playerItemDuration{
