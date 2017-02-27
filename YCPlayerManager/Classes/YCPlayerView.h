@@ -57,13 +57,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel   *titleLabel;
 
 /** 播放进度*/
-@property (nonatomic,strong) UISlider       *progressSlider;
+@property (nonatomic, strong) UISlider       *progressSlider;
 /** 缓存显示条*/
 @property (nonatomic, strong) UIProgressView *loadingProgress;
 
 /** 时间显示label*/
-@property (nonatomic,strong) UILabel        *leftTimeLabel;
-@property (nonatomic,strong) UILabel        *rightTimeLabel;
+@property (nonatomic, strong) UILabel        *leftTimeLabel;
+@property (nonatomic, strong) UILabel        *rightTimeLabel;
 
 /** 时间文字显示格式*/
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;

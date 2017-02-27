@@ -1,64 +1,54 @@
 //
-//  YCViewController.m
-//  YCPlayerManager
+//  YCPlayerManager.m
+//  Pods
 //
-//  Created by ych.wang@outlook.com on 02/24/2017.
-//  Copyright (c) 2017 ych.wang@outlook.com. All rights reserved.
+//  Created by Durand on 27/2/17.
+//
 //
 
-#import "YCViewController.h"
-#import <YCPlayerManager/YCMediaPlayer.h>
-#import <YCPlayerManager/YCPlayerView.h>
+#import "YCPlayerManager.h"
 
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+@interface YCPlayerManager () <YCMediaPlayerDelegate,YCPlayerViewEventControlDelegate>
 
-@interface YCViewController () <YCMediaPlayerDelegate,YCPlayerViewEventControlDelegate>
-@property (nonatomic, strong) YCMediaPlayer *mediaPlayer;
-@property (nonatomic, strong) UIView<YCPlayerViewComponentDelegate> *playerView;
-@property (nonatomic, assign, getter=isSuspending) BOOL suspending;
 @end
 
-@implementation YCViewController
+@implementation YCPlayerManager
 
-- (void)viewDidLoad
+- (instancetype)init
 {
-    [super viewDidLoad];
-    
-    _mediaPlayer = [[YCMediaPlayer alloc] initWithMediaURLString:@"http://flv2.bn.netease.com/videolib3/1609/03/lGPqA9142/SD/lGPqA9142-mobile.mp4"];
-    _mediaPlayer.playerDelegate = self;
-    
-    _playerView = [[YCPlayerView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.width)];
-    _playerView.mediaPlayer = _mediaPlayer;
-    _playerView.eventControl = self;
-    [self.view addSubview:_playerView];
+    return [self initWithMediaPlayer:nil playerView:nil];
 }
 
--(void)showSmallScreen{
-    
-    if (self.isSuspending) {
-        [self.playerView removeFromSuperview];
-        CGRect bigFrame = CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.width);
-        [self.view addSubview:self.playerView];
-        [UIView animateWithDuration:0.25 animations:^{
-            [self.playerView setUpLayoutWithFrame:bigFrame];
-        } completion:^(BOOL finished) {
-            
-            self.suspending = NO;
-        }];
-    } else {
-        //放widow上
-        [self.playerView removeFromSuperview];
-        CGFloat width = kScreenWidth/2;
-        CGRect suspendFrame = CGRectMake(kScreenWidth - width, 64, width, width);
-        [UIView animateWithDuration:0.25 animations:^{
-            [self.playerView changeToSuspendTypeWithFrame:suspendFrame];
-            [[UIApplication sharedApplication].keyWindow addSubview:self.playerView];
-        }completion:^(BOOL finished) {
-            self.suspending = YES;
-            [[UIApplication sharedApplication].keyWindow bringSubviewToFront:self.playerView];
-        }];
+- (instancetype)initWithMediaPlayer:(nullable YCMediaPlayer *)mediaPlayer playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView
+{
+    self = [super init];
+    if (self) {
+        if (!mediaPlayer) {
+            mediaPlayer = [[YCMediaPlayer alloc] init];
+        }
+        _mediaPlayer = mediaPlayer;
+        _mediaPlayer.playerDelegate = self;
+        if (!playerView) {
+            playerView = [[YCPlayerView alloc] init];
+        }
+        _playerView = playerView;
+        _playerView.mediaPlayer = _mediaPlayer;
+        _playerView.eventControl = self;
     }
+    return self;
+}
+
+- (void)setMediaURLString:(NSString *)mediaURLString
+{
+    if (![_mediaURLString isEqualToString:mediaURLString]) {
+        _mediaURLString = [mediaURLString copy];
+        self.mediaPlayer.mediaURLString = _mediaURLString;
+    }
+}
+
+-(void)showSmallScreen
+{
+    
 }
 
 
@@ -79,7 +69,7 @@
 
 - (void)didClickPlayerViewCloseButton:(UIButton *)sender
 {
-//    NSLog(@"didClickPlayerViewCloseButton");
+    //    NSLog(@"didClickPlayerViewCloseButton");
     [self showSmallScreen];
 }
 
@@ -107,13 +97,13 @@
 {
     Float64 nowTime = CMTimeGetSeconds([mediaPlayer.player currentTime]);
     _playerView.currentTime = nowTime;
-//    NSLog(@"nowtime: %f",nowTime);
+    //    NSLog(@"nowtime: %f",nowTime);
 }
 ///播放状态
 /** 播放失败的代理方法*/
 - (void)mediaPlayerFailedPlay:(YCMediaPlayer *)mediaPlayer
 {
-//    NSLog(@"mediaPlayerFailedPlay");
+    //    NSLog(@"mediaPlayerFailedPlay");
     [self.playerView setPlayerControlStatusPaused:YES];
 }
 /** 正在缓冲的代理方法*/
@@ -157,3 +147,5 @@
 }
 
 @end
+
+

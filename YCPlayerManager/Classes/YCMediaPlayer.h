@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, YCMediaPlayerStatus) {
 
 @property (nonatomic, strong, nullable) AVPlayerItem *currentItem;
 
-@property (nonatomic, copy) NSString *mediaURLString;
+@property (nonatomic, strong) NSString *mediaURLString;
 
 @property (nonatomic, assign) YCMediaPlayerStatus status;
 

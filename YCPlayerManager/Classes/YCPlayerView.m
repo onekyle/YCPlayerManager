@@ -150,8 +150,6 @@
 
 - (void)setUpLayoutWithFrame:(CGRect)frame
 {
-    
-    
     CGFloat w,h;
     w = frame.size.width;
     h = frame.size.height;
@@ -258,6 +256,13 @@
     [self.loadingProgress setProgress:currentLoadedTime/duration animated:NO];
 }
 
+- (void)setFrame:(CGRect)frame
+{
+    if (!CGRectEqualToRect(self.frame, frame)) {
+        [super setFrame:frame];
+        [self setUpLayoutWithFrame:frame];
+    }
+}
 
 - (BOOL)eventControlCanCall:(SEL)method
 {
