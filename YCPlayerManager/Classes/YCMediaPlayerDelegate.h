@@ -26,6 +26,8 @@
 /** 播放完毕的代理方法*/
 - (void)mediaPlayerFinishPlay:(YCMediaPlayer *)mediaPlayer;
 
+- (void)mediaPlayerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration;
+
 @end
 
 #endif /* YCMediaPlayerDelegate_h */

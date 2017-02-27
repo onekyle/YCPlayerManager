@@ -137,18 +137,42 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
             AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             [self handleChangeAboutAVPlayerStatus:status];
         }
-//        else if (<#expression#>) {
-//            
-//        } else if (<#expression#>) {
-//            
-//        } else if (<#expression#>) {
-//            
-//        } else if (<#expression#>) {
-//            
-//        }
+        else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
+            
+            // 计算缓冲进度
+            NSTimeInterval currentLoadedTime = [self availableDuration];
+            NSTimeInterval duration       = CMTimeGetSeconds(self.currentItem.duration);
+            if ([self.playerDelegate conformsToProtocol:@protocol(YCMediaPlayerDelegate)] && [self.playerDelegate respondsToSelector:@selector(mediaPlayerBufferingWithCurrentLoadedTime:duration:)]) {
+                [self.playerDelegate mediaPlayerBufferingWithCurrentLoadedTime:currentLoadedTime duration:duration];
+            }
+        } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
+            // 当缓冲是空的时候
+            if (self.currentItem.playbackBufferEmpty) {
+                self.status = YCMediaPlayerStatusBuffering;
+                [self playerDelegateCanCall:@selector(mediaPlayerBuffering:)];
+            }
+        } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
+            if (self.currentItem.playbackLikelyToKeepUp && self.status == YCMediaPlayerStatusBuffering){
+                self.status = YCMediaPlayerStatusPlaying;
+            }
+        }
     }
 }
 
+/**
+ *  计算缓冲进度
+ *
+ *  @return 缓冲进度
+ */
+- (NSTimeInterval)availableDuration {
+    NSArray *loadedTimeRanges = [_currentItem loadedTimeRanges];
+    CMTimeRange timeRange     = [loadedTimeRanges.firstObject CMTimeRangeValue];// 获取缓冲区域
+    float startSeconds        = CMTimeGetSeconds(timeRange.start);
+    float durationSeconds     = CMTimeGetSeconds(timeRange.duration);
+    NSTimeInterval result     = startSeconds + durationSeconds;// 计算缓冲总进度
+    return result;
+}
+    
 - (void)handleChangeAboutAVPlayerStatus:(AVPlayerStatus)status
 {
     switch (status) {
@@ -188,6 +212,9 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     
 }
 
+    
+    
+    
 - (BOOL)playerDelegateCanCall:(SEL)method
 {
     return [self.playerDelegate conformsToProtocol:@protocol(YCMediaPlayerDelegate)] && [self.playerDelegate respondsToSelector:method];

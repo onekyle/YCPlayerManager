@@ -53,6 +53,8 @@
 
 /** 播放进度*/
 @property (nonatomic,strong) UISlider       *progressSlider;
+/** 缓存显示条*/
+@property (nonatomic, strong) UIProgressView *loadingProgress;
 
 /** 时间显示label*/
 @property (nonatomic,strong) UILabel        *leftTimeLabel;

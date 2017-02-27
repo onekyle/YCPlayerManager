@@ -25,7 +25,7 @@
 {
     [super viewDidLoad];
     
-    _mediaPlayer = [[YCMediaPlayer alloc] initWithMediaURLString:@"http://movies.apple.com/media/us/iphone/2010/tours/apple-iphone4-design_video-us-20100607_848x480.mov"];
+    _mediaPlayer = [[YCMediaPlayer alloc] initWithMediaURLString:@"http://flv2.bn.netease.com/videolib3/1609/03/lGPqA9142/SD/lGPqA9142-mobile.mp4"];
     _mediaPlayer.playerDelegate = self;
     
     _playerView = [[YCPlayerView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.width)];
@@ -121,7 +121,8 @@
 /** 播放失败的代理方法*/
 - (void)mediaPlayerFailedPlay:(YCMediaPlayer *)mediaPlayer
 {
-    NSLog(@"mediaPlayerFailedPlay");
+//    NSLog(@"mediaPlayerFailedPlay");
+    [self.playerView setPlayerControlStatusPaused:YES];
 }
 /** 正在缓冲的代理方法*/
 - (void)mediaPlayerBuffering:(YCMediaPlayer *)mediaPlayer
@@ -133,12 +134,18 @@
 {
     _playerView.duration = mediaPlayer.duration;
     [mediaPlayer.player play];
+    [self.playerView setPlayerControlStatusPaused:NO];
 }
 /** 播放完毕的代理方法*/
 - (void)mediaPlayerFinishPlay:(YCMediaPlayer *)mediaPlayer
 {
     [self.playerView setPlayerControlStatusPaused:YES];
     NSLog(@"mediaPlayerFinishPlay");
+}
+
+- (void)mediaPlayerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
+{
+    [self.playerView.loadingProgress setProgress:loadedTime/duration animated:NO];
 }
 #pragma mark -
 

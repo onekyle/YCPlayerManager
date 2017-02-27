@@ -118,6 +118,14 @@
     self.progressSlider.backgroundColor = [UIColor clearColor];
     [self.bottomView addSubview:self.progressSlider];
     
+    //loadingProgress
+    self.loadingProgress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    self.loadingProgress.progressTintColor = [UIColor lightGrayColor];
+    self.loadingProgress.trackTintColor    = [UIColor clearColor];
+    [self.loadingProgress setProgress:0.0 animated:NO];
+    [self.bottomView insertSubview:self.loadingProgress belowSubview:self.progressSlider];
+    
+    
     self.leftTimeLabel = [self labelWithTextAlignment:NSTextAlignmentLeft textColor:[UIColor whiteColor] fontSize:11];
     [self.bottomView addSubview:self.leftTimeLabel];
     self.rightTimeLabel = [self labelWithTextAlignment:NSTextAlignmentRight textColor:[UIColor whiteColor] fontSize:11];
@@ -152,7 +160,12 @@
     
     CGFloat progressSliderDefaultH = self.progressSlider.frame.size.height;
     CGFloat progressSliderW = bottomViewW - 90;
-    self.progressSlider.frame = CGRectMake((bottomViewW - progressSliderW) / 2, (bottomViewH - progressSliderDefaultH) / 2, progressSliderW, progressSliderDefaultH);
+    CGRect progressSliderFrame = CGRectMake((bottomViewW - progressSliderW) / 2, (bottomViewH - progressSliderDefaultH) / 2, progressSliderW, progressSliderDefaultH);
+    self.progressSlider.frame = progressSliderFrame;
+    
+    CGFloat loadingProgressH = 2;
+    // x + 2 , w - 2, 是为了修复系统的UIbug. 既: 在loadingProgress和progressSlider的x值一致的情况下, loadingProgress会比progressSlider的进度条偏左.
+    self.loadingProgress.frame = CGRectMake(progressSliderFrame.origin.x + 2,progressSliderFrame.origin.y + (progressSliderFrame.size.height - loadingProgressH) / 2, progressSliderFrame.size.width - 2, loadingProgressH);
     
     CGFloat timeLabelW = bottomViewW - 90;
     CGFloat timeLabelH = 20;
@@ -162,7 +175,7 @@
 
 - (void)setPlayerControlStatusPaused:(BOOL)Paused
 {
-    self.playerControlBtn.selected = YES;
+    self.playerControlBtn.selected = Paused;
 }
 
 - (void)didStartDragProgressSlider:(UISlider *)sender
