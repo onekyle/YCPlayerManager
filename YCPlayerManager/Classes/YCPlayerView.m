@@ -58,6 +58,16 @@
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self _setUpUI];
+        [self setUpLayoutWithFrame:self.frame];
+    }
+    return self;
+}
+
 - (void)setMediaPlayer:(YCMediaPlayer *)mediaPlayer
 {
     _mediaPlayer = mediaPlayer;
@@ -151,6 +161,7 @@
     self.playerControlBtn.showsTouchWhenHighlighted = YES;
     [self.playerControlBtn setImage:[self imageWithImageName:@"player_pause_nor"] forState:UIControlStateNormal];
     [self.playerControlBtn setImage:[self imageWithImageName:@"player_play_nor"] forState:UIControlStateSelected];
+    self.playerControlBtn.selected = YES;
     [self.playerControlBtn addTarget:self action:@selector(didClickPlayerControlButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.bottomView addSubview:self.playerControlBtn];
@@ -238,10 +249,12 @@
 
 - (void)didClickProgressSlider:(UISlider *)sender
 {
-    _isProgerssSliderActivity = NO;
     if ([self eventControlCanCall:@selector(didClickPlayerViewProgressSlider:)]) {
         [self.eventControl didClickPlayerViewProgressSlider:sender];
     }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _isProgerssSliderActivity = NO;
+    });
 }
 
 - (void)didTapProgerssSlider:(UIGestureRecognizer *)tap
@@ -249,10 +262,12 @@
     CGPoint touchLocation = [tap locationInView:self.progressSlider];
     CGFloat value = (self.progressSlider.maximumValue - self.progressSlider.minimumValue) * (touchLocation.x/self.progressSlider.frame.size.width);
     [self.progressSlider setValue:value animated:YES];
-    _isProgerssSliderActivity = NO;
     if ([self eventControlCanCall:@selector(didTapPlayerViewProgressSlider:)]) {
         [self.eventControl didTapPlayerViewProgressSlider:self.progressSlider];
     }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _isProgerssSliderActivity = NO;
+    });
 }
 
 - (void)didClickPlayerControlButton:(UIButton *)sender
