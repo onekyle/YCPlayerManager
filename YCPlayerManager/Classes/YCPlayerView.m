@@ -36,6 +36,7 @@
 
 @synthesize dateFormatter = _dateFormatter;
 
+
 - (instancetype)initWithMediaPlayer:(YCMediaPlayer *)mediaPlayer
 {
     self = [super init];

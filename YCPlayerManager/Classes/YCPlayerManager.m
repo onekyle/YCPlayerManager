@@ -32,7 +32,6 @@
             playerView = [[YCPlayerView alloc] init];
         }
         _playerView = playerView;
-        _playerView.mediaPlayer = _mediaPlayer;
         _playerView.eventControl = self;
     }
     return self;
@@ -43,6 +42,7 @@
     if (![_mediaURLString isEqualToString:mediaURLString]) {
         _mediaURLString = [mediaURLString copy];
         self.mediaPlayer.mediaURLString = _mediaURLString;
+        self.playerView.mediaPlayer = self.mediaPlayer;
     }
 }
 
