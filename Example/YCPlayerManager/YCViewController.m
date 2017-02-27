@@ -30,7 +30,6 @@
     
     _playerView = [[YCPlayerView alloc] initWithFrame:CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.width)];
     _playerView.mediaPlayer = _mediaPlayer;
-//    _playerView.backgroundColor = [UIColor blackColor];
     _playerView.eventControl = self;
     [self.view addSubview:_playerView];
 }
@@ -40,11 +39,9 @@
     if (self.isSuspending) {
         [self.playerView removeFromSuperview];
         CGRect bigFrame = CGRectMake(0, 20, self.view.bounds.size.width, self.view.bounds.size.width);
-        [self.playerView setUpLayoutWithFrame:bigFrame];
         [self.view addSubview:self.playerView];
         [UIView animateWithDuration:0.25 animations:^{
-            self.playerView.frame = bigFrame;
-            self.playerView.playerLayer.frame = self.playerView.bounds;
+            [self.playerView setUpLayoutWithFrame:bigFrame];
         } completion:^(BOOL finished) {
             
             self.suspending = NO;
@@ -54,15 +51,10 @@
         [self.playerView removeFromSuperview];
         CGFloat width = kScreenWidth/2;
         CGRect suspendFrame = CGRectMake(kScreenWidth - width, 64, width, width);
-        [self.playerView changeToSuspendTypeWithFrame:suspendFrame];
         [UIView animateWithDuration:0.25 animations:^{
-            self.playerView.frame = suspendFrame;
-            self.playerView.playerLayer.frame = self.playerView.bounds;
+            [self.playerView changeToSuspendTypeWithFrame:suspendFrame];
             [[UIApplication sharedApplication].keyWindow addSubview:self.playerView];
         }completion:^(BOOL finished) {
-            //        vedioPlayer.isFullscreen = NO;
-            //        [self setNeedsStatusBarAppearanceUpdate];
-            //        vedioPlayer.fullScreenBtn.selected = NO;
             self.suspending = YES;
             [[UIApplication sharedApplication].keyWindow bringSubviewToFront:self.playerView];
         }];
@@ -102,7 +94,7 @@
     if (self.player.rate != 1.f) {
         if ([self currentTime] == [self duration])
             [self.playerView setCurrentTime:0.f];
-        self.playerView.playerControlBtn.selected = NO;
+        [self.playerView setPlayerControlStatusPaused:NO];
         [self.player play];
     }
 }
@@ -145,7 +137,7 @@
 
 - (void)mediaPlayerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
 {
-    [self.playerView.loadingProgress setProgress:loadedTime/duration animated:NO];
+    [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
 #pragma mark -
 

@@ -17,6 +17,24 @@
 @end
 
 @implementation YCPlayerView
+@synthesize mediaPlayer = _mediaPlayer;
+@synthesize eventControl = _eventControl;
+@synthesize currentTime = _currentTime;
+@synthesize duration = _duration;
+
+@synthesize playerControlBtn = _playerControlBtn;
+@synthesize playerLayer = _playerLayer;
+@synthesize loadingView = _loadingView;
+@synthesize closeBtn = _closeBtn;
+@synthesize bottomView = _bottomView;
+@synthesize topView = _topView;
+@synthesize titleLabel = _titleLabel;
+@synthesize progressSlider = _progressSlider;
+@synthesize loadingProgress = _loadingProgress;
+@synthesize leftTimeLabel = _leftTimeLabel;
+@synthesize rightTimeLabel = _rightTimeLabel;
+
+@synthesize dateFormatter = _dateFormatter;
 
 - (instancetype)initWithMediaPlayer:(YCMediaPlayer *)mediaPlayer
 {
@@ -33,8 +51,6 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self _setUpUI];
-        self.playerLayer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-        self.frame = frame;
         [self setUpLayoutWithFrame:frame];
     }
     return self;
@@ -139,7 +155,8 @@
     CGFloat w,h;
     w = frame.size.width;
     h = frame.size.height;
-    
+    self.playerLayer.frame = CGRectMake(0, 0, w, h);
+    self.frame = frame;
     self.loadingView.center = self.center;
     
     CGFloat topViewW = w;
@@ -234,6 +251,11 @@
     CGFloat bottomViewH = 40;
     self.bottomView.frame = CGRectMake(0, h - bottomViewH, w, bottomViewH);
     
+}
+
+- (void)updateBufferingProgressWithCurrentLoadedTime:(NSTimeInterval)currentLoadedTime duration:(NSTimeInterval)duration
+{
+    [self.loadingProgress setProgress:currentLoadedTime/duration animated:NO];
 }
 
 

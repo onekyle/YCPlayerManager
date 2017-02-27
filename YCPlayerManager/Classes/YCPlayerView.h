@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+/**
+ *  UI控件的事件代理.
+ */
 @protocol YCPlayerViewEventControlDelegate <NSObject>
 
 - (void)didClickPlayerViewPlayerControlButton:(UIButton *)sender;
@@ -20,7 +25,7 @@
 @end
 
 @class YCMediaPlayer,AVPlayerLayer;
-@interface YCPlayerView : UIView
+@protocol YCPlayerViewComponentDelegate <NSObject>
 
 @property (nonatomic, strong) YCMediaPlayer *mediaPlayer;
 
@@ -33,7 +38,7 @@
 /** 播放暂停按钮*/
 @property (nonatomic, strong, nullable) UIButton    *playerControlBtn;
 
-
+/** 播放显示*/
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 
 /** 菊花加载框*/
@@ -60,12 +65,38 @@
 @property (nonatomic,strong) UILabel        *leftTimeLabel;
 @property (nonatomic,strong) UILabel        *rightTimeLabel;
 
+/** 时间文字显示格式*/
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
+@required
+/**
+ *  设置当前播放按钮状态
+ *
+ *  @param Paused 是否为暂停状态
+ */
 - (void)setPlayerControlStatusPaused:(BOOL)Paused;
 
+/**
+ *  更新YCPlayerView的布局
+ *
+ *  @param frame 新的frame
+ */
 - (void)setUpLayoutWithFrame:(CGRect)frame;
 
 - (void)changeToSuspendTypeWithFrame:(CGRect)suspendFrame;
 
+/**
+ *  更新缓冲进度
+ *
+ *  @param currentLoaderTime 当前加载到的时间
+ *  @param duration          资源总共时长
+ */
+- (void)updateBufferingProgressWithCurrentLoadedTime:(NSTimeInterval)currentLoadedTime duration:(NSTimeInterval)duration;
+
 @end
+
+@interface YCPlayerView : UIView <YCPlayerViewComponentDelegate>
+
+@end
+
+NS_ASSUME_NONNULL_END
