@@ -72,6 +72,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @required
+// UIComponent target selector
+- (void)didStartDragProgressSlider:(UISlider *)sender;
+
+- (void)didClickProgressSlider:(UISlider *)sender;
+
+- (void)didTapProgerssSlider:(UIGestureRecognizer *)tap;
+
+- (void)didClickPlayerControlButton:(UIButton *)sender;
+
+- (void)colseTheVideo:(UIButton *)sender;
+
 /**
  *  设置当前播放按钮状态
  *
