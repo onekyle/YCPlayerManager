@@ -21,6 +21,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign, readonly, getter=isSuspending) BOOL suspending;
 
+
+// control
+- (void)play;
+- (void)stop;
+
 - (instancetype)initWithMediaPlayer:(nullable YCMediaPlayer *)mediaPlayer playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView;
 @end
 

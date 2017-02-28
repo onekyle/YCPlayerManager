@@ -195,8 +195,8 @@
     
     CGFloat timeLabelW = bottomViewW - 90;
     CGFloat timeLabelH = 20;
-    self.leftTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
-    self.rightTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
+    self.leftTimeLabel.frame = CGRectMake((bottomViewW - timeLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
+    self.rightTimeLabel.frame = CGRectMake((bottomViewW - timeLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
     
     [self bringSubviewToFront:self.loadingView];
 }

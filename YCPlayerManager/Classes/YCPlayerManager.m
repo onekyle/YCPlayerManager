@@ -63,6 +63,17 @@
     
 }
 
+#pragma mark - Control
+- (void)play
+{
+    
+}
+
+- (void)stop
+{
+    [self.player setRate:0.0];
+    [self mediaPlayerPlay:self statusChanged:YCMediaPlayerStatusFinished];
+}
 
 #pragma mark - YCPlayerViewEventControlDelegate
 - (void)didClickPlayerViewPlayerControlButton:(UIButton *)sender
@@ -72,8 +83,8 @@
         if ([self currentTime] == self.mediaPlayer.duration) {
             self.playerView.currentTime = 0.0f;
         }
-        sender.selected = NO;
         [self.player play];
+        sender.selected = NO;
     } else {
         sender.selected = YES;
         [self.player pause];
