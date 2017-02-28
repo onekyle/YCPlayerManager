@@ -75,7 +75,7 @@
     self.playerLayer.frame = self.layer.bounds;
     self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
     //视频的默认填充模式，AVLayerVideoGravityResizeAspect
-//    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
+    //    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
     [self.layer insertSublayer:_playerLayer atIndex:0];
 }
 
@@ -133,65 +133,29 @@
 
 - (void)_setUpUI
 {
-    self.loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [self addSubview:self.loadingView];
     
     //添加顶部视图
-    self.topView = [[UIView alloc]init];
-    self.topView.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.4];
     [self addSubview:self.topView];
     
-    self.closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.closeBtn addTarget:self action:@selector(colseTheVideo:) forControlEvents:UIControlEventTouchUpInside];
-    [self.closeBtn setImage:[self imageWithImageName:@"player_close"] forState:UIControlStateNormal];
     [self.topView addSubview:self.closeBtn];
     
     //标题
-    self.titleLabel = [self labelWithTextAlignment:NSTextAlignmentCenter textColor:[UIColor whiteColor] fontSize:17];
-    self.titleLabel.text = @"testTitle";
     [self.topView addSubview:self.titleLabel];
     
     //添加底部视图
-    self.bottomView = [[UIView alloc]init];
-    self.bottomView.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.4];
     [self addSubview:self.bottomView];
     
     //添加暂停和开启按钮
-    self.playerControlBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.playerControlBtn.showsTouchWhenHighlighted = YES;
-    [self.playerControlBtn setImage:[self imageWithImageName:@"player_pause_nor"] forState:UIControlStateNormal];
-    [self.playerControlBtn setImage:[self imageWithImageName:@"player_play_nor"] forState:UIControlStateSelected];
-    self.playerControlBtn.selected = YES;
-    [self.playerControlBtn addTarget:self action:@selector(didClickPlayerControlButton:) forControlEvents:UIControlEventTouchUpInside];
-    
     [self.bottomView addSubview:self.playerControlBtn];
     
-    self.progressSlider = [[UISlider alloc]init];
-    self.progressSlider.minimumValue = 0.0;
-    [self.progressSlider setThumbImage:[self imageWithImageName:@"player_slider_pos"] forState:UIControlStateNormal];
-    self.progressSlider.maximumTrackTintColor = [UIColor clearColor];
-    self.progressSlider.value = 0.0;//指定初始值
-
-    [self.progressSlider addTarget:self action:@selector(didStartDragProgressSlider:)  forControlEvents:UIControlEventValueChanged];
-    [self.progressSlider addTarget:self action:@selector(didClickProgressSlider:) forControlEvents:UIControlEventTouchUpInside];
-
-    UITapGestureRecognizer *progerssSliderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapProgerssSlider:)];
-    [self.progressSlider addGestureRecognizer:progerssSliderTap];
-    
-    self.progressSlider.backgroundColor = [UIColor clearColor];
     [self.bottomView addSubview:self.progressSlider];
     
     //loadingProgress
-    self.loadingProgress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    self.loadingProgress.progressTintColor = [UIColor lightGrayColor];
-    self.loadingProgress.trackTintColor    = [UIColor clearColor];
-    [self.loadingProgress setProgress:0.0 animated:NO];
     [self.bottomView insertSubview:self.loadingProgress belowSubview:self.progressSlider];
     
-    
-    self.leftTimeLabel = [self labelWithTextAlignment:NSTextAlignmentLeft textColor:[UIColor whiteColor] fontSize:11];
     [self.bottomView addSubview:self.leftTimeLabel];
-    self.rightTimeLabel = [self labelWithTextAlignment:NSTextAlignmentRight textColor:[UIColor whiteColor] fontSize:11];
+    
     [self.bottomView addSubview:self.rightTimeLabel];
 }
 
@@ -325,7 +289,10 @@
 - (NSBundle *)currentBundle
 {
     NSURL *bundleURL = [[NSBundle mainBundle] URLForResource:@"YCPlayerManager" withExtension:@"bundle"];
-    NSBundle *bundle = [NSBundle bundleWithURL:bundleURL];
+    NSBundle *bundle = nil;
+    if (bundleURL) {
+        bundle = [NSBundle bundleWithURL:bundleURL];
+    }
     return bundle;
 }
 
@@ -363,6 +330,113 @@
         _dateFormatter = [[NSDateFormatter alloc] init];
     }
     return _dateFormatter;
+}
+
+
+#pragma mark - LazyLoad
+- (UIButton *)playerControlBtn
+{
+    if (!_playerControlBtn) {
+        _playerControlBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _playerControlBtn.showsTouchWhenHighlighted = YES;
+        [_playerControlBtn setImage:[self imageWithImageName:@"player_pause_nor"] forState:UIControlStateNormal];
+        [_playerControlBtn setImage:[self imageWithImageName:@"player_play_nor"] forState:UIControlStateSelected];
+        _playerControlBtn.selected = YES;
+        [_playerControlBtn addTarget:self action:@selector(didClickPlayerControlButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _playerControlBtn;
+}
+
+- (UIActivityIndicatorView *)loadingView
+{
+    if (!_loadingView) {
+        _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    }
+    return _loadingView;
+}
+
+- (UIView *)topView
+{
+    if (!_topView) {
+        _topView = [[UIView alloc]init];
+        _topView.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.4];
+    }
+    return _topView;
+}
+
+- (UIButton *)closeBtn
+{
+    if (!_closeBtn) {
+        _closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_closeBtn addTarget:self action:@selector(colseTheVideo:) forControlEvents:UIControlEventTouchUpInside];
+        [_closeBtn setImage:[self imageWithImageName:@"player_close"] forState:UIControlStateNormal];
+    }
+    return _closeBtn;
+}
+
+- (UILabel *)titleLabel
+{
+    if (!_titleLabel) {
+        _titleLabel = [self labelWithTextAlignment:NSTextAlignmentCenter textColor:[UIColor whiteColor] fontSize:17];
+        _titleLabel.text = @"testTitle";
+    }
+    return _titleLabel;
+}
+
+- (UIView *)bottomView
+{
+    if (!_bottomView) {
+        _bottomView = [[UIView alloc]init];
+        _bottomView.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.4];
+    }
+    return _bottomView;
+}
+
+- (UISlider *)progressSlider
+{
+    if (!_progressSlider) {
+        _progressSlider = [[UISlider alloc]init];
+        _progressSlider.minimumValue = 0.0;
+        [_progressSlider setThumbImage:[self imageWithImageName:@"player_slider_pos"] forState:UIControlStateNormal];
+        _progressSlider.maximumTrackTintColor = [UIColor clearColor];
+        _progressSlider.value = 0.0;//指定初始值
+        
+        [_progressSlider addTarget:self action:@selector(didStartDragProgressSlider:)  forControlEvents:UIControlEventValueChanged];
+        [_progressSlider addTarget:self action:@selector(didClickProgressSlider:) forControlEvents:UIControlEventTouchUpInside];
+        
+        UITapGestureRecognizer *progerssSliderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapProgerssSlider:)];
+        [_progressSlider addGestureRecognizer:progerssSliderTap];
+        
+        _progressSlider.backgroundColor = [UIColor clearColor];
+    }
+    return _progressSlider;
+}
+
+- (UIProgressView *)loadingProgress
+{
+    if (!_loadingProgress) {
+        _loadingProgress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+        _loadingProgress.progressTintColor = [UIColor lightGrayColor];
+        _loadingProgress.trackTintColor    = [UIColor clearColor];
+        [_loadingProgress setProgress:0.0 animated:NO];
+    }
+    return _loadingProgress;
+}
+
+- (UILabel *)leftTimeLabel
+{
+    if (!_leftTimeLabel) {
+        _leftTimeLabel = [self labelWithTextAlignment:NSTextAlignmentLeft textColor:[UIColor whiteColor] fontSize:11];
+    }
+    return _leftTimeLabel;
+}
+
+- (UILabel *)rightTimeLabel
+{
+    if (!_rightTimeLabel) {
+        _rightTimeLabel = [self labelWithTextAlignment:NSTextAlignmentRight textColor:[UIColor whiteColor] fontSize:11];
+    }
+    return _rightTimeLabel;
 }
 
 @end
