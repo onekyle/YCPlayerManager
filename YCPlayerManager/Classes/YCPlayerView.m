@@ -116,10 +116,15 @@
 - (void)setCurrentTime:(NSTimeInterval)currentTime
 {
     _currentTime = currentTime;
-    self.leftTimeLabel.text = [self changeToStringByTime:currentTime];
+    [self setCurrentTimeTextWithTime:currentTime];
     if (!_isProgerssSliderActivity) {
         self.progressSlider.value = currentTime / self.duration;
     }
+}
+
+- (void)setCurrentTimeTextWithTime:(NSTimeInterval)currentTime
+{
+    self.leftTimeLabel.text = [self changeToStringByTime:currentTime];
 }
 
 - (void)setDuration:(NSTimeInterval)duration
@@ -128,9 +133,13 @@
         return;
     }
     _duration = duration;
-    self.rightTimeLabel.text = [self changeToStringByTime:duration];
+    [self setDurationTimeTextWithTime:duration];
 }
 
+- (void)setDurationTimeTextWithTime:(NSTimeInterval)durationTime
+{
+    self.rightTimeLabel.text = [self changeToStringByTime:durationTime];
+}
 - (void)_setUpUI
 {
     [self addSubview:self.loadingView];

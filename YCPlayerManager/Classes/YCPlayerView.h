@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class YCMediaPlayer,AVPlayerLayer;
 @protocol YCPlayerViewComponentDelegate <NSObject>
 
+@optional
 @property (nonatomic, strong) YCMediaPlayer *mediaPlayer;
 
 @property (nonatomic, assign) YCMediaPlayerStatus playerStatus;
@@ -83,6 +84,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)colseTheVideo:(UIButton *)sender;
 
+- (void)setCurrentTimeTextWithTime:(NSTimeInterval)currentTime;
+
+- (void)setDurationTimeTextWithTime:(NSTimeInterval)durationTime;
 /**
  *  设置当前播放按钮状态
  *

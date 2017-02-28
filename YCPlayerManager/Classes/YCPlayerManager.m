@@ -99,11 +99,13 @@
 
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
 {
+    [self.player.currentItem cancelPendingSeeks];
     [self.player seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.mediaPlayer.currentItem.currentTime.timescale)];
 }
 
 - (void)didTapPlayerViewProgressSlider:(UISlider *)sender
 {
+    [self.player.currentItem cancelPendingSeeks];
     [self.player seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.mediaPlayer.currentItem.currentTime.timescale)];
     if (self.player.rate != 1.f) {
         if ([self currentTime] == [self duration])
