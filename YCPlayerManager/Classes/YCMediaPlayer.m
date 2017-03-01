@@ -67,6 +67,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     }
     if (_currentItem) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
+        [self.player removeTimeObserver:self.playbackTimeObserver];
         [_currentItem removeObserver:self forKeyPath:@"status"];
         [_currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
         [_currentItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
