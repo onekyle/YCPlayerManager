@@ -9,13 +9,6 @@
 #import "YCPlayerView.h"
 #import "YCMediaPlayer.h"
 
-@interface YCPlayerView ()
-{
-    BOOL _isProgerssSliderActivity;
-}
-
-@end
-
 @implementation YCPlayerView
 @synthesize mediaPlayer = _mediaPlayer;
 @synthesize playerStatus = _playerStatus;
@@ -31,6 +24,7 @@
 @synthesize topView = _topView;
 @synthesize titleLabel = _titleLabel;
 @synthesize progressSlider = _progressSlider;
+@synthesize isProgerssSliderActivity = _isProgerssSliderActivity;
 @synthesize loadingProgress = _loadingProgress;
 @synthesize leftTimeLabel = _leftTimeLabel;
 @synthesize rightTimeLabel = _rightTimeLabel;
@@ -71,12 +65,13 @@
 - (void)setMediaPlayer:(YCMediaPlayer *)mediaPlayer
 {
     _mediaPlayer = mediaPlayer;
-    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:mediaPlayer.player];
+    [self.playerLayer removeFromSuperlayer];
+    self.playerLayer = mediaPlayer.currentLayer;
     self.playerLayer.frame = self.layer.bounds;
-    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
-    //视频的默认填充模式，AVLayerVideoGravityResizeAspect
-    //    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
     [self.layer insertSublayer:_playerLayer atIndex:0];
+//    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
+    //视频的默认填充模式，AVLayerVideoGravityResizeAspect
+//    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
 }
 
 - (void)setPlayerStatus:(YCMediaPlayerStatus)playerStatus
@@ -140,6 +135,7 @@
 {
     self.rightTimeLabel.text = [self changeToStringByTime:durationTime];
 }
+
 - (void)_setUpUI
 {
     [self addSubview:self.loadingView];
@@ -162,9 +158,9 @@
     
     //loadingProgress
     [self.bottomView insertSubview:self.loadingProgress belowSubview:self.progressSlider];
-    
+
     [self.bottomView addSubview:self.leftTimeLabel];
-    
+
     [self.bottomView addSubview:self.rightTimeLabel];
 }
 
@@ -204,8 +200,8 @@
     
     CGFloat timeLabelW = bottomViewW - 90;
     CGFloat timeLabelH = 20;
-    self.leftTimeLabel.frame = CGRectMake((bottomViewW - timeLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
-    self.rightTimeLabel.frame = CGRectMake((bottomViewW - timeLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
+    self.leftTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
+    self.rightTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
     
     [self bringSubviewToFront:self.loadingView];
 }
@@ -232,6 +228,7 @@
 
 - (void)didTapProgerssSlider:(UIGestureRecognizer *)tap
 {
+    _isProgerssSliderActivity = YES;
     CGPoint touchLocation = [tap locationInView:self.progressSlider];
     CGFloat value = (self.progressSlider.maximumValue - self.progressSlider.minimumValue) * (touchLocation.x/self.progressSlider.frame.size.width);
     [self.progressSlider setValue:value animated:YES];
@@ -290,6 +287,7 @@
     }
 }
 
+
 - (BOOL)eventControlCanCall:(SEL)method
 {
     return [self.eventControl conformsToProtocol:@protocol(YCPlayerViewEventControlDelegate)] && [self.eventControl respondsToSelector:method];
@@ -300,7 +298,7 @@
     NSURL *bundleURL = [[NSBundle mainBundle] URLForResource:@"YCPlayerManager" withExtension:@"bundle"];
     NSBundle *bundle = nil;
     if (bundleURL) {
-        bundle = [NSBundle bundleWithURL:bundleURL];
+         bundle = [NSBundle bundleWithURL:bundleURL];
     }
     return bundle;
 }

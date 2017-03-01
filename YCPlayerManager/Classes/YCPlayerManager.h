@@ -11,6 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
+
 @interface YCPlayerManager : NSObject
 
 @property (nonatomic, strong, readonly) YCMediaPlayer *mediaPlayer;

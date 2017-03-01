@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, readonly, nullable) AVPlayer *player;
 
+@property (nonatomic, strong, readonly) AVPlayerLayer *currentLayer;
+
 @property (nonatomic, strong, nullable) AVPlayerItem *currentItem;
 
 @property (nonatomic, strong) NSString *mediaURLString;

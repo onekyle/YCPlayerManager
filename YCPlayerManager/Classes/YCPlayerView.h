@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) UIButton    *playerControlBtn;
 
 /** 播放显示*/
-@property (nonatomic, strong) AVPlayerLayer *playerLayer;
+@property (nonatomic, weak) AVPlayerLayer *playerLayer;
 
 /** 菊花加载框*/
 @property (nonatomic, strong) UIActivityIndicatorView   *loadingView;
@@ -62,6 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** 播放进度*/
 @property (nonatomic, strong) UISlider       *progressSlider;
+/** 进度条是否正在响应*/
+@property (nonatomic, assign, readonly) BOOL isProgerssSliderActivity;
 /** 缓存显示条*/
 @property (nonatomic, strong) UIProgressView *loadingProgress;
 

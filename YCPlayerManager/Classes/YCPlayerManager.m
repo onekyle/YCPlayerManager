@@ -8,11 +8,18 @@
 
 #import "YCPlayerManager.h"
 
+NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNotificationKey";
+
 @interface YCPlayerManager () <YCMediaPlayerDelegate,YCPlayerViewEventControlDelegate>
 
 @end
 
 @implementation YCPlayerManager
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 static YCPlayerManager *playerManager;
 + (instancetype)shareManager
@@ -33,6 +40,7 @@ static YCPlayerManager *playerManager;
 {
     self = [super init];
     if (self) {
+ 
         if (!mediaPlayer) {
             mediaPlayer = [[YCMediaPlayer alloc] init];
         }
@@ -47,15 +55,21 @@ static YCPlayerManager *playerManager;
     return self;
 }
 
+- (void)addAllObserver
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAudioSessionRouteChange:) name:AVAudioSessionRouteChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAudioSessionInterruptionEvent:) name:AVAudioSessionInterruptionNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeInactive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
 - (void)setPlayerView:(UIView<YCPlayerViewComponentDelegate> *)playerView
 {
     if (_playerView != playerView) {
         [_playerView removeFromSuperview];
         _playerView = playerView;
         _playerView.eventControl = self;
-        if (self.mediaURLString.length) {
-            _playerView.mediaPlayer = _mediaPlayer;
-        }
+        _playerView.mediaPlayer = _mediaPlayer;
     }
 }
 
@@ -142,12 +156,35 @@ static YCPlayerManager *playerManager;
 
 - (void)mediaPlayerPlay:(YCMediaPlayer *)mediaPlayer statusChanged:(YCMediaPlayerStatus)status
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
     if (status == YCMediaPlayerStatusReadyToPlay) {
         [mediaPlayer.player play];
     }
+    
     self.playerView.playerStatus = status;
 }
 
+
+#pragma mark - GlobalNotication
+- (void)onAudioSessionInterruptionEvent:(NSNotification *)noti
+{
+    NSLog(@"info: %@",noti.userInfo);
+}
+
+- (void)onAudioSessionRouteChange:(NSNotification *)noti
+{
+    NSLog(@"info: %@",noti.userInfo);
+}
+
+- (void)onBecomeActive:(NSNotification *)noti
+{
+    NSLog(@"info: %@",noti.userInfo);
+}
+
+- (void)onBecomeInactive:(NSNotification *)noti
+ {
+     NSLog(@"info: %@",noti.userInfo);
+ }
 
 #pragma mark -
 

@@ -55,6 +55,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     if (!self.player) {
         _player = [AVPlayer playerWithPlayerItem:_currentItem];
         _player.usesExternalPlaybackWhileExternalScreenIsActive = YES;
+        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     }
     self.status = YCMediaPlayerStatusBuffering;
 }
@@ -87,7 +88,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
         
         
         [self.player replaceCurrentItemWithPlayerItem:_currentItem];
-        
+        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
     }
 }
