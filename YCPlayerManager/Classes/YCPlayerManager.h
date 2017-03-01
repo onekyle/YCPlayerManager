@@ -3,7 +3,7 @@
 //  Pods
 //
 //  Created by Durand on 27/2/17.
-//
+//  Copyright © 2017年 ych.wang@outlook.com. All rights reserved.
 //
 
 #import "YCMediaPlayer.h"
@@ -17,14 +17,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *mediaURLString;
 
-@property (nonatomic, strong) UIView<YCPlayerViewComponentDelegate> *playerView;
+@property (nonatomic, strong, nullable) UIView<YCPlayerViewComponentDelegate> *playerView;
 
 @property (nonatomic, assign, readonly, getter=isSuspending) BOOL suspending;
 
-
 // control
 - (void)play;
+- (void)pause;
 - (void)stop;
+
+- (BOOL)isPaused;
+
+- (NSTimeInterval)currentTime;
+
+- (NSTimeInterval)duration;
+
++ (instancetype)shareManager;
 
 - (instancetype)initWithMediaPlayer:(nullable YCMediaPlayer *)mediaPlayer playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView;
 @end

@@ -3,7 +3,7 @@
 //  Pods
 //
 //  Created by Durand on 27/2/17.
-//
+//  Copyright © 2017年 ych.wang@outlook.com. All rights reserved.
 //
 
 #import "YCPlayerManager.h"
@@ -13,6 +13,16 @@
 @end
 
 @implementation YCPlayerManager
+
+static YCPlayerManager *playerManager;
++ (instancetype)shareManager
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        playerManager = [[self alloc] init];
+    });
+    return playerManager;
+}
 
 - (instancetype)init
 {
@@ -58,43 +68,46 @@
     }
 }
 
--(void)showSmallScreen
-{
-    
-}
-
-#pragma mark - Control
 - (void)play
 {
-    
+    if ([self currentTime] == [self duration]) {
+        [self.playerView setCurrentTime:0.f];
+    }
+    [self.playerView setPlayerControlStatusPaused:NO];
+    [self.player play];
+}
+
+- (void)pause
+{
+    [self.playerView setPlayerControlStatusPaused:YES];
+    [self.player pause];
 }
 
 - (void)stop
 {
     [self.player setRate:0.0];
-    [self mediaPlayerPlay:self statusChanged:YCMediaPlayerStatusFinished];
+    [self mediaPlayerPlay:self.mediaPlayer statusChanged:YCMediaPlayerStatusFinished];
+}
+
+- (BOOL)isPaused
+{
+    return self.player.rate == 0.0;
 }
 
 #pragma mark - YCPlayerViewEventControlDelegate
 - (void)didClickPlayerViewPlayerControlButton:(UIButton *)sender
 {
-    if (self.player.rate != 1.0) {
-        [self.player currentTime];
-        if ([self currentTime] == self.mediaPlayer.duration) {
-            self.playerView.currentTime = 0.0f;
-        }
-        [self.player play];
-        sender.selected = NO;
+    if (self.player.rate == 0.0) {
+        [self play];
     } else {
-        sender.selected = YES;
-        [self.player pause];
+        [self pause];
     }
 }
 
 - (void)didClickPlayerViewCloseButton:(UIButton *)sender
 {
     //    NSLog(@"didClickPlayerViewCloseButton");
-    [self showSmallScreen];
+//    [self showSmallScreen];
 }
 
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
@@ -107,11 +120,8 @@
 {
     [self.player.currentItem cancelPendingSeeks];
     [self.player seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.mediaPlayer.currentItem.currentTime.timescale)];
-    if (self.player.rate != 1.f) {
-        if ([self currentTime] == [self duration])
-            [self.playerView setCurrentTime:0.f];
-        [self.playerView setPlayerControlStatusPaused:NO];
-        [self.player play];
+    if (self.player.rate == 0.f) {
+        [self play];
     }
 }
 #pragma mark -
