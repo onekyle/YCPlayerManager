@@ -76,15 +76,24 @@ NS_ASSUME_NONNULL_BEGIN
 
 @required
 // UIComponent target selector
+/** 开始拖拽*/
 - (void)didStartDragProgressSlider:(UISlider *)sender;
 
+/** 拖拽了(拖拽完成调用)进度条*/
 - (void)didClickProgressSlider:(UISlider *)sender;
 
+/** 点击了进度条*/
 - (void)didTapProgerssSlider:(UIGestureRecognizer *)tap;
 
+/** 点击了 播放/暂停 按钮*/
 - (void)didClickPlayerControlButton:(UIButton *)sender;
 
 - (void)colseTheVideo:(UIButton *)sender;
+
+
+/**
+ *  在下面俩个方法中,默认更新相应的显示时间的label.公开出来是适应某些特殊显示需求.
+ */
 
 - (void)setCurrentTimeTextWithTime:(NSTimeInterval)currentTime;
 
@@ -103,7 +112,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setUpLayoutWithFrame:(CGRect)frame;
 
-- (void)changeToSuspendTypeWithFrame:(CGRect)suspendFrame;
 
 /**
  *  更新缓冲进度

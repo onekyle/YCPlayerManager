@@ -120,8 +120,7 @@ static YCPlayerManager *playerManager;
 
 - (void)didClickPlayerViewCloseButton:(UIButton *)sender
 {
-    //    NSLog(@"didClickPlayerViewCloseButton");
-//    [self showSmallScreen];
+    NSLog(@"didClickPlayerViewCloseButton");
 }
 
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender

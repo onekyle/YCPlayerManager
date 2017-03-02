@@ -10,6 +10,9 @@
 #import "YCMediaPlayer.h"
 
 @implementation YCPlayerView
+
+// 在使用协议中property的时候 只会生成get和set 方法, 所以遵守协议的类需要使用@synthesize生成相应的成员变量
+// 如果本类的父类遵守了这种协议, 本类又需要重写在该协议中的某property, 则也需要在本类中使用@synthesize 来指向本类的成员变量
 @synthesize mediaPlayer = _mediaPlayer;
 @synthesize playerStatus = _playerStatus;
 @synthesize eventControl = _eventControl;
@@ -69,9 +72,6 @@
     self.playerLayer = mediaPlayer.currentLayer;
     self.playerLayer.frame = self.layer.bounds;
     [self.layer insertSublayer:_playerLayer atIndex:0];
-//    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
-    //视频的默认填充模式，AVLayerVideoGravityResizeAspect
-//    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
 }
 
 - (void)setPlayerStatus:(YCMediaPlayerStatus)playerStatus
@@ -252,26 +252,6 @@
     if ([self eventControlCanCall:@selector(didClickPlayerViewCloseButton:)]) {
         [self.eventControl didClickPlayerViewCloseButton:sender];
     }
-}
-
-- (void)changeToSuspendTypeWithFrame:(CGRect)suspendFrame
-{
-    self.transform = CGAffineTransformIdentity;
-    
-    [self setUpLayoutWithFrame:suspendFrame];
-    
-    CGFloat w = suspendFrame.size.width;
-    CGFloat h = suspendFrame.size.height;
-    
-    CGFloat topViewH = 40;
-    CGFloat topViewW = w;
-    self.topView.frame = CGRectMake(0, 0, topViewW, topViewH);
-    CGFloat titleLabelHeight = CGRectGetHeight(self.titleLabel.frame);
-    self.titleLabel.frame = CGRectMake(45, (topViewH - titleLabelHeight) / 2, topViewW - 90, titleLabelHeight);
-    
-    CGFloat bottomViewH = 40;
-    self.bottomView.frame = CGRectMake(0, h - bottomViewH, w, bottomViewH);
-    
 }
 
 - (void)updateBufferingProgressWithCurrentLoadedTime:(NSTimeInterval)currentLoadedTime duration:(NSTimeInterval)duration
