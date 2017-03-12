@@ -19,7 +19,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 
 @implementation YCMediaPlayer
 
--(void)dealloc
+- (void)reset
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.player.currentItem cancelPendingSeeks];
@@ -27,7 +27,6 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     [self.player pause];
     
     [self.player removeTimeObserver:self.playbackTimeObserver];
-    
     //移除观察者
     [_currentItem removeObserver:self forKeyPath:@"status"];
     [_currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
@@ -37,6 +36,13 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     [self.player replaceCurrentItemWithPlayerItem:nil];
     _player = nil;
     _currentItem = nil;
+    [_currentLayer removeFromSuperlayer];
+    _currentLayer = nil;
+}
+
+- (void)dealloc
+{
+    [self reset];
 }
 
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString
@@ -67,7 +73,12 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     }
     if (_currentItem) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
-        [self.player removeTimeObserver:self.playbackTimeObserver];
+        @try {
+            [self.player removeTimeObserver:self.playbackTimeObserver];
+        } @catch (NSException *exception) {
+            NSLog(@"func: %s, exception: %@",__func__,exception);
+        }
+        
         [_currentItem removeObserver:self forKeyPath:@"status"];
         [_currentItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
         [_currentItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
@@ -96,6 +107,9 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 
 - (AVPlayerItem *)getPlayItemWithURLString:(NSString *)url
 {
+    if (!url.length) {
+        return nil;
+    }
     if ([url containsString:@"http"]) {
         AVPlayerItem *playerItem=[AVPlayerItem playerItemWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         return playerItem;
@@ -118,8 +132,8 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
                                   addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC)
                                   queue:dispatch_get_main_queue() /* If you pass NULL, the main queue is used. */
                                   usingBlock:^(CMTime time){
-                                      if ([self playerDelegateCanCall:@selector(mediaPlayerPlayPeriodicTimeChange:)]) {
-                                          [self.playerDelegate mediaPlayerPlayPeriodicTimeChange:self];
+                                      if ([weakSelf playerDelegateCanCall:@selector(mediaPlayerPlayPeriodicTimeChange:)]) {
+                                          [weakSelf.playerDelegate mediaPlayerPlayPeriodicTimeChange:weakSelf];
                                       }
                                                                           }];
 }

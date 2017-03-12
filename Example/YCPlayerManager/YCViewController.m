@@ -33,21 +33,20 @@
     _player = [AVPlayer playerWithURL:[NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"]];
     _contentView = [[UITableView alloc] initWithFrame:self.view.bounds];
     _contentView.dataSource = self;
+    _contentView.delegate = self;
     _contentView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_contentView];
 //    [self.view addSubview:_playerManager.playerView];
     
-    UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 50)];
+    UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     [rightBtn setTitle:@"click" forState:UIControlStateNormal];
+    [rightBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(clickRight) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
 }
 
 - (void)clickRight
 {
-//    UIViewController *vc = [UIViewController new];
-//    vc.view.backgroundColor = [UIColor redColor];
-//    [self.navigationController pushViewController:vc animated:YES];
     [self.contentView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     [_player play];
 }
@@ -62,7 +61,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 375;
+    return kScreenWidth;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -76,12 +75,10 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"testCell"];
         AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];
-//        [layer removeFromSuperlayer];
         layer.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
-        [cell.layer addSublayer:layer];
-        cell.backgroundColor = [UIColor grayColor];
+        [cell.contentView.layer addSublayer:layer];
+        cell.backgroundColor = [UIColor blackColor];
         [_player play];
-//        [cell.contentView addSubview:_playerManager.playerView];
     }
     return cell;
 }

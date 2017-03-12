@@ -69,6 +69,7 @@
 {
     _mediaPlayer = mediaPlayer;
     [self.playerLayer removeFromSuperlayer];
+    [mediaPlayer.currentLayer removeFromSuperlayer];
     self.playerLayer = mediaPlayer.currentLayer;
     self.playerLayer.frame = self.layer.bounds;
     [self.layer insertSublayer:_playerLayer atIndex:0];

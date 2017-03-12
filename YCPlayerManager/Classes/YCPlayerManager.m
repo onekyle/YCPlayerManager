@@ -19,6 +19,10 @@ NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNo
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self.playerView removeFromSuperview];
+    self.playerView.mediaPlayer = nil;
+    self.playerView = nil;
+    _mediaPlayer = nil;
 }
 
 static YCPlayerManager *playerManager;
@@ -51,6 +55,7 @@ static YCPlayerManager *playerManager;
         }
         _playerView = playerView;
         _playerView.eventControl = self;
+        [self addAllObserver];
     }
     return self;
 }
@@ -100,7 +105,7 @@ static YCPlayerManager *playerManager;
 - (void)stop
 {
     [self.player setRate:0.0];
-    [self mediaPlayerPlay:self.mediaPlayer statusChanged:YCMediaPlayerStatusFinished];
+    [self mediaPlayerPlay:self.mediaPlayer statusChanged:YCMediaPlayerStatusStopped];
 }
 
 - (BOOL)isPaused
@@ -120,7 +125,8 @@ static YCPlayerManager *playerManager;
 
 - (void)didClickPlayerViewCloseButton:(UIButton *)sender
 {
-    NSLog(@"didClickPlayerViewCloseButton");
+    //    NSLog(@"didClickPlayerViewCloseButton");
+//    [self showSmallScreen];
 }
 
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
@@ -167,22 +173,25 @@ static YCPlayerManager *playerManager;
 #pragma mark - GlobalNotication
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)noti
 {
-    NSLog(@"info: %@",noti.userInfo);
+    UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"onAudioSessionInterruptionEvent" message:noti.userInfo.description delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+    [view show];
+    [self pause];
 }
 
 - (void)onAudioSessionRouteChange:(NSNotification *)noti
 {
-    NSLog(@"info: %@",noti.userInfo);
+    UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"onAudioSessionRouteChange" message:noti.userInfo.description delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+    [view show];
+    [self pause];
 }
 
 - (void)onBecomeActive:(NSNotification *)noti
 {
-    NSLog(@"info: %@",noti.userInfo);
 }
 
 - (void)onBecomeInactive:(NSNotification *)noti
  {
-     NSLog(@"info: %@",noti.userInfo);
+     [self pause];
  }
 
 #pragma mark -
