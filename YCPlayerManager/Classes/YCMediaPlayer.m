@@ -35,14 +35,12 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 {
     _YCPlayer *_player;
 }
-//@property (nonatomic, strong) _YCPlayer *player;
 /** 监听播放进度的timer*/
 @property (nonatomic ,strong) id playbackTimeObserver;
 
 @end
 
 @implementation YCMediaPlayer
-//@synthesize player = _player;
 
 - (void)reset
 {
@@ -84,7 +82,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     _mediaURLString = mediaURLString;
     [self setCurrentItem:[self getPlayItemWithURLString:mediaURLString]];
     if (!self.player && _currentItem) {
-        _player = [_YCPlayer playerWithPlayerItem:_currentItem];
+        _player = [[_YCPlayer alloc] initWithPlayerItem:_currentItem];
         _player.mediaPlayer = self;
         _player.usesExternalPlaybackWhileExternalScreenIsActive = YES;
         _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_player];

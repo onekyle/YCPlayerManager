@@ -101,6 +101,10 @@
             [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:NO];
             break;
+        case YCMediaPlayerStatusPause:
+            [self.loadingView stopAnimating];
+            [self setPlayerControlStatusPaused:YES];
+            break;
         case YCMediaPlayerStatusStopped:
             [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
