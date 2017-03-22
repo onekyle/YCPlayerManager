@@ -16,7 +16,8 @@ typedef NS_ENUM(NSInteger, YCMediaPlayerStatus) {
     YCMediaPlayerStatusBuffering,     // 缓冲中
     YCMediaPlayerStatusReadyToPlay,  // 将要播放
     YCMediaPlayerStatusPlaying,       // 播放中
-    YCMediaPlayerStatusStopped,       //暂停播放
+    YCMediaPlayerStatusPause,
+    YCMediaPlayerStatusStopped,       // 停止播放
     YCMediaPlayerStatusFinished       //播放完毕
 };
 

@@ -15,7 +15,7 @@
 @interface YCViewController () <UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) YCPlayerManager *playerManager;
 @property (nonatomic, strong) UITableView *contentView;
-@property (nonatomic, strong) AVPlayer *player;
+//@property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 
 @end
@@ -26,11 +26,11 @@
 {
     [super viewDidLoad];
     
-//    _playerManager = [[YCPlayerManager alloc] init];
-//    _playerManager.mediaURLString = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
-//    _playerManager.playerView.frame = CGRectMake(0, 20, kScreenWidth, kScreenWidth);
-    
-    _player = [AVPlayer playerWithURL:[NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"]];
+    _playerManager = [[YCPlayerManager alloc] init];
+    _playerManager.mediaURLString = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
+    _playerManager.playerView.frame = CGRectMake(0, 20, kScreenWidth, kScreenWidth);
+    _playerLayer = _playerManager.mediaPlayer.currentLayer;
+//    _player = [AVPlayer playerWithURL:[NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"]];
     _contentView = [[UITableView alloc] initWithFrame:self.view.bounds];
     _contentView.dataSource = self;
     _contentView.delegate = self;
@@ -48,7 +48,7 @@
 - (void)clickRight
 {
     [self.contentView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-    [_player play];
+    [_playerManager play];
 }
 
 
@@ -74,11 +74,13 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"testCell"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"testCell"];
-        AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];
-        layer.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
-        [cell.contentView.layer addSublayer:layer];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];
+        _playerLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
+        [cell.contentView.layer addSublayer:_playerLayer];
         cell.backgroundColor = [UIColor blackColor];
-        [_player play];
+//        [_player play];
+        [_playerManager play];
     }
     return cell;
 }

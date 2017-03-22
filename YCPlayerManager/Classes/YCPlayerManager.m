@@ -92,13 +92,13 @@ static YCPlayerManager *playerManager;
     if ([self currentTime] == [self duration]) {
         [self.playerView setCurrentTime:0.f];
     }
-    [self.playerView setPlayerControlStatusPaused:NO];
+//    [self.playerView setPlayerControlStatusPaused:NO];
     [self.player play];
 }
 
 - (void)pause
 {
-    [self.playerView setPlayerControlStatusPaused:YES];
+//    [self.playerView setPlayerControlStatusPaused:YES];
     [self.player pause];
 }
 

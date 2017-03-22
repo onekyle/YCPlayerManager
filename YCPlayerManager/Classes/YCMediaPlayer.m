@@ -8,16 +8,41 @@
 
 #import "YCMediaPlayer.h"
 
+@interface _YCPlayer : AVPlayer
+@property (nonatomic, weak) YCMediaPlayer *mediaPlayer;
+@end
+
+@implementation _YCPlayer
+
+- (void)pause
+{
+    [super pause];
+    self.mediaPlayer.status = YCMediaPlayerStatusPause;
+}
+
+- (void)play
+{
+    [super play];
+    self.mediaPlayer.status = YCMediaPlayerStatusPlaying;
+}
+
+
+@end
+
 static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationContext;
 
 @interface YCMediaPlayer ()
-
+{
+    _YCPlayer *_player;
+}
+//@property (nonatomic, strong) _YCPlayer *player;
 /** 监听播放进度的timer*/
 @property (nonatomic ,strong) id playbackTimeObserver;
 
 @end
 
 @implementation YCMediaPlayer
+//@synthesize player = _player;
 
 - (void)reset
 {
@@ -59,7 +84,8 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     _mediaURLString = mediaURLString;
     [self setCurrentItem:[self getPlayItemWithURLString:mediaURLString]];
     if (!self.player && _currentItem) {
-        _player = [AVPlayer playerWithPlayerItem:_currentItem];
+        _player = [_YCPlayer playerWithPlayerItem:_currentItem];
+        _player.mediaPlayer = self;
         _player.usesExternalPlaybackWhileExternalScreenIsActive = YES;
         _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     }
