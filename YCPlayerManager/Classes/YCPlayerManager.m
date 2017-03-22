@@ -11,7 +11,7 @@
 NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNotificationKey";
 
 @interface YCPlayerManager () <YCMediaPlayerDelegate,YCPlayerViewEventControlDelegate>
-
+- (AVPlayer *)player;
 @end
 
 @implementation YCPlayerManager
@@ -105,6 +105,8 @@ static YCPlayerManager *playerManager;
 - (void)stop
 {
     [self.player setRate:0.0];
+    self.mediaURLString = nil;
+    self.mediaPlayer.mediaURLString = nil;
     [self mediaPlayerPlay:self.mediaPlayer statusChanged:YCMediaPlayerStatusStopped];
 }
 
@@ -161,32 +163,29 @@ static YCPlayerManager *playerManager;
 
 - (void)mediaPlayerPlay:(YCMediaPlayer *)mediaPlayer statusChanged:(YCMediaPlayerStatus)status
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
-    if (status == YCMediaPlayerStatusReadyToPlay) {
+    if (status == YCMediaPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         [mediaPlayer.player play];
     }
     
     self.playerView.playerStatus = status;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
 }
 
 
 #pragma mark - GlobalNotication
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)noti
 {
-    UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"onAudioSessionInterruptionEvent" message:noti.userInfo.description delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
-    [view show];
     [self pause];
 }
 
 - (void)onAudioSessionRouteChange:(NSNotification *)noti
 {
-    UIAlertView *view = [[UIAlertView alloc] initWithTitle:@"onAudioSessionRouteChange" message:noti.userInfo.description delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
-    [view show];
     [self pause];
 }
 
 - (void)onBecomeActive:(NSNotification *)noti
 {
+//    [self pause];
 }
 
 - (void)onBecomeInactive:(NSNotification *)noti

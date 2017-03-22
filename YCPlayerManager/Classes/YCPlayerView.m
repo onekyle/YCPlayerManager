@@ -73,6 +73,9 @@
     self.playerLayer = mediaPlayer.currentLayer;
     self.playerLayer.frame = self.layer.bounds;
     [self.layer insertSublayer:_playerLayer atIndex:0];
+//    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
+    //视频的默认填充模式，AVLayerVideoGravityResizeAspect
+//    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
 }
 
 - (void)setPlayerStatus:(YCMediaPlayerStatus)playerStatus
@@ -90,7 +93,9 @@
         case YCMediaPlayerStatusReadyToPlay:
             [self.loadingView stopAnimating];
             self.duration = self.mediaPlayer.duration;
-            [self setPlayerControlStatusPaused:NO];
+            if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+                [self setPlayerControlStatusPaused:NO];
+            }
             break;
         case YCMediaPlayerStatusPlaying:
             [self.loadingView stopAnimating];

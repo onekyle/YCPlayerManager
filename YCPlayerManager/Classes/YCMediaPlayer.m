@@ -58,7 +58,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 {
     _mediaURLString = mediaURLString;
     [self setCurrentItem:[self getPlayItemWithURLString:mediaURLString]];
-    if (!self.player) {
+    if (!self.player && _currentItem) {
         _player = [AVPlayer playerWithPlayerItem:_currentItem];
         _player.usesExternalPlaybackWhileExternalScreenIsActive = YES;
         _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
@@ -127,6 +127,13 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     {
         return;
     }
+    if (self.playbackTimeObserver) {
+        @try {
+            [self.player removeTimeObserver:self.playbackTimeObserver];
+        } @catch (NSException *exception) {
+            NSLog(@"func: %s, exception: %@",__func__,exception);
+        }
+    }
     __weak typeof(self) weakSelf = self;
     self.playbackTimeObserver =  [weakSelf.player
                                   addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC)
@@ -165,11 +172,11 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
             }
         } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
             // 当缓冲是空的时候
-            if (self.currentItem.playbackBufferEmpty) {
+            if (self.currentItem.isPlaybackBufferEmpty) {
                 self.status = YCMediaPlayerStatusBuffering;
             }
         } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
-            if (self.currentItem.playbackLikelyToKeepUp && self.status == YCMediaPlayerStatusBuffering){
+            if (self.currentItem.isPlaybackLikelyToKeepUp && (self.status == YCMediaPlayerStatusBuffering || self.status == YCMediaPlayerStatusFailed)){
                 self.status = YCMediaPlayerStatusPlaying;
             }
         }
@@ -201,8 +208,10 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
             
         case AVPlayerStatusReadyToPlay:
         {
-            self.status = YCMediaPlayerStatusReadyToPlay;
-            [self addMediaPlayerPlayProgressTimeObserver];
+            if (self.status != YCMediaPlayerStatusReadyToPlay) {
+                self.status = YCMediaPlayerStatusReadyToPlay;
+                [self addMediaPlayerPlayProgressTimeObserver];
+            }
             /* Once the AVPlayerItem becomes ready to play, i.e.
              [playerItem status] == AVPlayerItemStatusReadyToPlay,
              its duration can be fetched from the item. */

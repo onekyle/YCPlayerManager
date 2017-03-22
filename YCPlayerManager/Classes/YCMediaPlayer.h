@@ -7,8 +7,8 @@
 //
 
 
-@import AVFoundation;
 
+@import AVFoundation;
 #import "YCMediaPlayerDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) AVPlayerItem *currentItem;
 
-@property (nonatomic, strong) NSString *mediaURLString;
+@property (nonatomic, strong, nullable) NSString *mediaURLString;
 
 @property (nonatomic, assign) YCMediaPlayerStatus status;
 
