@@ -79,6 +79,8 @@
         _playerLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
         [cell.contentView.layer addSublayer:_playerLayer];
         cell.backgroundColor = [UIColor blackColor];
+        [cell.contentView addSubview:_playerManager.playerView];
+        _playerManager.playerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
 //        [_player play];
         [_playerManager play];
     }

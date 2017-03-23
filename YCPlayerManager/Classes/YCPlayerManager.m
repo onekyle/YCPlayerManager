@@ -71,7 +71,6 @@ static YCPlayerManager *playerManager;
 - (void)setPlayerView:(UIView<YCPlayerViewComponentDelegate> *)playerView
 {
     if (_playerView != playerView) {
-        [_playerView removeFromSuperview];
         _playerView = playerView;
         _playerView.eventControl = self;
         _playerView.mediaPlayer = _mediaPlayer;
@@ -92,13 +91,11 @@ static YCPlayerManager *playerManager;
     if ([self currentTime] == [self duration]) {
         [self.playerView setCurrentTime:0.f];
     }
-//    [self.playerView setPlayerControlStatusPaused:NO];
     [self.player play];
 }
 
 - (void)pause
 {
-//    [self.playerView setPlayerControlStatusPaused:YES];
     [self.player pause];
 }
 
