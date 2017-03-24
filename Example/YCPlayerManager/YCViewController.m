@@ -9,13 +9,11 @@
 #import "YCViewController.h"
 #import <YCPlayerManager/YCPlayerManager.h>
 
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
+
 
 @interface YCViewController () <UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) YCPlayerManager *playerManager;
 @property (nonatomic, strong) UITableView *contentView;
-//@property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 
 @end
@@ -30,13 +28,12 @@
     _playerManager.mediaURLString = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
     _playerManager.playerView.frame = CGRectMake(0, 20, kScreenWidth, kScreenWidth);
     _playerLayer = _playerManager.mediaPlayer.currentLayer;
-//    _player = [AVPlayer playerWithURL:[NSURL URLWithString:@"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4"]];
+
     _contentView = [[UITableView alloc] initWithFrame:self.view.bounds];
     _contentView.dataSource = self;
     _contentView.delegate = self;
     _contentView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_contentView];
-//    [self.view addSubview:_playerManager.playerView];
     
     UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
     [rightBtn setTitle:@"click" forState:UIControlStateNormal];

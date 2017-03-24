@@ -9,31 +9,46 @@
 #import "YCTableViewController.h"
 
 @interface YCTableViewController ()
-
+@property (nonatomic, strong) NSMutableArray *dataArray;
 @end
 
 @implementation YCTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    _dataArray = [NSMutableArray arrayWithCapacity:10];
+    for (int i = 0; i < 10; ++i) {
+        [_dataArray addObject:[NSString stringWithFormat:@"placeholder_%d",i]];
+    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return kScreenWidth;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+    return _dataArray.count;
+}
+
+NSString *const kYCTabelViewCellID = @"kYCTabelViewCellID";
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kYCTabelViewCellID];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kYCTabelViewCellID];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [self randomColor];
+    }
+    return cell;
+}
+
+- (UIColor *)randomColor
+{
+    CGFloat r  = (arc4random() % 256) / 255.0;
+    CGFloat g = (arc4random() % 256) / 255.0;
+    CGFloat b = (arc4random() % 256) / 255.0;
+    return [UIColor colorWithRed:r green:g blue:b alpha:1.0];
 }
 
 
