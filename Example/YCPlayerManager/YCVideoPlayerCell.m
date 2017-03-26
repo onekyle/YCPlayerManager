@@ -24,6 +24,14 @@
     return self;
 }
 
+- (void)setShow:(BOOL)show
+{
+    if (_show != show) {
+        _show = show;
+        _coverLayer.opacity = show ? 0.0 : 0.6;
+    }
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -41,4 +49,5 @@
     });
     [self.contentView.layer addSublayer:_coverLayer];
 }
+
 @end

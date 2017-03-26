@@ -11,6 +11,7 @@
 
 @interface YCTableViewController ()
 @property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, assign) CGPoint centerPoint;
 @end
 
 @implementation YCTableViewController
@@ -22,11 +23,7 @@
         [_dataArray addObject:[NSString stringWithFormat:@"placeholder_%d",i]];
     }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    CAShapeLayer *separatorLiner = [CAShapeLayer layer];
-//    separatorLiner.backgroundColor = [UIColor orangeColor].CGColor;
-//    separatorLiner.frame = CGRectMake(0, kScreenHeight - 64, kScreenWidth, 1);
-//    [self.view.layer addSublayer:separatorLiner];
-    
+    _centerPoint = CGPointMake(0, (kScreenHeight - 64) / 2);
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -39,9 +36,43 @@
 
 #pragma mark - UITableViewDelegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UITableView *)tableView
 {
+    if (!tableView.isDragging) {
+        return;
+    }
+    CGFloat offsetY = tableView.contentOffset.y;
+    if (offsetY < 0.1) {
+        UITableViewCell *firstCell = tableView.visibleCells.firstObject;
+        [self changeVisibleCellsShowStatusForTableView:tableView withConditionBlock:^BOOL(__kindof UITableViewCell *cell) {
+            return cell == firstCell;
+        }];
+    } else if (tableView.contentSize.height -  offsetY - tableView.bounds.size.height < 0.1) {
+        UITableViewCell *lastCell = tableView.visibleCells.lastObject;
+        [self changeVisibleCellsShowStatusForTableView:tableView withConditionBlock:^BOOL(__kindof UITableViewCell *cell) {
+            return cell == lastCell;
+        }];
+    } else {
+        [self changeVisibleCellsShowStatusForTableView:tableView withConditionBlock:^BOOL(__kindof UITableViewCell *cell) {
+            CGRect cellFrame = [cell convertRect:cell.bounds toView:self.view.window];
+            return CGRectContainsPoint(cellFrame, _centerPoint);
+        }];
+    }
     
+}
+
+- (void)changeVisibleCellsShowStatusForTableView:(UITableView *)tableView withConditionBlock:(BOOL(^)(__kindof UITableViewCell *cell))conditionBlock
+{
+    if (!conditionBlock) {
+        return;
+    }
+    for (YCVideoPlayerCell *cell in tableView.visibleCells) {
+        if (conditionBlock(cell)) {
+            cell.show = YES;
+        } else {
+            cell.show = NO;
+        }
+    }
 }
 
 

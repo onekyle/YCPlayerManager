@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface YCVideoPlayerCell : UITableViewCell
+@property (nonatomic, assign) BOOL show;
 
 @end
