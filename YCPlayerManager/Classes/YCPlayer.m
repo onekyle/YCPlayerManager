@@ -1,16 +1,16 @@
 //
-//  YCMediaPlayer.m
+//  YCPlayer.m
 //  Pods
 //
 //  Created by Durand on 24/2/17.
 //  Copyright © 2017年 ych.wang@outlook.com. All rights reserved.
 //
 
-#import "YCMediaPlayer.h"
+#import "YCPlayer.h"
 
 
 @interface _YCPlayer : AVPlayer
-@property (nonatomic, weak) YCMediaPlayer *mediaPlayer;
+@property (nonatomic, weak) YCPlayer *mediaPlayer;
 @end
 
 @implementation _YCPlayer
@@ -19,14 +19,14 @@
 {
     if (!self.mediaPlayer.hasCorrectFalg) {
         [super pause];
-        self.mediaPlayer.status = YCMediaPlayerStatusPause;
+        self.mediaPlayer.status = YCPlayerStatusPause;
     }
 }
 
 - (void)play
 {
     [super play];
-    self.mediaPlayer.status = YCMediaPlayerStatusPlaying;
+    self.mediaPlayer.status = YCPlayerStatusPlaying;
 }
 
 
@@ -35,7 +35,7 @@
 static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationContext;
 static NSArray *_observerKeyPathArray = nil;
 
-@interface YCMediaPlayer ()
+@interface YCPlayer ()
 {
     _YCPlayer *_player;
 }
@@ -45,7 +45,7 @@ static NSArray *_observerKeyPathArray = nil;
 
 @end
 
-@implementation YCMediaPlayer
+@implementation YCPlayer
 
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString
 {
@@ -72,7 +72,7 @@ static NSArray *_observerKeyPathArray = nil;
         _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     }
     if (mediaURLString) {
-        self.status = YCMediaPlayerStatusBuffering;
+        self.status = YCPlayerStatusBuffering;
     }
 }
 
@@ -89,14 +89,14 @@ static NSArray *_observerKeyPathArray = nil;
             NSLog(@"func: %s, exception: %@",__func__,exception);
         }
         
-        for (NSString *keyPathStr in [YCMediaPlayer observerKeyPathArray]) {
+        for (NSString *keyPathStr in [YCPlayer observerKeyPathArray]) {
             [_currentItem removeObserver:self forKeyPath:keyPathStr];
         }
         _currentItem = nil;
     }
     _currentItem = currentItem;
     if (_currentItem) {
-        for (NSString *keyPathStr in [YCMediaPlayer observerKeyPathArray]) {
+        for (NSString *keyPathStr in [YCPlayer observerKeyPathArray]) {
             [_currentItem addObserver:self forKeyPath:keyPathStr options:NSKeyValueObservingOptionNew context:MediPlayerStatusObservationContext];
         }
         
@@ -106,7 +106,7 @@ static NSArray *_observerKeyPathArray = nil;
     }
 }
 
-- (void)setStatus:(YCMediaPlayerStatus)status
+- (void)setStatus:(YCPlayerStatus)status
 {
     _status = status;
     if ([self playerDelegateCanCall:@selector(mediaPlayerPlay:statusChanged:)]) {
@@ -119,14 +119,14 @@ static NSArray *_observerKeyPathArray = nil;
     switch (status) {
         case AVPlayerStatusUnknown:
         {
-            self.status = YCMediaPlayerStatusBuffering;
+            self.status = YCPlayerStatusBuffering;
         }
             break;
             
         case AVPlayerStatusReadyToPlay:
         {
-            if (self.status != YCMediaPlayerStatusReadyToPlay) {
-                self.status = YCMediaPlayerStatusReadyToPlay;
+            if (self.status != YCPlayerStatusReadyToPlay) {
+                self.status = YCPlayerStatusReadyToPlay;
                 [self addMediaPlayerPlayProgressTimeObserver];
             }
             /* Once the AVPlayerItem becomes ready to play, i.e.
@@ -137,7 +137,7 @@ static NSArray *_observerKeyPathArray = nil;
             
         case AVPlayerStatusFailed:
         {
-            self.status = YCMediaPlayerStatusFailed;
+            self.status = YCPlayerStatusFailed;
         }
             break;
         default:
@@ -154,7 +154,7 @@ static NSArray *_observerKeyPathArray = nil;
     
     [self.player removeTimeObserver:self.playbackTimeObserver];
     //移除观察者
-    for (NSString *keyPathStr in [YCMediaPlayer observerKeyPathArray]) {
+    for (NSString *keyPathStr in [YCPlayer observerKeyPathArray]) {
         [_currentItem removeObserver:self forKeyPath:keyPathStr];
     }
     
@@ -211,7 +211,7 @@ static NSArray *_observerKeyPathArray = nil;
     [self.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         
     }];
-    self.status = YCMediaPlayerStatusFinished;
+    self.status = YCPlayerStatusFinished;
     
 }
 
@@ -233,11 +233,11 @@ static NSArray *_observerKeyPathArray = nil;
         } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
             // 当缓冲是空的时候
             if (self.currentItem.isPlaybackBufferEmpty) {
-                self.status = YCMediaPlayerStatusBuffering;
+                self.status = YCPlayerStatusBuffering;
             }
         } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
-            if (self.currentItem.isPlaybackLikelyToKeepUp && (self.status == YCMediaPlayerStatusBuffering || self.status == YCMediaPlayerStatusFailed)){
-                self.status = YCMediaPlayerStatusPlaying;
+            if (self.currentItem.isPlaybackLikelyToKeepUp && (self.status == YCPlayerStatusBuffering || self.status == YCPlayerStatusFailed)){
+                self.status = YCPlayerStatusPlaying;
             }
         }
     }
@@ -260,7 +260,7 @@ static NSArray *_observerKeyPathArray = nil;
 
 - (BOOL)playerDelegateCanCall:(SEL)method
 {
-    return [self.playerDelegate conformsToProtocol:@protocol(YCMediaPlayerDelegate)] && [self.playerDelegate respondsToSelector:method];
+    return [self.playerDelegate conformsToProtocol:@protocol(YCPlayerDelegate)] && [self.playerDelegate respondsToSelector:method];
 }
 
 - (CMTime)playerItemDuration{

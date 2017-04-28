@@ -6,7 +6,7 @@
 //  Copyright © 2017年 ych.wang@outlook.com. All rights reserved.
 //
 
-#import "YCMediaPlayer.h"
+#import "YCPlayer.h"
 #import "YCPlayerView.h"
 
 #define YC_REQUIRES_SUPER __attribute__((objc_requires_super))
@@ -17,7 +17,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 @interface YCPlayerManager : NSObject
 
-@property (nonatomic, strong, readonly) YCMediaPlayer *mediaPlayer;
+@property (nonatomic, strong, readonly) YCPlayer *mediaPlayer;
 
 @property (nonatomic, copy, nullable) NSString *mediaURLString;
 
@@ -42,7 +42,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 + (instancetype)shareManager;
 
-- (instancetype)initWithMediaPlayer:(nullable YCMediaPlayer *)mediaPlayer playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView;
+- (instancetype)initWithMediaPlayer:(nullable YCPlayer *)mediaPlayer playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView;
 
 
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)notification YC_REQUIRES_SUPER;

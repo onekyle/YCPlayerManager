@@ -1,5 +1,5 @@
 //
-//  YCMediaPlayer.h
+//  YCPlayer.h
 //  Pods
 //
 //  Created by Durand on 24/2/17.
@@ -8,11 +8,11 @@
 
 
 #import <AVFoundation/AVFoundation.h>
-#import "YCMediaPlayerDelegate.h"
+#import "YCPlayerDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YCMediaPlayer : NSObject
+@interface YCPlayer : NSObject
 
 @property (nonatomic, strong, readonly, nullable) AVPlayer *player;
 
@@ -22,9 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) NSString *mediaURLString;
 
-@property (nonatomic, assign) YCMediaPlayerStatus status;
+@property (nonatomic, assign) YCPlayerStatus status;
 
-@property (nonatomic, weak) id<YCMediaPlayerDelegate> playerDelegate;
+@property (nonatomic, weak) id<YCPlayerDelegate> playerDelegate;
 
 /** background play related*/
 @property (nonatomic, assign) BOOL hasCorrectFalg;

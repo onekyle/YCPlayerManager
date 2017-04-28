@@ -7,7 +7,7 @@
 //
 
 #import "YCPlayerView.h"
-#import "YCMediaPlayer.h"
+#import "YCPlayer.h"
 
 @implementation YCPlayerView
 
@@ -35,7 +35,7 @@
 @synthesize dateFormatter = _dateFormatter;
 
 
-- (instancetype)initWithMediaPlayer:(YCMediaPlayer *)mediaPlayer
+- (instancetype)initWithMediaPlayer:(YCPlayer *)mediaPlayer
 {
     self = [super init];
     if (self) {
@@ -65,7 +65,7 @@
     return self;
 }
 
-- (void)setMediaPlayer:(YCMediaPlayer *)mediaPlayer
+- (void)setMediaPlayer:(YCPlayer *)mediaPlayer
 {
     _mediaPlayer = mediaPlayer;
     [self.playerLayer removeFromSuperlayer];
@@ -78,38 +78,38 @@
 //    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
 }
 
-- (void)setPlayerStatus:(YCMediaPlayerStatus)playerStatus
+- (void)setPlayerStatus:(YCPlayerStatus)playerStatus
 {
     _playerStatus = playerStatus;
     switch (playerStatus) {
-        case YCMediaPlayerStatusFailed:
+        case YCPlayerStatusFailed:
             [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;
-        case YCMediaPlayerStatusBuffering:
+        case YCPlayerStatusBuffering:
             [self.loadingView startAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;
-        case YCMediaPlayerStatusReadyToPlay:
+        case YCPlayerStatusReadyToPlay:
             [self.loadingView stopAnimating];
             self.duration = self.mediaPlayer.duration;
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
                 [self setPlayerControlStatusPaused:NO];
             }
             break;
-        case YCMediaPlayerStatusPlaying:
+        case YCPlayerStatusPlaying:
             [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:NO];
             break;
-        case YCMediaPlayerStatusPause:
+        case YCPlayerStatusPause:
             [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;
-        case YCMediaPlayerStatusStopped:
+        case YCPlayerStatusStopped:
             [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;
-        case YCMediaPlayerStatusFinished:
+        case YCPlayerStatusFinished:
             [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;

@@ -10,7 +10,7 @@
 
 NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNotificationKey";
 
-@interface YCPlayerManager () <YCMediaPlayerDelegate,YCPlayerViewEventControlDelegate>
+@interface YCPlayerManager () <YCPlayerDelegate,YCPlayerViewEventControlDelegate>
 
 - (AVPlayer *)player;
 @end
@@ -41,13 +41,13 @@ static YCPlayerManager *playerManager;
     return [self initWithMediaPlayer:nil playerView:nil];
 }
 
-- (instancetype)initWithMediaPlayer:(nullable YCMediaPlayer *)mediaPlayer playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView
+- (instancetype)initWithMediaPlayer:(nullable YCPlayer *)mediaPlayer playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView
 {
     self = [super init];
     if (self) {
  
         if (!mediaPlayer) {
-            mediaPlayer = [[YCMediaPlayer alloc] init];
+            mediaPlayer = [[YCPlayer alloc] init];
         }
         _mediaPlayer = mediaPlayer;
         _mediaPlayer.playerDelegate = self;
@@ -108,7 +108,7 @@ static YCPlayerManager *playerManager;
     [self.player setRate:0.0];
     self.mediaURLString = nil;
     self.mediaPlayer.mediaURLString = nil;
-    [self mediaPlayerPlay:self.mediaPlayer statusChanged:YCMediaPlayerStatusStopped];
+    [self mediaPlayerPlay:self.mediaPlayer statusChanged:YCPlayerStatusStopped];
 }
 
 - (BOOL)isPaused
@@ -149,11 +149,11 @@ static YCPlayerManager *playerManager;
 #pragma mark -
 
 
-#pragma mark - YCMediaPlayerDelegate
+#pragma mark - YCPlayerDelegate
 /** 播放进度*/
-- (void)mediaPlayerPlayPeriodicTimeChange:(YCMediaPlayer *)mediaPlayer
+- (void)mediaPlayerPlayPeriodicTimeChange:(YCPlayer *)player
 {
-    Float64 nowTime = CMTimeGetSeconds([mediaPlayer.player currentTime]);
+    Float64 nowTime = CMTimeGetSeconds([player.player currentTime]);
     _playerView.currentTime = nowTime;
 }
 
@@ -162,9 +162,9 @@ static YCPlayerManager *playerManager;
     [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
 
-- (void)mediaPlayerPlay:(YCMediaPlayer *)mediaPlayer statusChanged:(YCMediaPlayerStatus)status
+- (void)mediaPlayerPlay:(YCPlayer *)mediaPlayer statusChanged:(YCPlayerStatus)status
 {
-    if (status == YCMediaPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         [mediaPlayer.player play];
     }
     

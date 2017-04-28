@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "YCMediaPlayerDelegate.h"
+#import "YCPlayerDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,13 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)didTapPlayerViewProgressSlider:(UISlider *)sender;
 @end
 
-@class YCMediaPlayer,AVPlayerLayer;
+@class YCPlayer,AVPlayerLayer;
 @protocol YCPlayerViewComponentDelegate <NSObject>
 
 @optional
-@property (nonatomic, strong) YCMediaPlayer *mediaPlayer;
+@property (nonatomic, strong) YCPlayer *mediaPlayer;
 
-@property (nonatomic, assign) YCMediaPlayerStatus playerStatus;
+@property (nonatomic, assign) YCPlayerStatus playerStatus;
 
 @property (nonatomic, weak) id<YCPlayerViewEventControlDelegate> eventControl;
 
