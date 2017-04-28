@@ -8,6 +8,7 @@
 
 #import "YCMediaPlayer.h"
 
+
 @interface _YCPlayer : AVPlayer
 @property (nonatomic, weak) YCMediaPlayer *mediaPlayer;
 @end
@@ -16,8 +17,10 @@
 
 - (void)pause
 {
-    [super pause];
-    self.mediaPlayer.status = YCMediaPlayerStatusPause;
+    if (!self.mediaPlayer.hasCorrectFalg) {
+        [super pause];
+        self.mediaPlayer.status = YCMediaPlayerStatusPause;
+    }
 }
 
 - (void)play
@@ -35,6 +38,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
 {
     _YCPlayer *_player;
 }
+
 /** 监听播放进度的timer*/
 @property (nonatomic ,strong) id playbackTimeObserver;
 
@@ -87,7 +91,9 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
         _player.usesExternalPlaybackWhileExternalScreenIsActive = YES;
         _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
     }
-    self.status = YCMediaPlayerStatusBuffering;
+    if (mediaURLString) {
+        self.status = YCMediaPlayerStatusBuffering;
+    }
 }
 
 - (void)setCurrentItem:(AVPlayerItem *)currentItem
@@ -134,7 +140,7 @@ static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationCo
     if (!url.length) {
         return nil;
     }
-    if ([url containsString:@"http"]) {
+    if ([url rangeOfString:@"http"].location != NSNotFound) {
         AVPlayerItem *playerItem=[AVPlayerItem playerItemWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         return playerItem;
     } else {

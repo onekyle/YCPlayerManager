@@ -11,6 +11,7 @@
 NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNotificationKey";
 
 @interface YCPlayerManager () <YCMediaPlayerDelegate,YCPlayerViewEventControlDelegate>
+
 - (AVPlayer *)player;
 @end
 
@@ -71,6 +72,7 @@ static YCPlayerManager *playerManager;
 - (void)setPlayerView:(UIView<YCPlayerViewComponentDelegate> *)playerView
 {
     if (_playerView != playerView) {
+        [_playerView removeFromSuperview];
         _playerView = playerView;
         _playerView.eventControl = self;
         _playerView.mediaPlayer = _mediaPlayer;
@@ -91,11 +93,13 @@ static YCPlayerManager *playerManager;
     if ([self currentTime] == [self duration]) {
         [self.playerView setCurrentTime:0.f];
     }
+//    [self.playerView setPlayerControlStatusPaused:NO];
     [self.player play];
 }
 
 - (void)pause
 {
+//    [self.playerView setPlayerControlStatusPaused:YES];
     [self.player pause];
 }
 
@@ -172,22 +176,30 @@ static YCPlayerManager *playerManager;
 #pragma mark - GlobalNotication
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)noti
 {
+    self.mediaPlayer.hasCorrectFalg = NO;
     [self pause];
 }
 
 - (void)onAudioSessionRouteChange:(NSNotification *)noti
 {
+    self.mediaPlayer.hasCorrectFalg = NO;
     [self pause];
 }
 
 - (void)onBecomeActive:(NSNotification *)noti
 {
+    self.mediaPlayer.hasCorrectFalg = NO;
 //    [self pause];
 }
 
 - (void)onBecomeInactive:(NSNotification *)noti
  {
-     [self pause];
+     if (self.enableBackgroundPlay) {
+         self.mediaPlayer.hasCorrectFalg = YES;
+         [self.mediaPlayer performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1];
+     } else {
+         [self pause];
+     }
  }
 
 #pragma mark -

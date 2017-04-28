@@ -7,8 +7,7 @@
 //
 
 
-
-@import AVFoundation;
+#import <AVFoundation/AVFoundation.h>
 #import "YCMediaPlayerDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -27,10 +26,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<YCMediaPlayerDelegate> playerDelegate;
 
+/** background play related*/
+@property (nonatomic, assign) BOOL hasCorrectFalg;
+
 - (NSTimeInterval)duration;
 
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString;
 
 @end
+
+
 
 NS_ASSUME_NONNULL_END
