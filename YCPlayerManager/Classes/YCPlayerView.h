@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol YCPlayerViewComponentDelegate <NSObject>
 
 @optional
-@property (nonatomic, strong) YCPlayer *mediaPlayer;
+@property (nonatomic, strong) YCPlayer *player;
 
 @property (nonatomic, assign) YCPlayerStatus playerStatus;
 

@@ -9,35 +9,35 @@
 #import "YCPlayer.h"
 
 
-@interface _YCPlayer : AVPlayer
-@property (nonatomic, weak) YCPlayer *mediaPlayer;
+@interface _YCPrivatePlayer : AVPlayer
+@property (nonatomic, weak) YCPlayer *owner;
 @end
 
-@implementation _YCPlayer
+@implementation _YCPrivatePlayer
 
 - (void)pause
 {
-    if (!self.mediaPlayer.hasCorrectFalg) {
+    if (!self.owner.hasCorrectFalg) {
         [super pause];
-        self.mediaPlayer.status = YCPlayerStatusPause;
+        self.owner.status = YCPlayerStatusPause;
     }
 }
 
 - (void)play
 {
     [super play];
-    self.mediaPlayer.status = YCPlayerStatusPlaying;
+    self.owner.status = YCPlayerStatusPlaying;
 }
 
 
 @end
 
-static void *MediPlayerStatusObservationContext = &MediPlayerStatusObservationContext;
+static void *YCPlayerStatusObservationContext = &YCPlayerStatusObservationContext;
 static NSArray *_observerKeyPathArray = nil;
 
 @interface YCPlayer ()
 {
-    _YCPlayer *_player;
+    _YCPrivatePlayer *_metaPlayer;
 }
 
 /** 监听播放进度的timer*/
@@ -65,11 +65,11 @@ static NSArray *_observerKeyPathArray = nil;
 {
     _mediaURLString = mediaURLString;
     [self setCurrentItem:[self getPlayItemWithURLString:mediaURLString]];
-    if (!_player && _currentItem) {
-        _player = [[_YCPlayer alloc] initWithPlayerItem:_currentItem];
-        _player.mediaPlayer = self;
-        _player.usesExternalPlaybackWhileExternalScreenIsActive = YES;
-        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+    if (!_metaPlayer && _currentItem) {
+        _metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:_currentItem];
+        _metaPlayer.owner = self;
+        _metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
+        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_metaPlayer];
     }
     if (mediaURLString) {
         self.status = YCPlayerStatusBuffering;
@@ -84,7 +84,7 @@ static NSArray *_observerKeyPathArray = nil;
     if (_currentItem) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
         @try {
-            [self.player removeTimeObserver:self.playbackTimeObserver];
+            [self.metaPlayer removeTimeObserver:self.playbackTimeObserver];
         } @catch (NSException *exception) {
             NSLog(@"func: %s, exception: %@",__func__,exception);
         }
@@ -97,11 +97,11 @@ static NSArray *_observerKeyPathArray = nil;
     _currentItem = currentItem;
     if (_currentItem) {
         for (NSString *keyPathStr in [YCPlayer observerKeyPathArray]) {
-            [_currentItem addObserver:self forKeyPath:keyPathStr options:NSKeyValueObservingOptionNew context:MediPlayerStatusObservationContext];
+            [_currentItem addObserver:self forKeyPath:keyPathStr options:NSKeyValueObservingOptionNew context:YCPlayerStatusObservationContext];
         }
         
-        [self.player replaceCurrentItemWithPlayerItem:_currentItem];
-        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+        [self.metaPlayer replaceCurrentItemWithPlayerItem:_currentItem];
+        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:self.metaPlayer];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
     }
 }
@@ -109,8 +109,8 @@ static NSArray *_observerKeyPathArray = nil;
 - (void)setStatus:(YCPlayerStatus)status
 {
     _status = status;
-    if ([self playerDelegateCanCall:@selector(mediaPlayerPlay:statusChanged:)]) {
-        [self.playerDelegate mediaPlayerPlay:self statusChanged:status];
+    if ([self playerDelegateCanCall:@selector(playerPlay:statusChanged:)]) {
+        [self.playerDelegate playerPlay:self statusChanged:status];
     }
 }
 
@@ -127,7 +127,7 @@ static NSArray *_observerKeyPathArray = nil;
         {
             if (self.status != YCPlayerStatusReadyToPlay) {
                 self.status = YCPlayerStatusReadyToPlay;
-                [self addMediaPlayerPlayProgressTimeObserver];
+                [self addplayerPlayProgressTimeObserver];
             }
             /* Once the AVPlayerItem becomes ready to play, i.e.
              [playerItem status] == AVPlayerItemStatusReadyToPlay,
@@ -148,18 +148,18 @@ static NSArray *_observerKeyPathArray = nil;
 - (void)reset
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.player.currentItem cancelPendingSeeks];
-    [self.player.currentItem.asset cancelLoading];
-    [self.player pause];
+    [self.metaPlayer.currentItem cancelPendingSeeks];
+    [self.metaPlayer.currentItem.asset cancelLoading];
+    [self.metaPlayer pause];
     
-    [self.player removeTimeObserver:self.playbackTimeObserver];
+    [self.metaPlayer removeTimeObserver:self.playbackTimeObserver];
     //移除观察者
     for (NSString *keyPathStr in [YCPlayer observerKeyPathArray]) {
         [_currentItem removeObserver:self forKeyPath:keyPathStr];
     }
     
-    [self.player replaceCurrentItemWithPlayerItem:nil];
-    _player = nil;
+    [self.metaPlayer replaceCurrentItemWithPlayerItem:nil];
+    _metaPlayer = nil;
     _currentItem = nil;
     [_currentLayer removeFromSuperlayer];
     _currentLayer = nil;
@@ -180,7 +180,7 @@ static NSArray *_observerKeyPathArray = nil;
     }
 }
 
-- (void)addMediaPlayerPlayProgressTimeObserver
+- (void)addplayerPlayProgressTimeObserver
 {
     CMTime playerDuration = [self playerItemDuration];
     if (CMTIME_IS_INVALID(playerDuration))
@@ -189,18 +189,18 @@ static NSArray *_observerKeyPathArray = nil;
     }
     if (self.playbackTimeObserver) {
         @try {
-            [self.player removeTimeObserver:self.playbackTimeObserver];
+            [self.metaPlayer removeTimeObserver:self.playbackTimeObserver];
         } @catch (NSException *exception) {
             NSLog(@"func: %s, exception: %@",__func__,exception);
         }
     }
     __weak typeof(self) weakSelf = self;
-    self.playbackTimeObserver =  [weakSelf.player
+    self.playbackTimeObserver =  [weakSelf.metaPlayer
                                   addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC)
                                   queue:dispatch_get_main_queue() /* If you pass NULL, the main queue is used. */
                                   usingBlock:^(CMTime time){
-                                      if ([weakSelf playerDelegateCanCall:@selector(mediaPlayerPlayPeriodicTimeChange:)]) {
-                                          [weakSelf.playerDelegate mediaPlayerPlayPeriodicTimeChange:weakSelf];
+                                      if ([weakSelf playerDelegateCanCall:@selector(playerPlayPeriodicTimeChange:)]) {
+                                          [weakSelf.playerDelegate playerPlayPeriodicTimeChange:weakSelf];
                                       }
                                                                           }];
 }
@@ -208,7 +208,7 @@ static NSArray *_observerKeyPathArray = nil;
 - (void)moviePlayDidEnd:(NSNotification *)notification
 {
 //    [self.player removeTimeObserver:self.playbackTimeObserver];
-    [self.player seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
+    [self.metaPlayer seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         
     }];
     self.status = YCPlayerStatusFinished;
@@ -217,7 +217,7 @@ static NSArray *_observerKeyPathArray = nil;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
 {
-    if (context == MediPlayerStatusObservationContext) {
+    if (context == YCPlayerStatusObservationContext) {
         if ([keyPath isEqualToString:@"status"]) {
             AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
             [self handleChangeAboutAVPlayerStatus:status];
@@ -227,8 +227,8 @@ static NSArray *_observerKeyPathArray = nil;
             // 计算缓冲进度
             NSTimeInterval currentLoadedTime = [self availableDuration];
             NSTimeInterval duration       = CMTimeGetSeconds(self.currentItem.duration);
-            if ([self playerDelegateCanCall:@selector(mediaPlayerBufferingWithCurrentLoadedTime:duration:)]) {
-                [self.playerDelegate mediaPlayerBufferingWithCurrentLoadedTime:currentLoadedTime duration:duration];
+            if ([self playerDelegateCanCall:@selector(playerBufferingWithCurrentLoadedTime:duration:)]) {
+                [self.playerDelegate playerBufferingWithCurrentLoadedTime:currentLoadedTime duration:duration];
             }
         } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
             // 当缓冲是空的时候

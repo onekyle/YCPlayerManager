@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YCPlayer : NSObject
 
-@property (nonatomic, strong, readonly, nullable) AVPlayer *player;
+@property (nonatomic, strong, readonly, nullable) AVPlayer *metaPlayer;
 
 @property (nonatomic, strong, readonly) AVPlayerLayer *currentLayer;
 
@@ -32,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSTimeInterval)duration;
 
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString;
-
 @end
 
 

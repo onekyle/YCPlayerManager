@@ -102,7 +102,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="whP-gf-Uak" kind="push" id="ttb-sQ-LnO"/>
+                                            <segue destination="whP-gf-Uak" kind="show" id="ttb-sQ-LnO"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="Buj-XB-usA">
@@ -125,7 +125,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="uTA-gm-hRG" kind="push" id="8K3-N4-dzf"/>
+                                            <segue destination="uTA-gm-hRG" kind="show" id="8K3-N4-dzf"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

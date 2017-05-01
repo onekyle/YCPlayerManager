@@ -28,7 +28,7 @@
     _playerManager.enableBackgroundPlay = YES;
     _playerManager.mediaURLString = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
     _playerManager.playerView.frame = CGRectMake(0, 20, kScreenWidth, kScreenWidth);
-    _playerLayer = _playerManager.mediaPlayer.currentLayer;
+    _playerLayer = _playerManager.player.currentLayer;
 
     _contentView = [[UITableView alloc] initWithFrame:self.view.bounds];
     _contentView.dataSource = self;

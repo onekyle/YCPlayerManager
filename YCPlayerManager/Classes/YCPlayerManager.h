@@ -17,7 +17,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 @interface YCPlayerManager : NSObject
 
-@property (nonatomic, strong, readonly) YCPlayer *mediaPlayer;
+@property (nonatomic, strong, readonly) YCPlayer *player;
 
 @property (nonatomic, copy, nullable) NSString *mediaURLString;
 
@@ -42,7 +42,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 + (instancetype)shareManager;
 
-- (instancetype)initWithMediaPlayer:(nullable YCPlayer *)mediaPlayer playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView;
+- (instancetype)initWithplayer:(nullable YCPlayer *)player playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView;
 
 
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)notification YC_REQUIRES_SUPER;

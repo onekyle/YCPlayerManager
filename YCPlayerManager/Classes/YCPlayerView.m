@@ -13,7 +13,7 @@
 
 // 在使用协议中property的时候 只会生成get和set 方法, 所以遵守协议的类需要使用@synthesize生成相应的成员变量
 // 如果本类的父类遵守了这种协议, 本类又需要重写在该协议中的某property, 则也需要在本类中使用@synthesize 来指向本类的成员变量
-@synthesize mediaPlayer = _mediaPlayer;
+@synthesize player = _player;
 @synthesize playerStatus = _playerStatus;
 @synthesize eventControl = _eventControl;
 @synthesize currentTime = _currentTime;
@@ -35,11 +35,11 @@
 @synthesize dateFormatter = _dateFormatter;
 
 
-- (instancetype)initWithMediaPlayer:(YCPlayer *)mediaPlayer
+- (instancetype)initWithplayer:(YCPlayer *)player
 {
     self = [super init];
     if (self) {
-        self.mediaPlayer = mediaPlayer;
+        self.player = player;
         [self _setUpUI];
     }
     return self;
@@ -65,12 +65,12 @@
     return self;
 }
 
-- (void)setMediaPlayer:(YCPlayer *)mediaPlayer
+- (void)setplayer:(YCPlayer *)player
 {
-    _mediaPlayer = mediaPlayer;
+    _player = player;
     [self.playerLayer removeFromSuperlayer];
-    [mediaPlayer.currentLayer removeFromSuperlayer];
-    self.playerLayer = mediaPlayer.currentLayer;
+    [player.currentLayer removeFromSuperlayer];
+    self.playerLayer = player.currentLayer;
     self.playerLayer.frame = self.layer.bounds;
     [self.layer insertSublayer:_playerLayer atIndex:0];
 //    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
@@ -92,7 +92,7 @@
             break;
         case YCPlayerStatusReadyToPlay:
             [self.loadingView stopAnimating];
-            self.duration = self.mediaPlayer.duration;
+            self.duration = self.player.duration;
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
                 [self setPlayerControlStatusPaused:NO];
             }

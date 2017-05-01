@@ -27,11 +27,11 @@ typedef NS_ENUM(NSInteger, YCPlayerStatus) {
 @optional
 
 /** 播放进度*/
-- (void)mediaPlayerPlayPeriodicTimeChange:(YCPlayer *)mediaPlayer;
+- (void)playerPlayPeriodicTimeChange:(YCPlayer *)player;
 /** 缓存进度*/
-- (void)mediaPlayerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration;
+- (void)playerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration;
 ///播放状态
-- (void)mediaPlayerPlay:(YCPlayer *)mediaPlayer statusChanged:(YCPlayerStatus)status;
+- (void)playerPlay:(YCPlayer *)player statusChanged:(YCPlayerStatus)status;
 
 @end
 

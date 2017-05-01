@@ -11,8 +11,7 @@
 NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNotificationKey";
 
 @interface YCPlayerManager () <YCPlayerDelegate,YCPlayerViewEventControlDelegate>
-
-- (AVPlayer *)player;
+- (AVPlayer *)metaPlayer;
 @end
 
 @implementation YCPlayerManager
@@ -21,9 +20,9 @@ NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNo
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self.playerView removeFromSuperview];
-    self.playerView.mediaPlayer = nil;
+    self.playerView.player = nil;
     self.playerView = nil;
-    _mediaPlayer = nil;
+    _player = nil;
 }
 
 static YCPlayerManager *playerManager;
@@ -38,19 +37,19 @@ static YCPlayerManager *playerManager;
 
 - (instancetype)init
 {
-    return [self initWithMediaPlayer:nil playerView:nil];
+    return [self initWithplayer:nil playerView:nil];
 }
 
-- (instancetype)initWithMediaPlayer:(nullable YCPlayer *)mediaPlayer playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView
+- (instancetype)initWithplayer:(nullable YCPlayer *)player playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView
 {
     self = [super init];
     if (self) {
  
-        if (!mediaPlayer) {
-            mediaPlayer = [[YCPlayer alloc] init];
+        if (!player) {
+            player = [[YCPlayer alloc] init];
         }
-        _mediaPlayer = mediaPlayer;
-        _mediaPlayer.playerDelegate = self;
+        _player = player;
+        _player.playerDelegate = self;
         if (!playerView) {
             playerView = [[YCPlayerView alloc] init];
         }
@@ -75,7 +74,7 @@ static YCPlayerManager *playerManager;
         [_playerView removeFromSuperview];
         _playerView = playerView;
         _playerView.eventControl = self;
-        _playerView.mediaPlayer = _mediaPlayer;
+        _playerView.player = _player;
     }
 }
 
@@ -83,8 +82,8 @@ static YCPlayerManager *playerManager;
 {
     if (![_mediaURLString isEqualToString:mediaURLString]) {
         _mediaURLString = [mediaURLString copy];
-        self.mediaPlayer.mediaURLString = _mediaURLString;
-        self.playerView.mediaPlayer = self.mediaPlayer;
+        self.player.mediaURLString = _mediaURLString;
+        self.playerView.player = self.player;
     }
 }
 
@@ -94,32 +93,32 @@ static YCPlayerManager *playerManager;
         [self.playerView setCurrentTime:0.f];
     }
 //    [self.playerView setPlayerControlStatusPaused:NO];
-    [self.player play];
+    [self.metaPlayer play];
 }
 
 - (void)pause
 {
 //    [self.playerView setPlayerControlStatusPaused:YES];
-    [self.player pause];
+    [self.metaPlayer pause];
 }
 
 - (void)stop
 {
-    [self.player setRate:0.0];
+    [self.metaPlayer setRate:0.0];
     self.mediaURLString = nil;
-    self.mediaPlayer.mediaURLString = nil;
-    [self mediaPlayerPlay:self.mediaPlayer statusChanged:YCPlayerStatusStopped];
+    self.player.mediaURLString = nil;
+    [self playerPlay:self.player statusChanged:YCPlayerStatusStopped];
 }
 
 - (BOOL)isPaused
 {
-    return self.player.rate == 0.0;
+    return self.metaPlayer.rate == 0.0;
 }
 
 #pragma mark - YCPlayerViewEventControlDelegate
 - (void)didClickPlayerViewPlayerControlButton:(UIButton *)sender
 {
-    if (self.player.rate == 0.0) {
+    if (self.metaPlayer.rate == 0.0) {
         [self play];
     } else {
         [self pause];
@@ -135,14 +134,14 @@ static YCPlayerManager *playerManager;
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
 {
     [self.player.currentItem cancelPendingSeeks];
-    [self.player seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.mediaPlayer.currentItem.currentTime.timescale)];
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
 }
 
 - (void)didTapPlayerViewProgressSlider:(UISlider *)sender
 {
     [self.player.currentItem cancelPendingSeeks];
-    [self.player seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.mediaPlayer.currentItem.currentTime.timescale)];
-    if (self.player.rate == 0.f) {
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
+    if (self.metaPlayer.rate == 0.f) {
         [self play];
     }
 }
@@ -151,21 +150,21 @@ static YCPlayerManager *playerManager;
 
 #pragma mark - YCPlayerDelegate
 /** 播放进度*/
-- (void)mediaPlayerPlayPeriodicTimeChange:(YCPlayer *)player
+- (void)playerPlayPeriodicTimeChange:(YCPlayer *)player
 {
-    Float64 nowTime = CMTimeGetSeconds([player.player currentTime]);
+    Float64 nowTime = CMTimeGetSeconds([player.metaPlayer currentTime]);
     _playerView.currentTime = nowTime;
 }
 
-- (void)mediaPlayerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
+- (void)playerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
 {
     [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
 
-- (void)mediaPlayerPlay:(YCPlayer *)mediaPlayer statusChanged:(YCPlayerStatus)status
+- (void)playerPlay:(YCPlayer *)player statusChanged:(YCPlayerStatus)status
 {
     if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        [mediaPlayer.player play];
+        [player.metaPlayer play];
     }
     
     self.playerView.playerStatus = status;
@@ -176,27 +175,27 @@ static YCPlayerManager *playerManager;
 #pragma mark - GlobalNotication
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)noti
 {
-    self.mediaPlayer.hasCorrectFalg = NO;
+    self.player.hasCorrectFalg = NO;
     [self pause];
 }
 
 - (void)onAudioSessionRouteChange:(NSNotification *)noti
 {
-    self.mediaPlayer.hasCorrectFalg = NO;
+    self.player.hasCorrectFalg = NO;
     [self pause];
 }
 
 - (void)onBecomeActive:(NSNotification *)noti
 {
-    self.mediaPlayer.hasCorrectFalg = NO;
+    self.player.hasCorrectFalg = NO;
 //    [self pause];
 }
 
 - (void)onBecomeInactive:(NSNotification *)noti
  {
      if (self.enableBackgroundPlay) {
-         self.mediaPlayer.hasCorrectFalg = YES;
-         [self.mediaPlayer performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1];
+         self.player.hasCorrectFalg = YES;
+         [self.player performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1];
      } else {
          [self pause];
      }
@@ -204,19 +203,19 @@ static YCPlayerManager *playerManager;
 
 #pragma mark -
 
-- (AVPlayer *)player
+- (AVPlayer *)metaPlayer
 {
-    return _mediaPlayer.player;
+    return _player.metaPlayer;
 }
 
 - (NSTimeInterval)currentTime
 {
-    return CMTimeGetSeconds([self.player currentTime]);
+    return CMTimeGetSeconds([self.metaPlayer currentTime]);
 }
 
 - (NSTimeInterval)duration
 {
-    return self.mediaPlayer.duration;
+    return self.player.duration;
 }
 
 @end
