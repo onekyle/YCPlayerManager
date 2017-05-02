@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		13021A861E836B13003D03F5 /* YCTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13021A851E836B13003D03F5 /* YCTableViewController.m */; };
+		1355C4851EB8C6DD005926F3 /* YCNormalCellDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355C4841EB8C6DD005926F3 /* YCNormalCellDataModel.m */; };
+		1355C4871EB8CEB7005926F3 /* normalcelldata.json in Resources */ = {isa = PBXBuildFile; fileRef = 1355C4861EB8CC09005926F3 /* normalcelldata.json */; };
 		1373DB351E84C2D9003331D7 /* YCVideoPlayerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1373DB341E84C2D9003331D7 /* YCVideoPlayerCell.m */; };
 		1AEB080708B0AF9409515680 /* libPods-YCPlayerManager_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9ABACDB07AEC7E70483152 /* libPods-YCPlayerManager_Tests.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -42,6 +44,9 @@
 		09891096C3F532179CC1B33A /* Pods-YCPlayerManager_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YCPlayerManager_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YCPlayerManager_Tests/Pods-YCPlayerManager_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		13021A841E836B13003D03F5 /* YCTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCTableViewController.h; sourceTree = "<group>"; };
 		13021A851E836B13003D03F5 /* YCTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCTableViewController.m; sourceTree = "<group>"; };
+		1355C4831EB8C6DD005926F3 /* YCNormalCellDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCNormalCellDataModel.h; sourceTree = "<group>"; };
+		1355C4841EB8C6DD005926F3 /* YCNormalCellDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCNormalCellDataModel.m; sourceTree = "<group>"; };
+		1355C4861EB8CC09005926F3 /* normalcelldata.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = normalcelldata.json; sourceTree = "<group>"; };
 		1373DB331E84C2D9003331D7 /* YCVideoPlayerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCVideoPlayerCell.h; sourceTree = "<group>"; };
 		1373DB341E84C2D9003331D7 /* YCVideoPlayerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoPlayerCell.m; sourceTree = "<group>"; };
 		19B642D29C659CB33BBF0558 /* Pods-YCPlayerManager_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YCPlayerManager_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YCPlayerManager_Tests/Pods-YCPlayerManager_Tests.release.xcconfig"; sourceTree = "<group>"; };
@@ -117,6 +122,9 @@
 			children = (
 				6003F5A5195388D20070C39A /* YCViewController.h */,
 				6003F5A6195388D20070C39A /* YCViewController.m */,
+				1355C4831EB8C6DD005926F3 /* YCNormalCellDataModel.h */,
+				1355C4841EB8C6DD005926F3 /* YCNormalCellDataModel.m */,
+				1355C4861EB8CC09005926F3 /* normalcelldata.json */,
 			);
 			name = Normal;
 			sourceTree = "<group>";
@@ -316,6 +324,7 @@
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
+				1355C4871EB8CEB7005926F3 /* normalcelldata.json in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,6 +437,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1355C4851EB8C6DD005926F3 /* YCNormalCellDataModel.m in Sources */,
 				6003F59E195388D20070C39A /* YCAppDelegate.m in Sources */,
 				13021A861E836B13003D03F5 /* YCTableViewController.m in Sources */,
 				6003F5A7195388D20070C39A /* YCViewController.m in Sources */,

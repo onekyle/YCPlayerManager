@@ -8,13 +8,14 @@
 
 #import "YCViewController.h"
 #import <YCPlayerManager/YCPlayerManager.h>
-
+#import "YCNormalCellDataModel.h"
 
 
 @interface YCViewController () <UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) YCPlayerManager *playerManager;
 @property (nonatomic, strong) UITableView *contentView;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
+@property (nonatomic, strong) NSMutableArray <NSArray *>*dataArray;
 
 @end
 
@@ -23,6 +24,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"normalcelldata.json" ofType:nil]];
+
+    NSMutableArray *array = [NSJSONSerialization JSONObjectWithData:data
+                                                            options:NSJSONReadingAllowFragments
+                                                              error:nil];
+    _dataArray = [NSMutableArray array];
+    for (NSDictionary *dict in array) {
+        NSArray *data = dict[@"data"];
+        if ([data isKindOfClass:[NSArray class]]) {
+            NSMutableArray *sectionModelArray = [NSMutableArray array];
+            for (NSDictionary *modelDict in data) {
+                YCNormalCellDataModel *model = [YCNormalCellDataModel modelWithDict:modelDict];
+                [sectionModelArray addObject:model];
+            }
+            [_dataArray addObject:sectionModelArray];
+        }
+    }
     
     _playerManager = [[YCPlayerManager alloc] init];
     _playerManager.enableBackgroundPlay = YES;
@@ -59,28 +78,45 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return kScreenWidth;
+    return indexPath.section == 1 ? 44 : kScreenWidth;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return _dataArray.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return _dataArray[section].count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"testCell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"testCell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];
-        _playerLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
-        [cell.contentView.layer addSublayer:_playerLayer];
-        cell.backgroundColor = [UIColor blackColor];
-        [cell.contentView addSubview:_playerManager.playerView];
-        _playerManager.playerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
-//        [_player play];
-        [_playerManager play];
+    NSInteger section = indexPath.section;
+    YCNormalCellDataModel *model = _dataArray[section][indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:model.reuseidentity];
+    if (section == 0) {
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:model.reuseidentity];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            //        AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];
+            _playerLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
+            [cell.contentView.layer addSublayer:_playerLayer];
+            cell.backgroundColor = [UIColor blackColor];
+            [cell.contentView addSubview:_playerManager.playerView];
+            _playerManager.playerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
+            //        [_player play];
+            [_playerManager play];
+        }
+    } else {
+        if (!cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:model.reuseidentity];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+        }
+        cell.textLabel.text = model.title;
+        cell.detailTextLabel.text = model.detailTitle;
     }
     return cell;
 }
