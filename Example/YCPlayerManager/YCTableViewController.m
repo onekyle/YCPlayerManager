@@ -10,14 +10,19 @@
 #import "YCVideoPlayerCell.h"
 
 @interface YCTableViewController ()
+{
+    BOOL _isFirstLoadFlag;
+}
 @property (nonatomic, strong) NSMutableArray *dataArray;
 @property (nonatomic, assign) CGPoint centerPoint;
+@property (nonatomic,strong) UIView *separatorView;
 @end
 
 @implementation YCTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _isFirstLoadFlag = YES;
     _dataArray = [NSMutableArray arrayWithCapacity:10];
     for (int i = 0; i < 10; ++i) {
         [_dataArray addObject:[NSString stringWithFormat:@"placeholder_%d",i]];
@@ -29,9 +34,26 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, (kScreenHeight - 64) / 2, kScreenWidth, 1)];
-    separatorView.backgroundColor = [UIColor orangeColor];
-    [self.view.window addSubview:separatorView];
+    if (_isFirstLoadFlag) {
+        UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, (kScreenHeight - 64) / 2, kScreenWidth, 1)];
+        separatorView.backgroundColor = [UIColor orangeColor];
+        [self.view.superview addSubview:separatorView];
+        _separatorView = separatorView;
+        
+        // loaded first time
+        if (self.tableView.contentOffset.y < 0.1) {
+            UITableViewCell *firstCell = self.tableView.visibleCells.firstObject;
+            [self changeVisibleCellsShowStatusForTableView:self.tableView withConditionBlock:^BOOL(__kindof UITableViewCell *cell) {
+                return cell == firstCell;
+            }];
+        }
+    }
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    _isFirstLoadFlag = NO;
 }
 
 #pragma mark - UITableViewDelegate
