@@ -29,6 +29,20 @@
     }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _centerPoint = CGPointMake(0, (kScreenHeight - 64) / 2);
+    
+    NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"videocelldata.json" ofType:nil]];
+    
+    NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data
+                                                            options:NSJSONReadingAllowFragments
+                                                              error:nil];
+    
+    NSArray *videoDataArray = dataDict[@"cards"];
+    
+    for (NSDictionary *dict in videoDataArray) {
+        NSLog(@"dict: %@",dict);
+    }
+
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
