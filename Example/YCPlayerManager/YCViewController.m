@@ -10,6 +10,7 @@
 #import <YCPlayerManager/YCPlayerManager.h>
 #import "YCNormalCellDataModel.h"
 
+CGFloat kTopMargin = 0;
 
 @interface YCViewController () <UITableViewDataSource,UITableViewDelegate>
 {
@@ -19,7 +20,6 @@
 @property (nonatomic, strong) UITableView *contentView;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, strong) NSMutableArray <NSArray *>*dataArray;
-
 @end
 
 @implementation YCViewController
@@ -59,11 +59,11 @@
     _contentView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_contentView];
     
-    UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-    [rightBtn setTitle:@"click" forState:UIControlStateNormal];
-    [rightBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [rightBtn addTarget:self action:@selector(clickRight) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+//    UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+//    [rightBtn setTitle:@"click" forState:UIControlStateNormal];
+//    [rightBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+//    [rightBtn addTarget:self action:@selector(clickRight) forControlEvents:UIControlEventTouchUpInside];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
 }
 
 - (void)clickRight
@@ -76,13 +76,15 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    kTopMargin = self.navigationController.navigationBarHidden ? 0 : 64;
     [self.contentView reloadData];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat offsetY = scrollView.contentOffset.y;
-    if (offsetY >= kScreenWidth) {
+    CGFloat limit = kScreenWidth - kTopMargin;
+    if (offsetY >= limit) {
         [self showSuspendViewView];
     } else {
         [self resetToNormalPlayer];
@@ -98,7 +100,7 @@
     }
     _isSuspendFlag = YES;
     CGFloat width = kScreenWidth / 3;
-    [self suspendPlayerLayerWithSuperLayer:self.view.superview.layer frame:CGRectMake(kScreenWidth - width - 10, 74, width, width)]; // top and right margin plus 10
+    [self suspendPlayerLayerWithSuperLayer:self.view.superview.layer frame:CGRectMake(kScreenWidth - width - 10, kTopMargin+ 10, width, width)]; // top and right margin plus 10
 }
 
 /** 播放器回复到正常尺寸*/
@@ -177,6 +179,30 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return _dataArray.count;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (section == 0) {
+        static NSString *footerID = @"video_footer";
+        UITableViewHeaderFooterView *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:footerID];
+        if (!footerView) {
+            footerView = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:footerID];
+        }
+        footerView.textLabel.text = @"Comment";
+        return footerView;
+    } else {
+        return nil;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 0) {
+        return 40;
+    } else {
+        return UITableViewAutomaticDimension;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
