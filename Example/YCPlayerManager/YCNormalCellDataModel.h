@@ -11,6 +11,7 @@
 @interface YCNormalCellDataModel : NSObject
 @property (nonatomic, copy) NSString *reuseidentity;
 @property (nonatomic, strong) UIColor *iconFake;
+//@property (nonatomic,strong) UIImage *iconImage;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *detailTitle;
 

@@ -75,6 +75,11 @@
     [self.contentView reloadData];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -113,12 +118,15 @@
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:model.reuseidentity];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
         }
         cell.textLabel.text = model.title;
         cell.detailTextLabel.text = model.detailTitle;
     }
     return cell;
 }
+
+
+
+
 
 @end
