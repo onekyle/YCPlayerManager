@@ -12,6 +12,9 @@
 
 
 @interface YCViewController () <UITableViewDataSource,UITableViewDelegate>
+{
+    BOOL _isSuspendFlag;
+}
 @property (nonatomic, strong) YCPlayerManager *playerManager;
 @property (nonatomic, strong) UITableView *contentView;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
@@ -48,6 +51,7 @@
     _playerManager.mediaURLString = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
     _playerManager.playerView.frame = CGRectMake(0, 20, kScreenWidth, kScreenWidth);
     _playerLayer = _playerManager.player.currentLayer;
+    _playerLayer.backgroundColor = [UIColor blackColor].CGColor;
 
     _contentView = [[UITableView alloc] initWithFrame:self.view.bounds];
     _contentView.dataSource = self;
@@ -77,10 +81,94 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
+    CGFloat offsetY = scrollView.contentOffset.y;
+    if (offsetY >= kScreenWidth) {
+        [self showSuspendViewView];
+    } else {
+        [self resetToNormalPlayer];
+    }
 }
 
 
+/** 显示悬浮窗口*/
+- (void)showSuspendViewView
+{
+    if (_isSuspendFlag || _playerManager.isPaused) {
+        return;
+    }
+    _isSuspendFlag = YES;
+    CGFloat width = kScreenWidth / 3;
+    [self suspendPlayerLayerWithSuperLayer:self.view.superview.layer frame:CGRectMake(kScreenWidth - width - 10, 74, width, width)]; // top and right margin plus 10
+}
+
+/** 播放器回复到正常尺寸*/
+- (void)resetToNormalPlayer
+{
+    if (!_isSuspendFlag) {
+        return;
+    }
+    _isSuspendFlag = NO;
+    [self resetPlayerLayerFromSuspendWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth)];
+}
+
+
+- (void)suspendPlayerLayerWithSuperLayer:(CALayer *)superLayer frame:(CGRect)frame
+{
+    AVPlayerLayer *playerLayer = _playerManager.player.currentLayer;
+    [playerLayer removeFromSuperlayer];
+    
+    // 取消layer的隐式动画
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    playerLayer.opacity = 0;
+    [superLayer addSublayer:playerLayer];
+    playerLayer.frame = frame;
+    [CATransaction setDisableActions:NO];
+    [CATransaction commit];
+    
+    CABasicAnimation *easyAppearAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    easyAppearAnimation.fromValue = [NSNumber numberWithFloat:0.0];
+    easyAppearAnimation.toValue = [NSNumber numberWithFloat:1.0];
+    easyAppearAnimation.duration = 0.3;        // 1 second
+    easyAppearAnimation.autoreverses = NO;    // Back
+    easyAppearAnimation.repeatCount = 1;       // Or whatever
+    easyAppearAnimation.fillMode = kCAFillModeForwards;
+    easyAppearAnimation.removedOnCompletion = NO;
+    [playerLayer addAnimation:easyAppearAnimation forKey:@"flashAnimation"];
+}
+
+- (void)resetPlayerLayerFromSuspendWithFrame:(CGRect)frame
+{
+    AVPlayerLayer *playerLayer = _playerManager.player.currentLayer;
+    
+    
+    //    CABasicAnimation *easyDisppearAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    //    easyDisppearAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+    //    easyDisppearAnimation.toValue = [NSNumber numberWithFloat:0.0];
+    //    easyDisppearAnimation.duration = 0.3;        // 1 second
+    //    easyDisppearAnimation.autoreverses = NO;    // Back
+    //    easyDisppearAnimation.repeatCount = 1;       // Or whatever
+    //    easyDisppearAnimation.fillMode = kCAFillModeForwards;
+    ////    easyDisppearAnimation.removedOnCompletion = NO;
+    //    [playerLayer addAnimation:easyDisppearAnimation forKey:@"flashAnimation"];
+    //
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    // 取消layer的隐式动画
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    [playerLayer removeFromSuperlayer];
+    [_playerManager.playerView.layer insertSublayer:playerLayer atIndex:0];
+    playerLayer.frame = frame;
+    playerLayer.opacity = 1.0;
+    [CATransaction setDisableActions:NO];
+    [CATransaction commit];
+    
+    //    });
+}
+
+
+
+#pragma mark - TableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return indexPath.section == 1 ? 44 : kScreenWidth;
@@ -124,9 +212,4 @@
     }
     return cell;
 }
-
-
-
-
-
 @end

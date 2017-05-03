@@ -46,6 +46,7 @@ static NSArray *_observerKeyPathArray = nil;
 @end
 
 @implementation YCPlayer
+@synthesize metaPlayer = _metaPlayer;
 
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString
 {
