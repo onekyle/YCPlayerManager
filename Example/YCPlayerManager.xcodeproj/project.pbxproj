@@ -12,6 +12,7 @@
 		1355C4871EB8CEB7005926F3 /* normalcelldata.json in Resources */ = {isa = PBXBuildFile; fileRef = 1355C4861EB8CC09005926F3 /* normalcelldata.json */; };
 		1373DB351E84C2D9003331D7 /* YCVideoPlayerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1373DB341E84C2D9003331D7 /* YCVideoPlayerCell.m */; };
 		137465871EBA3E9A0026CF5D /* videocelldata.json in Resources */ = {isa = PBXBuildFile; fileRef = 137465861EBA3E9A0026CF5D /* videocelldata.json */; };
+		1374658A1EBAA9390026CF5D /* YCVideoCellDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 137465891EBAA9390026CF5D /* YCVideoCellDataModel.m */; };
 		1AEB080708B0AF9409515680 /* libPods-YCPlayerManager_Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DD9ABACDB07AEC7E70483152 /* libPods-YCPlayerManager_Tests.a */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
@@ -51,6 +52,8 @@
 		1373DB331E84C2D9003331D7 /* YCVideoPlayerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCVideoPlayerCell.h; sourceTree = "<group>"; };
 		1373DB341E84C2D9003331D7 /* YCVideoPlayerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoPlayerCell.m; sourceTree = "<group>"; };
 		137465861EBA3E9A0026CF5D /* videocelldata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = videocelldata.json; sourceTree = "<group>"; };
+		137465881EBAA9390026CF5D /* YCVideoCellDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCVideoCellDataModel.h; sourceTree = "<group>"; };
+		137465891EBAA9390026CF5D /* YCVideoCellDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoCellDataModel.m; sourceTree = "<group>"; };
 		19B642D29C659CB33BBF0558 /* Pods-YCPlayerManager_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YCPlayerManager_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YCPlayerManager_Tests/Pods-YCPlayerManager_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		3E0700E5AF342B41A34045BD /* Pods-YCPlayerManager_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YCPlayerManager_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YCPlayerManager_Example/Pods-YCPlayerManager_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		57E421BA6E0EC39557ED14B8 /* libPods-YCPlayerManager_Example.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YCPlayerManager_Example.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +118,8 @@
 				13021A851E836B13003D03F5 /* YCTableViewController.m */,
 				1373DB331E84C2D9003331D7 /* YCVideoPlayerCell.h */,
 				1373DB341E84C2D9003331D7 /* YCVideoPlayerCell.m */,
+				137465881EBAA9390026CF5D /* YCVideoCellDataModel.h */,
+				137465891EBAA9390026CF5D /* YCVideoCellDataModel.m */,
 				137465861EBA3E9A0026CF5D /* videocelldata.json */,
 			);
 			name = TableView;
@@ -447,6 +452,7 @@
 				6003F5A7195388D20070C39A /* YCViewController.m in Sources */,
 				1373DB351E84C2D9003331D7 /* YCVideoPlayerCell.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				1374658A1EBAA9390026CF5D /* YCVideoCellDataModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
