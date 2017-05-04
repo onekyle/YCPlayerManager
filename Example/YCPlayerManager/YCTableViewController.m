@@ -8,6 +8,7 @@
 
 #import "YCTableViewController.h"
 #import "YCVideoPlayerCell.h"
+#import "YCVideoCellDataModel.h"
 
 @interface YCTableViewController ()
 {
@@ -23,10 +24,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _isFirstLoadFlag = YES;
-    _dataArray = [NSMutableArray arrayWithCapacity:10];
-    for (int i = 0; i < 10; ++i) {
-        [_dataArray addObject:[NSString stringWithFormat:@"placeholder_%d",i]];
-    }
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _centerPoint = CGPointMake(0, (kScreenHeight - 64) / 2);
     
@@ -36,10 +33,21 @@
                                                             options:NSJSONReadingAllowFragments
                                                               error:nil];
     
-    NSArray *videoDataArray = dataDict[@"cards"];
-    
+    NSArray *videoDataArray = dataDict[@"itemList"];
+    _dataArray = [NSMutableArray arrayWithCapacity:videoDataArray.count];
     for (NSDictionary *dict in videoDataArray) {
-        NSLog(@"dict: %@",dict);
+        if (![dict[@"type"] isEqualToString:@"video"]) {
+            continue;
+        }
+        NSDictionary *data = dict[@"data"];
+        if (![data isKindOfClass:[NSDictionary class]]) {
+            return;
+        }
+        YCVideoCellDataModel *model = [YCVideoCellDataModel modelWithDict:data];
+        if (model) {
+            [_dataArray addObject:model];
+        }
+
     }
 
     

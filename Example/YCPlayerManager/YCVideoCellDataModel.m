@@ -8,18 +8,32 @@
 
 #import "YCVideoCellDataModel.h"
 
+@implementation YCVideoCoverModel
+
+@end
+
 @implementation YCVideoCellDataModel
-+ (instancetype)modelWithDict:(NSDictionary *)dict
+
+- (void)setValue:(id)value forKey:(NSString *)key
 {
-    id instance = [[self alloc] init];
-    if (instance) {
-        [instance setValuesForKeysWithDictionary:dict];
+    if ([key isEqualToString:@"cover"]) {
+        self.cover = [YCVideoCoverModel modelWithDict:value];
+    } else if ([key isEqualToString:@"playInfo"]) {
+        if ([value isKindOfClass:[NSDictionary class]]) {
+            [value enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull subKey, id  _Nonnull obj, BOOL * _Nonnull stop) {
+                if ([subKey isEqualToString:@"urlList"] && [obj isKindOfClass:[NSArray class]]) {
+                    for (NSDictionary *subDict in obj) {
+                        NSString *hdURL = subDict[@"url"];
+                        if (hdURL) {
+                            [self.hdSources addObject:hdURL];
+                        }
+                    }
+                }
+            }];
+        }
+    } else {
+        [super setValue:value forKey:key];
     }
-    return instance;
 }
 
-- (void)setValue:(id)value forUndefinedKey:(NSString *)key
-{
-    NSLog(@"%s: find undefined key: %@ for value: %@",__func__,key,value);
-}
 @end

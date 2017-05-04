@@ -6,10 +6,21 @@
 //  Copyright © 2017年 ych.wang@outlook.com. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "YCBaseModel.h"
 
-@interface YCVideoCellDataModel : NSObject
+@interface YCVideoCoverModel : YCBaseModel
+@property (nonatomic, copy) NSString *feed;
+@property (nonatomic, copy) NSString *detail;
+@property (nonatomic, copy) NSString *blurred;
+@end
 
 
-+ (instancetype)modelWithDict:(NSDictionary *)dict;
+@interface YCVideoCellDataModel : YCBaseModel
+
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *detail;
+@property (nonatomic, copy) NSString *playUrl;
+@property (nonatomic, assign) NSTimeInterval duration;
+@property (nonatomic, strong) YCVideoCoverModel *cover;
+@property (nonatomic, strong) NSMutableArray *hdSources;
 @end
