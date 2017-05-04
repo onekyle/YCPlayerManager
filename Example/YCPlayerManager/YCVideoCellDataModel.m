@@ -16,20 +16,43 @@
 
 - (void)setValue:(id)value forKey:(NSString *)key
 {
-    if ([key isEqualToString:@"cover"]) {
+    if ([key isEqualToString:@"description"]) {
+        [super setValue:value forKey:@"detail"];
+    } else if ([key isEqualToString:@"cover"]) {
         self.cover = [YCVideoCoverModel modelWithDict:value];
     } else if ([key isEqualToString:@"playInfo"]) {
-        if ([value isKindOfClass:[NSDictionary class]]) {
-            [value enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull subKey, id  _Nonnull obj, BOOL * _Nonnull stop) {
-                if ([subKey isEqualToString:@"urlList"] && [obj isKindOfClass:[NSArray class]]) {
-                    for (NSDictionary *subDict in obj) {
-                        NSString *hdURL = subDict[@"url"];
-                        if (hdURL) {
-                            [self.hdSources addObject:hdURL];
+        if (![value isKindOfClass:[NSArray class]]) {
+            return;
+        }
+        NSMutableArray *sdSources = [NSMutableArray array];
+        NSMutableArray *hdSources = [NSMutableArray array];
+        [value enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[NSDictionary class]]) {
+                NSArray *urlList = obj[@"urlList"];
+                if (urlList && [urlList isKindOfClass:[NSArray class]]) {
+                    NSString * type = obj[@"type"];
+                    // unknow: 0
+                    // normal: 1
+                    // high: 2
+                    NSInteger typeStyle = [type isEqualToString:@"high"] ? 2 : [type isEqualToString:@"normal"] ? 1 : 0;
+                    for (NSDictionary *subDict in urlList) {
+                        NSString *sourceUrl = subDict[@"url"];
+                        if (sourceUrl) {
+                            if (typeStyle == 2) {
+                                [hdSources addObject:sourceUrl];
+                            } else if (typeStyle == 1) {
+                                [sdSources addObject:sourceUrl];
+                            }
                         }
                     }
                 }
-            }];
+            }
+        }];
+        if (sdSources.count) {
+            self.sdSources = sdSources;
+        }
+        if (hdSources.count) {
+            self.hdSources = hdSources;
         }
     } else {
         [super setValue:value forKey:key];

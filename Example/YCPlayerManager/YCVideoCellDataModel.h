@@ -22,5 +22,6 @@
 @property (nonatomic, copy) NSString *playUrl;
 @property (nonatomic, assign) NSTimeInterval duration;
 @property (nonatomic, strong) YCVideoCoverModel *cover;
-@property (nonatomic, strong) NSMutableArray *hdSources;
+@property (nonatomic,strong) NSMutableArray <NSString *>*sdSources;
+@property (nonatomic, strong) NSMutableArray <NSString *>*hdSources;
 @end

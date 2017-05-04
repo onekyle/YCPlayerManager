@@ -14,7 +14,7 @@
 {
     BOOL _isFirstLoadFlag;
 }
-@property (nonatomic, strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray <YCVideoCellDataModel *>*dataArray;
 @property (nonatomic, assign) CGPoint centerPoint;
 @property (nonatomic,strong) UIView *separatorView;
 @end
