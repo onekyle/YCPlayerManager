@@ -10,7 +10,7 @@
 #import "YCPlayer.h"
 
 @implementation YCPlayerView
-
+#pragma mark - Synthesize
 // 在使用协议中property的时候 只会生成get和set 方法, 所以遵守协议的类需要使用@synthesize生成相应的成员变量
 // 如果本类的父类遵守了这种协议, 本类又需要重写在该协议中的某property, 则也需要在本类中使用@synthesize 来指向本类的成员变量
 @synthesize player = _player;
@@ -33,8 +33,9 @@
 @synthesize rightTimeLabel = _rightTimeLabel;
 
 @synthesize dateFormatter = _dateFormatter;
+#pragma mark -
 
-
+#pragma mark - LifeCycle
 - (instancetype)initWithplayer:(YCPlayer *)player
 {
     self = [super init];
@@ -64,7 +65,89 @@
     }
     return self;
 }
+#pragma mark -
 
+#pragma mark - UI&Layout
+- (void)_setUpUI
+{
+    [self addSubview:self.loadingView];
+    
+    //添加顶部视图
+    [self addSubview:self.topView];
+    
+    [self.topView addSubview:self.closeBtn];
+    
+    //标题
+    [self.topView addSubview:self.titleLabel];
+    
+    //添加底部视图
+    [self addSubview:self.bottomView];
+    
+    //添加暂停和开启按钮
+    [self.bottomView addSubview:self.playerControlBtn];
+    
+    [self.bottomView addSubview:self.progressSlider];
+    
+    //loadingProgress
+    [self.bottomView insertSubview:self.loadingProgress belowSubview:self.progressSlider];
+
+    [self.bottomView addSubview:self.leftTimeLabel];
+
+    [self.bottomView addSubview:self.rightTimeLabel];
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    if (!CGRectEqualToRect(self.frame, frame)) {
+        [super setFrame:frame];
+        [self setUpLayoutWithFrame:frame];
+    }
+}
+
+- (void)setUpLayoutWithFrame:(CGRect)frame
+{
+    CGFloat w,h;
+    w = frame.size.width;
+    h = frame.size.height;
+    self.playerLayer.frame = CGRectMake(0, 0, w, h);
+    self.frame = frame;
+    self.loadingView.center = self.center;
+    
+    CGFloat topViewW = w;
+    CGFloat topViewH = 40;
+    self.topView.frame = CGRectMake(0, 0, topViewW, topViewH);
+    
+    CGFloat titleLabelW = topViewW - 90;
+    CGFloat titleLabelH = topViewH;
+    self.titleLabel.frame = CGRectMake((topViewW - titleLabelW) / 2, (topViewH - titleLabelH) / 2, titleLabelW, titleLabelH);
+    
+    self.closeBtn.frame = CGRectMake(5, 5, 30, 30);
+    
+    CGFloat bottomViewH = 40;
+    CGFloat bottomViewW = w;
+    self.bottomView.frame = CGRectMake(0, h - bottomViewH, bottomViewW , bottomViewH);
+    
+    self.playerControlBtn.frame = CGRectMake(0, CGRectGetHeight(self.bottomView.frame) - 40, 40, 40);
+    
+    CGFloat progressSliderDefaultH = self.progressSlider.frame.size.height;
+    CGFloat progressSliderW = bottomViewW - 90;
+    CGRect progressSliderFrame = CGRectMake((bottomViewW - progressSliderW) / 2, (bottomViewH - progressSliderDefaultH) / 2, progressSliderW, progressSliderDefaultH);
+    self.progressSlider.frame = progressSliderFrame;
+    
+    CGFloat loadingProgressH = 2;
+    // x + 2 , w - 2, 是为了修复系统的UIbug. 既: 在loadingProgress和progressSlider的x值一致的情况下, loadingProgress会比progressSlider的进度条偏左.
+    self.loadingProgress.frame = CGRectMake(progressSliderFrame.origin.x + 2,progressSliderFrame.origin.y + (progressSliderFrame.size.height - loadingProgressH) / 2, progressSliderFrame.size.width - 2, loadingProgressH);
+    
+    CGFloat timeLabelW = bottomViewW - 90;
+    CGFloat timeLabelH = 20;
+    self.leftTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
+    self.rightTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
+    
+    [self bringSubviewToFront:self.loadingView];
+}
+#pragma mark -
+
+#pragma mark - UIEventRelated
 - (void)setplayer:(YCPlayer *)player
 {
     _player = player;
@@ -73,9 +156,9 @@
     self.playerLayer = player.currentLayer;
     self.playerLayer.frame = self.layer.bounds;
     [self.layer insertSublayer:_playerLayer atIndex:0];
-//    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
+    //    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
     //视频的默认填充模式，AVLayerVideoGravityResizeAspect
-//    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
+    //    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
 }
 
 - (void)setPlayerStatus:(YCPlayerStatus)playerStatus
@@ -146,76 +229,6 @@
     self.rightTimeLabel.text = [self changeToStringByTime:durationTime];
 }
 
-- (void)_setUpUI
-{
-    [self addSubview:self.loadingView];
-    
-    //添加顶部视图
-    [self addSubview:self.topView];
-    
-    [self.topView addSubview:self.closeBtn];
-    
-    //标题
-    [self.topView addSubview:self.titleLabel];
-    
-    //添加底部视图
-    [self addSubview:self.bottomView];
-    
-    //添加暂停和开启按钮
-    [self.bottomView addSubview:self.playerControlBtn];
-    
-    [self.bottomView addSubview:self.progressSlider];
-    
-    //loadingProgress
-    [self.bottomView insertSubview:self.loadingProgress belowSubview:self.progressSlider];
-
-    [self.bottomView addSubview:self.leftTimeLabel];
-
-    [self.bottomView addSubview:self.rightTimeLabel];
-}
-
-- (void)setUpLayoutWithFrame:(CGRect)frame
-{
-    CGFloat w,h;
-    w = frame.size.width;
-    h = frame.size.height;
-    self.playerLayer.frame = CGRectMake(0, 0, w, h);
-    self.frame = frame;
-    self.loadingView.center = self.center;
-    
-    CGFloat topViewW = w;
-    CGFloat topViewH = 40;
-    self.topView.frame = CGRectMake(0, 0, topViewW, topViewH);
-    
-    CGFloat titleLabelW = topViewW - 90;
-    CGFloat titleLabelH = topViewH;
-    self.titleLabel.frame = CGRectMake((topViewW - titleLabelW) / 2, (topViewH - titleLabelH) / 2, titleLabelW, titleLabelH);
-    
-    self.closeBtn.frame = CGRectMake(5, 5, 30, 30);
-    
-    CGFloat bottomViewH = 40;
-    CGFloat bottomViewW = w;
-    self.bottomView.frame = CGRectMake(0, h - bottomViewH, bottomViewW , bottomViewH);
-    
-    self.playerControlBtn.frame = CGRectMake(0, CGRectGetHeight(self.bottomView.frame) - 40, 40, 40);
-    
-    CGFloat progressSliderDefaultH = self.progressSlider.frame.size.height;
-    CGFloat progressSliderW = bottomViewW - 90;
-    CGRect progressSliderFrame = CGRectMake((bottomViewW - progressSliderW) / 2, (bottomViewH - progressSliderDefaultH) / 2, progressSliderW, progressSliderDefaultH);
-    self.progressSlider.frame = progressSliderFrame;
-    
-    CGFloat loadingProgressH = 2;
-    // x + 2 , w - 2, 是为了修复系统的UIbug. 既: 在loadingProgress和progressSlider的x值一致的情况下, loadingProgress会比progressSlider的进度条偏左.
-    self.loadingProgress.frame = CGRectMake(progressSliderFrame.origin.x + 2,progressSliderFrame.origin.y + (progressSliderFrame.size.height - loadingProgressH) / 2, progressSliderFrame.size.width - 2, loadingProgressH);
-    
-    CGFloat timeLabelW = bottomViewW - 90;
-    CGFloat timeLabelH = 20;
-    self.leftTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
-    self.rightTimeLabel.frame = CGRectMake((bottomViewW - titleLabelW) / 2, bottomViewH - timeLabelH, timeLabelW, timeLabelH);
-    
-    [self bringSubviewToFront:self.loadingView];
-}
-
 - (void)setPlayerControlStatusPaused:(BOOL)Paused
 {
     self.playerControlBtn.selected = Paused;
@@ -268,16 +281,9 @@
 {
     [self.loadingProgress setProgress:currentLoadedTime/duration animated:NO];
 }
+#pragma mark -
 
-- (void)setFrame:(CGRect)frame
-{
-    if (!CGRectEqualToRect(self.frame, frame)) {
-        [super setFrame:frame];
-        [self setUpLayoutWithFrame:frame];
-    }
-}
-
-
+#pragma mark - HelperMethod
 - (BOOL)eventControlCanCall:(SEL)method
 {
     return [self.eventControl conformsToProtocol:@protocol(YCPlayerViewEventControlDelegate)] && [self.eventControl respondsToSelector:method];
@@ -328,7 +334,7 @@
     }
     return _dateFormatter;
 }
-
+#pragma mark -
 
 #pragma mark - LazyLoad
 - (UIButton *)playerControlBtn
@@ -435,5 +441,5 @@
     }
     return _rightTimeLabel;
 }
-
+#pragma mark -
 @end

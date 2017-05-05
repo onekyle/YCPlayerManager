@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong, nullable) AVPlayerItem *currentItem;
 
-@property (nonatomic, strong, nullable) NSString *mediaURLString;
+@property (nonatomic, copy, nullable) NSString *mediaURLString;
 
 @property (nonatomic, assign) YCPlayerStatus status;
 
@@ -29,9 +29,10 @@ NS_ASSUME_NONNULL_BEGIN
 /** background play related*/
 @property (nonatomic, assign) BOOL hasCorrectFalg;
 
-- (NSTimeInterval)duration;
 
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString;
+
+- (NSTimeInterval)duration;
 @end
 
 

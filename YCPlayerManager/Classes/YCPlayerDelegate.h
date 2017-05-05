@@ -12,13 +12,20 @@
 
 // 播放器的几种状态
 typedef NS_ENUM(NSInteger, YCPlayerStatus) {
-    YCPlayerStatusFailed = -1,        // 播放失败
-    YCPlayerStatusBuffering,     // 缓冲中
-    YCPlayerStatusReadyToPlay,  // 将要播放
-    YCPlayerStatusPlaying,       // 播放中
+    /** 播放失败*/
+    YCPlayerStatusFailed = -1,
+    /** 缓冲中*/
+    YCPlayerStatusBuffering,
+    /** 将要播放*/
+    YCPlayerStatusReadyToPlay,
+    /** 播放中*/
+    YCPlayerStatusPlaying,
+    /** 暂停*/
     YCPlayerStatusPause,
-    YCPlayerStatusStopped,       // 停止播放
-    YCPlayerStatusFinished       //播放完毕
+    /** 停止播放*/
+    YCPlayerStatusStopped,
+    /** 播放完毕*/
+    YCPlayerStatusFinished
 };
 
 @class YCPlayer;

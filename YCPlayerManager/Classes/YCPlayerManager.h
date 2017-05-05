@@ -29,6 +29,12 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 @property (nonatomic, assign, getter=isEnableBackgroundPlay) BOOL enableBackgroundPlay;
 
 
+
++ (instancetype)shareManager;
+
+- (instancetype)initWithplayer:(nullable YCPlayer *)player playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView;
+
+
 // control
 - (void)play;
 - (void)pause;
@@ -39,10 +45,6 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 - (NSTimeInterval)currentTime;
 
 - (NSTimeInterval)duration;
-
-+ (instancetype)shareManager;
-
-- (instancetype)initWithplayer:(nullable YCPlayer *)player playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView;
 
 
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)notification YC_REQUIRES_SUPER;

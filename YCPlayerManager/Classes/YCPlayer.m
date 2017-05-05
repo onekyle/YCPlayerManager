@@ -64,15 +64,15 @@ static NSArray *_observerKeyPathArray = nil;
 
 - (void)setMediaURLString:(NSString *)mediaURLString
 {
-    _mediaURLString = mediaURLString;
-    [self setCurrentItem:[self getPlayItemWithURLString:mediaURLString]];
+    _mediaURLString = [mediaURLString copy];
+    [self setCurrentItem:[self getPlayItemWithURLString:_mediaURLString]];
     if (!_metaPlayer && _currentItem) {
         _metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:_currentItem];
         _metaPlayer.owner = self;
         _metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
         _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_metaPlayer];
     }
-    if (mediaURLString) {
+    if (_mediaURLString) {
         self.status = YCPlayerStatusBuffering;
     }
 }

@@ -16,6 +16,7 @@ NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNo
 
 @implementation YCPlayerManager
 
+#pragma mark - LifeCycle
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -40,11 +41,12 @@ static YCPlayerManager *playerManager;
     return [self initWithplayer:nil playerView:nil];
 }
 
+
 - (instancetype)initWithplayer:(nullable YCPlayer *)player playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView
 {
     self = [super init];
     if (self) {
- 
+        
         if (!player) {
             player = [[YCPlayer alloc] init];
         }
@@ -59,34 +61,9 @@ static YCPlayerManager *playerManager;
     }
     return self;
 }
+#pragma mark -
 
-- (void)addAllObserver
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAudioSessionRouteChange:) name:AVAudioSessionRouteChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAudioSessionInterruptionEvent:) name:AVAudioSessionInterruptionNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeInactive:) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
-- (void)setPlayerView:(UIView<YCPlayerViewComponentDelegate> *)playerView
-{
-    if (_playerView != playerView) {
-        [_playerView removeFromSuperview];
-        _playerView = playerView;
-        _playerView.eventControl = self;
-        _playerView.player = _player;
-    }
-}
-
-- (void)setMediaURLString:(NSString *)mediaURLString
-{
-    if (![_mediaURLString isEqualToString:mediaURLString]) {
-        _mediaURLString = [mediaURLString copy];
-        self.player.mediaURLString = _mediaURLString;
-        self.playerView.player = self.player;
-    }
-}
-
+#pragma mark - ControlEvent
 - (void)play
 {
     if ([self currentTime] == [self duration]) {
@@ -114,6 +91,7 @@ static YCPlayerManager *playerManager;
 {
     return self.metaPlayer.rate == 0.0;
 }
+#pragma mark -
 
 #pragma mark - YCPlayerViewEventControlDelegate
 - (void)didClickPlayerViewPlayerControlButton:(UIButton *)sender
@@ -127,8 +105,7 @@ static YCPlayerManager *playerManager;
 
 - (void)didClickPlayerViewCloseButton:(UIButton *)sender
 {
-    //    NSLog(@"didClickPlayerViewCloseButton");
-//    [self showSmallScreen];
+
 }
 
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
@@ -170,9 +147,17 @@ static YCPlayerManager *playerManager;
     self.playerView.playerStatus = status;
     [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
 }
-
+#pragma mark -
 
 #pragma mark - GlobalNotication
+- (void)addAllObserver
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAudioSessionRouteChange:) name:AVAudioSessionRouteChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAudioSessionInterruptionEvent:) name:AVAudioSessionInterruptionNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeInactive:) name:UIApplicationWillResignActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)noti
 {
     self.player.hasCorrectFalg = NO;
@@ -203,6 +188,28 @@ static YCPlayerManager *playerManager;
 
 #pragma mark -
 
+#pragma mark - Setter
+- (void)setPlayerView:(UIView<YCPlayerViewComponentDelegate> *)playerView
+{
+    if (_playerView != playerView) {
+        [_playerView removeFromSuperview];
+        _playerView = playerView;
+        _playerView.eventControl = self;
+        _playerView.player = _player;
+    }
+}
+
+- (void)setMediaURLString:(NSString *)mediaURLString
+{
+    if (![_mediaURLString isEqualToString:mediaURLString]) {
+        _mediaURLString = [mediaURLString copy];
+        self.player.mediaURLString = _mediaURLString;
+        self.playerView.player = self.player;
+    }
+}
+#pragma mark -
+
+#pragma mark - Getter
 - (AVPlayer *)metaPlayer
 {
     return _player.metaPlayer;
@@ -217,6 +224,7 @@ static YCPlayerManager *playerManager;
 {
     return self.player.duration;
 }
+#pragma mark -
 
 @end
 
