@@ -84,7 +84,7 @@ static YCPlayerManager *playerManager;
     [self.metaPlayer setRate:0.0];
     self.mediaURLString = nil;
     self.player.mediaURLString = nil;
-    [self playerPlay:self.player statusChanged:YCPlayerStatusStopped];
+    [self player:self.player didChangeStatus:YCPlayerStatusStopped];
 }
 
 - (BOOL)isPaused
@@ -126,19 +126,19 @@ static YCPlayerManager *playerManager;
 
 
 #pragma mark - YCPlayerDelegate
-/** 播放进度*/
-- (void)playerPlayPeriodicTimeChange:(YCPlayer *)player
-{
-    Float64 nowTime = CMTimeGetSeconds([player.metaPlayer currentTime]);
-    _playerView.currentTime = nowTime;
-}
 
-- (void)playerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
+/** 播放进度*/
+- (void)player:(YCPlayer *)player playPeriodicTimeChangeTo:(CMTime)currentTime
+{
+    _playerView.currentTime = CMTimeGetSeconds(currentTime);
+}
+/** 缓存进度*/
+- (void)player:(YCPlayer *)player bufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
 {
     [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
-
-- (void)playerPlay:(YCPlayer *)player statusChanged:(YCPlayerStatus)status
+/** 播放状态*/
+- (void)player:(YCPlayer *)player didChangeStatus:(YCPlayerStatus)status
 {
     if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         [player.metaPlayer play];

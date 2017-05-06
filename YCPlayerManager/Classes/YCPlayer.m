@@ -35,6 +35,13 @@
 static void *YCPlayerStatusObservationContext = &YCPlayerStatusObservationContext;
 static NSArray *_observerKeyPathArray = nil;
 
+struct YCPlayerDelegateFlags {
+    unsigned int playPeriodicTimeChanged : 1;
+    unsigned int bufferingLoaded : 1;
+    unsigned int statusChanged : 1;
+};
+typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
+
 @interface YCPlayer ()
 {
     _YCPrivatePlayer *_metaPlayer;
@@ -42,7 +49,7 @@ static NSArray *_observerKeyPathArray = nil;
 
 /** 监听播放进度的timer*/
 @property (nonatomic ,strong) id playbackTimeObserver;
-
+@property (nonatomic, assign) YCPlayerDelegateFlags delegateFlags;
 @end
 
 @implementation YCPlayer
@@ -60,6 +67,20 @@ static NSArray *_observerKeyPathArray = nil;
 - (void)dealloc
 {
     [self reset];
+}
+
+- (void)setPlayerDelegate:(id<YCPlayerDelegate>)playerDelegate
+{
+    _playerDelegate = playerDelegate;
+    if ([playerDelegate conformsToProtocol:@protocol(YCPlayerDelegate)]) {
+        _delegateFlags.playPeriodicTimeChanged = [playerDelegate respondsToSelector:@selector(player:playPeriodicTimeChangeTo:)];
+        _delegateFlags.bufferingLoaded = [playerDelegate respondsToSelector:@selector(player:bufferingWithCurrentLoadedTime:duration:)];
+        _delegateFlags.statusChanged = [playerDelegate respondsToSelector:@selector(player:didChangeStatus:)];
+    } else {
+        _delegateFlags.playPeriodicTimeChanged = NO;
+        _delegateFlags.bufferingLoaded = NO;
+        _delegateFlags.statusChanged = NO;
+    }
 }
 
 - (void)setMediaURLString:(NSString *)mediaURLString
@@ -110,8 +131,8 @@ static NSArray *_observerKeyPathArray = nil;
 - (void)setStatus:(YCPlayerStatus)status
 {
     _status = status;
-    if ([self playerDelegateCanCall:@selector(playerPlay:statusChanged:)]) {
-        [self.playerDelegate playerPlay:self statusChanged:status];
+    if (_delegateFlags.statusChanged) {
+        [_playerDelegate player:self didChangeStatus:status];
     }
 }
 
@@ -200,10 +221,10 @@ static NSArray *_observerKeyPathArray = nil;
                                   addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC)
                                   queue:dispatch_get_main_queue() /* If you pass NULL, the main queue is used. */
                                   usingBlock:^(CMTime time){
-                                      if ([weakSelf playerDelegateCanCall:@selector(playerPlayPeriodicTimeChange:)]) {
-                                          [weakSelf.playerDelegate playerPlayPeriodicTimeChange:weakSelf];
+                                      if (weakSelf.delegateFlags.playPeriodicTimeChanged) {
+                                          [weakSelf.playerDelegate player:weakSelf playPeriodicTimeChangeTo:time];
                                       }
-                                                                          }];
+                                  }];
 }
 
 - (void)moviePlayDidEnd:(NSNotification *)notification
@@ -227,9 +248,9 @@ static NSArray *_observerKeyPathArray = nil;
             
             // 计算缓冲进度
             NSTimeInterval currentLoadedTime = [self availableDuration];
-            NSTimeInterval duration       = CMTimeGetSeconds(self.currentItem.duration);
-            if ([self playerDelegateCanCall:@selector(playerBufferingWithCurrentLoadedTime:duration:)]) {
-                [self.playerDelegate playerBufferingWithCurrentLoadedTime:currentLoadedTime duration:duration];
+            NSTimeInterval duration = CMTimeGetSeconds(self.currentItem.duration);
+            if (_delegateFlags.bufferingLoaded) {
+                [_playerDelegate player:self bufferingWithCurrentLoadedTime:currentLoadedTime duration:duration];
             }
         } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
             // 当缓冲是空的时候
@@ -256,12 +277,6 @@ static NSArray *_observerKeyPathArray = nil;
     float durationSeconds     = CMTimeGetSeconds(timeRange.duration);
     NSTimeInterval result     = startSeconds + durationSeconds;// 计算缓冲总进度
     return result;
-}
-
-
-- (BOOL)playerDelegateCanCall:(SEL)method
-{
-    return [self.playerDelegate conformsToProtocol:@protocol(YCPlayerDelegate)] && [self.playerDelegate respondsToSelector:method];
 }
 
 - (CMTime)playerItemDuration{

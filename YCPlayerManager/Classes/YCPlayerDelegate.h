@@ -9,6 +9,7 @@
 #ifndef YCPlayerDelegate_h
 #define YCPlayerDelegate_h
 
+#import <AVFoundation/AVFoundation.h>
 
 // 播放器的几种状态
 typedef NS_ENUM(NSInteger, YCPlayerStatus) {
@@ -34,11 +35,11 @@ typedef NS_ENUM(NSInteger, YCPlayerStatus) {
 @optional
 
 /** 播放进度*/
-- (void)playerPlayPeriodicTimeChange:(YCPlayer *)player;
+- (void)player:(YCPlayer *)player playPeriodicTimeChangeTo:(CMTime)currentTime;
 /** 缓存进度*/
-- (void)playerBufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration;
-///播放状态
-- (void)playerPlay:(YCPlayer *)player statusChanged:(YCPlayerStatus)status;
+- (void)player:(YCPlayer *)player bufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration;
+/** 播放状态*/
+- (void)player:(YCPlayer *)player didChangeStatus:(YCPlayerStatus)status;
 
 @end
 
