@@ -32,7 +32,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 + (instancetype)shareManager;
 
-- (instancetype)initWithplayer:(nullable YCPlayer *)player playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView;
+- (instancetype)initWithplayer:(nullable YCPlayer *)player playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView NS_DESIGNATED_INITIALIZER;
 
 
 // control
@@ -40,11 +40,11 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 - (void)pause;
 - (void)stop;
 
-- (BOOL)isPaused;
+@property (NS_NONATOMIC_IOSONLY, getter=isPaused, readonly) BOOL paused;
 
-- (NSTimeInterval)currentTime;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval currentTime;
 
-- (NSTimeInterval)duration;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
 
 
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)notification YC_REQUIRES_SUPER;

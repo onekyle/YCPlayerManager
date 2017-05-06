@@ -30,9 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL hasCorrectFalg;
 
 
-- (instancetype)initWithMediaURLString:(NSString *)mediaURLString;
+- (instancetype)initWithMediaURLString:(NSString *)mediaURLString NS_DESIGNATED_INITIALIZER;
 
-- (NSTimeInterval)duration;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
 @end
 
 

@@ -129,8 +129,8 @@ CGFloat kTopMargin = 0;
     [CATransaction commit];
     
     CABasicAnimation *easyAppearAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    easyAppearAnimation.fromValue = [NSNumber numberWithFloat:0.0];
-    easyAppearAnimation.toValue = [NSNumber numberWithFloat:1.0];
+    easyAppearAnimation.fromValue = @0.0f;
+    easyAppearAnimation.toValue = @1.0f;
     easyAppearAnimation.duration = 0.3;        // 1 second
     easyAppearAnimation.autoreverses = NO;    // Back
     easyAppearAnimation.repeatCount = 1;       // Or whatever

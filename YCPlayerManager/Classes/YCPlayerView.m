@@ -99,7 +99,7 @@
 - (void)setFrame:(CGRect)frame
 {
     if (!CGRectEqualToRect(self.frame, frame)) {
-        [super setFrame:frame];
+        super.frame = frame;
         [self setUpLayoutWithFrame:frame];
     }
 }
@@ -321,11 +321,11 @@
 - (NSString *)changeToStringByTime:(CGFloat)second{
     NSDate *d = [NSDate dateWithTimeIntervalSince1970:second];
     if (second/3600 >= 1) {
-        [[self dateFormatter] setDateFormat:@"HH:mm:ss"];
+        self.dateFormatter.dateFormat = @"HH:mm:ss";
     } else {
-        [[self dateFormatter] setDateFormat:@"mm:ss"];
+        self.dateFormatter.dateFormat = @"mm:ss";
     }
-    return [[self dateFormatter] stringFromDate:d];
+    return [self.dateFormatter stringFromDate:d];
 }
 
 - (NSDateFormatter *)dateFormatter {

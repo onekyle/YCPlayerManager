@@ -67,7 +67,7 @@ static YCPlayerManager *playerManager;
 - (void)play
 {
     if ([self currentTime] == [self duration]) {
-        [self.playerView setCurrentTime:0.f];
+        self.playerView.currentTime = 0.f;
     }
 //    [self.playerView setPlayerControlStatusPaused:NO];
     [self.metaPlayer play];
@@ -81,7 +81,7 @@ static YCPlayerManager *playerManager;
 
 - (void)stop
 {
-    [self.metaPlayer setRate:0.0];
+    self.metaPlayer.rate = 0.0;
     self.mediaURLString = nil;
     self.player.mediaURLString = nil;
     [self player:self.player didChangeStatus:YCPlayerStatusStopped];

@@ -59,7 +59,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 {
     self = [super init];
     if (self) {
-        [self setMediaURLString:mediaURLString];
+        self.mediaURLString = mediaURLString;
     }
     return self;
 }
@@ -86,7 +86,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 - (void)setMediaURLString:(NSString *)mediaURLString
 {
     _mediaURLString = [mediaURLString copy];
-    [self setCurrentItem:[self getPlayItemWithURLString:_mediaURLString]];
+    self.currentItem = [self getPlayItemWithURLString:_mediaURLString];
     if (!_metaPlayer && _currentItem) {
         _metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:_currentItem];
         _metaPlayer.owner = self;
@@ -241,7 +241,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 {
     if (context == YCPlayerStatusObservationContext) {
         if ([keyPath isEqualToString:@"status"]) {
-            AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+            AVPlayerStatus status = [change[NSKeyValueChangeNewKey] integerValue];
             [self handleChangeAboutAVPlayerStatus:status];
         }
         else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
@@ -271,7 +271,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
  *  @return 缓冲进度
  */
 - (NSTimeInterval)availableDuration {
-    NSArray *loadedTimeRanges = [_currentItem loadedTimeRanges];
+    NSArray *loadedTimeRanges = _currentItem.loadedTimeRanges;
     CMTimeRange timeRange     = [loadedTimeRanges.firstObject CMTimeRangeValue];// 获取缓冲区域
     float startSeconds        = CMTimeGetSeconds(timeRange.start);
     float durationSeconds     = CMTimeGetSeconds(timeRange.duration);
@@ -281,7 +281,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 
 - (CMTime)playerItemDuration{
     if (_currentItem.status == AVPlayerItemStatusReadyToPlay){
-        return([_currentItem duration]);
+        return(_currentItem.duration);
     }
     return(kCMTimeInvalid);
 }
