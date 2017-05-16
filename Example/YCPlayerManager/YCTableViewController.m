@@ -45,6 +45,7 @@
         }
         YCVideoCellDataModel *model = [YCVideoCellDataModel modelWithDict:data];
         if (model) {
+            NSLog(@"%@",model);
             [_dataArray addObject:model];
         }
 
