@@ -107,6 +107,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
         @try {
             [self.metaPlayer removeTimeObserver:self.playbackTimeObserver];
+            self.playbackTimeObserver = nil;
         } @catch (NSException *exception) {
             NSLog(@"func: %s, exception: %@",__func__,exception);
         }
