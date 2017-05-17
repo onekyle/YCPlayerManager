@@ -168,7 +168,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
         _delegateFlags.clickPlayerControlBtn = [eventControl respondsToSelector:@selector(didClickPlayerViewPlayerControlButton:)];
         _delegateFlags.clickCloseBtn = [eventControl respondsToSelector:@selector(didClickPlayerViewCloseButton:)];
         _delegateFlags.clickProgressSlider = [eventControl respondsToSelector:@selector(didClickPlayerViewProgressSlider:)];
-        _delegateFlags.tapProgressSlider = [eventControl respondsToSelector:@selector(didTapProgerssSlider:)];
+        _delegateFlags.tapProgressSlider = [eventControl respondsToSelector:@selector(didTapPlayerViewProgressSlider:)];
     } else {
         _delegateFlags.clickPlayerControlBtn = NO;
         _delegateFlags.clickCloseBtn = NO;
@@ -236,7 +236,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
     _currentTime = currentTime;
     [self setCurrentTimeTextWithTime:currentTime];
     if (!_isProgerssSliderActivity) {
-        self.progressSlider.value = currentTime / self.duration;
+        self.progressSlider.value = currentTime / self.duration;   
     }
 }
 
@@ -272,6 +272,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 - (void)didClickProgressSlider:(UISlider *)sender
 {
     if (_delegateFlags.clickProgressSlider) {
+        _isProgerssSliderActivity = YES;
         [self.eventControl didClickPlayerViewProgressSlider:sender];
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -281,6 +282,9 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 
 - (void)didTapProgerssSlider:(UIGestureRecognizer *)tap
 {
+    if (_isProgerssSliderActivity) {
+        return;
+    }
     _isProgerssSliderActivity = YES;
     CGPoint touchLocation = [tap locationInView:self.progressSlider];
     CGFloat value = (self.progressSlider.maximumValue - self.progressSlider.minimumValue) * (touchLocation.x/self.progressSlider.frame.size.width);
@@ -430,7 +434,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
         _progressSlider.value = 0.0;//指定初始值
         
         [_progressSlider addTarget:self action:@selector(didStartDragProgressSlider:)  forControlEvents:UIControlEventValueChanged];
-        [_progressSlider addTarget:self action:@selector(didClickProgressSlider:) forControlEvents:UIControlEventTouchUpInside];
+        [_progressSlider addTarget:self action:@selector(didClickProgressSlider:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchUpOutside];
         
         UITapGestureRecognizer *progerssSliderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapProgerssSlider:)];
         [_progressSlider addGestureRecognizer:progerssSliderTap];
