@@ -9,6 +9,20 @@
 #import "YCPlayerView.h"
 #import "YCPlayer.h"
 
+
+
+struct YCPlayerViewDelegateFlags {
+    unsigned int clickPlayerControlBtn : 1;
+    unsigned int clickCloseBtn : 1;
+    unsigned int clickProgressSlider : 1;
+    unsigned int tapProgressSlider : 1;
+};
+typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
+
+@interface YCPlayerView ()
+@property (nonatomic, assign) YCPlayerViewDelegateFlags delegateFlags;
+@end
+
 @implementation YCPlayerView
 #pragma mark - Synthesize
 // 在使用协议中property的时候 只会生成get和set 方法, 所以遵守协议的类需要使用@synthesize生成相应的成员变量
@@ -147,6 +161,22 @@
 }
 #pragma mark -
 
+- (void)setEventControl:(id<YCPlayerViewEventControlDelegate>)eventControl
+{
+    _eventControl = eventControl;
+    if ([eventControl conformsToProtocol:@protocol(YCPlayerViewEventControlDelegate)]) {
+        _delegateFlags.clickPlayerControlBtn = [eventControl respondsToSelector:@selector(didClickPlayerViewPlayerControlButton:)];
+        _delegateFlags.clickCloseBtn = [eventControl respondsToSelector:@selector(didClickPlayerViewCloseButton:)];
+        _delegateFlags.clickProgressSlider = [eventControl respondsToSelector:@selector(didClickPlayerViewProgressSlider:)];
+        _delegateFlags.tapProgressSlider = [eventControl respondsToSelector:@selector(didTapProgerssSlider:)];
+    } else {
+        _delegateFlags.clickPlayerControlBtn = NO;
+        _delegateFlags.clickCloseBtn = NO;
+        _delegateFlags.clickProgressSlider = NO;
+        _delegateFlags.tapProgressSlider = NO;
+    }
+}
+
 #pragma mark - UIEventRelated
 - (void)setplayer:(YCPlayer *)player
 {
@@ -241,7 +271,7 @@
 
 - (void)didClickProgressSlider:(UISlider *)sender
 {
-    if ([self eventControlCanCall:@selector(didClickPlayerViewProgressSlider:)]) {
+    if (_delegateFlags.clickProgressSlider) {
         [self.eventControl didClickPlayerViewProgressSlider:sender];
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -255,7 +285,7 @@
     CGPoint touchLocation = [tap locationInView:self.progressSlider];
     CGFloat value = (self.progressSlider.maximumValue - self.progressSlider.minimumValue) * (touchLocation.x/self.progressSlider.frame.size.width);
     [self.progressSlider setValue:value animated:YES];
-    if ([self eventControlCanCall:@selector(didTapPlayerViewProgressSlider:)]) {
+    if (_delegateFlags.tapProgressSlider) {
         [self.eventControl didTapPlayerViewProgressSlider:self.progressSlider];
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -265,14 +295,14 @@
 
 - (void)didClickPlayerControlButton:(UIButton *)sender
 {
-    if ([self eventControlCanCall:@selector(didClickPlayerViewPlayerControlButton:)]) {
+    if (_delegateFlags.clickPlayerControlBtn) {
         [self.eventControl didClickPlayerViewPlayerControlButton:sender];
     }
 }
 
 - (void)colseTheVideo:(UIButton *)sender
 {
-    if ([self eventControlCanCall:@selector(didClickPlayerViewCloseButton:)]) {
+    if (_delegateFlags.clickCloseBtn) {
         [self.eventControl didClickPlayerViewCloseButton:sender];
     }
 }
@@ -284,11 +314,6 @@
 #pragma mark -
 
 #pragma mark - HelperMethod
-- (BOOL)eventControlCanCall:(SEL)method
-{
-    return [self.eventControl conformsToProtocol:@protocol(YCPlayerViewEventControlDelegate)] && [self.eventControl respondsToSelector:method];
-}
-
 - (NSBundle *)currentBundle
 {
     NSURL *bundleURL = [[NSBundle mainBundle] URLForResource:@"YCPlayerManager" withExtension:@"bundle"];
