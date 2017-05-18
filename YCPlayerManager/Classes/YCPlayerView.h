@@ -75,6 +75,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 
 @required
+
+- (void)resetPlayerView;
+
 // UIComponent target selector
 /** 开始拖拽*/
 - (void)didStartDragProgressSlider:(UISlider *)sender;
@@ -104,6 +107,12 @@ NS_ASSUME_NONNULL_BEGIN
  *  @param Paused 是否为暂停状态
  */
 - (void)setPlayerControlStatusPaused:(BOOL)Paused;
+
+/**
+ *  初始化视图
+ *
+ */
+- (void)setupUI;
 
 /**
  *  更新YCPlayerView的布局

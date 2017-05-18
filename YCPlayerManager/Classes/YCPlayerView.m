@@ -55,7 +55,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
     self = [super init];
     if (self) {
         self.player = player;
-        [self _setUpUI];
+        [self setupUI];
     }
     return self;
 }
@@ -64,7 +64,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self _setUpUI];
+        [self setupUI];
         [self setUpLayoutWithFrame:frame];
     }
     return self;
@@ -74,7 +74,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 {
     self = [super initWithCoder:coder];
     if (self) {
-        [self _setUpUI];
+        [self setupUI];
         [self setUpLayoutWithFrame:self.frame];
     }
     return self;
@@ -82,7 +82,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 #pragma mark -
 
 #pragma mark - UI&Layout
-- (void)_setUpUI
+- (void)setupUI
 {
     [self addSubview:self.loadingView];
     
@@ -178,7 +178,13 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 }
 
 #pragma mark - UIEventRelated
-- (void)setplayer:(YCPlayer *)player
+- (void)resetPlayerView
+{
+    [self removeFromSuperview];
+//    self.eventControl = nil;
+}
+
+- (void)setPlayer:(YCPlayer *)player
 {
     _player = player;
     [self.playerLayer removeFromSuperlayer];
@@ -236,7 +242,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
     _currentTime = currentTime;
     [self setCurrentTimeTextWithTime:currentTime];
     if (!_isProgerssSliderActivity) {
-        self.progressSlider.value = currentTime / self.duration;   
+        self.progressSlider.value = currentTime / self.duration;
     }
 }
 
