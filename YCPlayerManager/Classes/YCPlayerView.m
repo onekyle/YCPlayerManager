@@ -20,6 +20,9 @@ struct YCPlayerViewDelegateFlags {
 typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 
 @interface YCPlayerView ()
+{
+    BOOL _isResponsingSlider;
+}
 @property (nonatomic, assign) YCPlayerViewDelegateFlags delegateFlags;
 @end
 
@@ -273,13 +276,18 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 - (void)didStartDragProgressSlider:(UISlider *)sender
 {
     _isProgerssSliderActivity = YES;
+    _isResponsingSlider = YES;
 }
 
 - (void)didClickProgressSlider:(UISlider *)sender
 {
+    if (!_isResponsingSlider) {
+        return;
+    }
     if (_delegateFlags.clickProgressSlider) {
         _isProgerssSliderActivity = YES;
         [self.eventControl didClickPlayerViewProgressSlider:sender];
+        _isResponsingSlider = NO;
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _isProgerssSliderActivity = NO;
@@ -288,7 +296,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 
 - (void)didTapProgerssSlider:(UIGestureRecognizer *)tap
 {
-    if (_isProgerssSliderActivity) {
+    if (_isResponsingSlider) {
         return;
     }
     _isProgerssSliderActivity = YES;
@@ -297,6 +305,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
     [self.progressSlider setValue:value animated:YES];
     if (_delegateFlags.tapProgressSlider) {
         [self.eventControl didTapPlayerViewProgressSlider:self.progressSlider];
+        _isResponsingSlider = NO;
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         _isProgerssSliderActivity = NO;

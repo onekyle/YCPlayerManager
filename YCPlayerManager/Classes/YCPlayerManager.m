@@ -111,13 +111,17 @@ static YCPlayerManager *playerManager;
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
 {
     [self.player.currentItem cancelPendingSeeks];
-    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
+    Float64 seconds = sender.value * self.duration;
+    NSLog(@"seconds : %.3f, value: %.3f, sender: %d-1111111",seconds,sender.value, sender.tracking);
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.player.currentItem.currentTime.timescale)];
 }
 
 - (void)didTapPlayerViewProgressSlider:(UISlider *)sender
 {
     [self.player.currentItem cancelPendingSeeks];
-    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
+    Float64 seconds = sender.value * self.duration;
+    NSLog(@"seconds : %.3f, value: %.3f, sender: %d-2222222",seconds,sender.value, sender.tracking);
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.player.currentItem.currentTime.timescale)];
     if (self.metaPlayer.rate == 0.f) {
         [self play];
     }
