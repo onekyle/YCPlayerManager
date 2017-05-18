@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
-@interface YCPlayerManager : NSObject
+@interface YCPlayerManager : NSObject <YCPlayerDelegate>
 
 @property (nonatomic, strong, readonly) YCPlayer *player;
 
@@ -46,6 +46,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 @property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
 
+- (BOOL)playerIsPlayingURLString:(NSString *)URLString;
 
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)notification YC_REQUIRES_SUPER;
 

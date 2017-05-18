@@ -10,7 +10,7 @@
 
 NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNotificationKey";
 
-@interface YCPlayerManager () <YCPlayerDelegate,YCPlayerViewEventControlDelegate>
+@interface YCPlayerManager () <YCPlayerViewEventControlDelegate>
 - (AVPlayer *)metaPlayer;
 @end
 
@@ -111,21 +111,23 @@ static YCPlayerManager *playerManager;
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
 {
     [self.player.currentItem cancelPendingSeeks];
-    Float64 seconds = sender.value * self.duration;
-    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.player.currentItem.currentTime.timescale)];
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
 }
 
 - (void)didTapPlayerViewProgressSlider:(UISlider *)sender
 {
     [self.player.currentItem cancelPendingSeeks];
-    Float64 seconds = sender.value * self.duration;
-    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.player.currentItem.currentTime.timescale)];
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
     if (self.metaPlayer.rate == 0.f) {
         [self play];
     }
 }
 #pragma mark -
 
+- (BOOL)playerIsPlayingURLString:(NSString *)URLString
+{
+    return [self.mediaURLString isEqualToString:URLString] && !self.isPaused;
+}
 
 #pragma mark - YCPlayerDelegate
 
@@ -194,7 +196,8 @@ static YCPlayerManager *playerManager;
 - (void)setPlayerView:(UIView<YCPlayerViewComponentDelegate> *)playerView
 {
     if (_playerView != playerView) {
-        [_playerView removeFromSuperview];
+//        [_playerView removeFromSuperview];
+        [_playerView resetPlayerView];
         _playerView = playerView;
         _playerView.eventControl = self;
         _playerView.player = _player;
