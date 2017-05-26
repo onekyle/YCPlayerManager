@@ -39,6 +39,9 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 - (void)play;
 - (void)pause;
 - (void)stop;
+- (void)seekToTime:(NSTimeInterval)targetTime;
+
+- (BOOL)isControllable;
 
 @property (NS_NONATOMIC_IOSONLY, getter=isPaused, readonly) BOOL paused;
 

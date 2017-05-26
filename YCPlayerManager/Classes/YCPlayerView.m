@@ -107,9 +107,9 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
     
     //loadingProgress
     [self.bottomView insertSubview:self.loadingProgress belowSubview:self.progressSlider];
-
+    
     [self.bottomView addSubview:self.leftTimeLabel];
-
+    
     [self.bottomView addSubview:self.rightTimeLabel];
 }
 
@@ -184,7 +184,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 - (void)resetPlayerView
 {
     [self removeFromSuperview];
-//    self.eventControl = nil;
+    //    self.eventControl = nil;
 }
 
 - (void)setPlayer:(YCPlayer *)player
@@ -208,6 +208,13 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
             [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;
+        case YCPlayerStatustransitioning:
+            [self.loadingView startAnimating];
+            self.duration = 0.001;
+            self.currentTime = 0.0;
+            [self.playerLayer removeFromSuperlayer];
+            [self setPlayerControlStatusPaused:YES];
+            break;
         case YCPlayerStatusBuffering:
             [self.loadingView startAnimating];
             [self setPlayerControlStatusPaused:YES];
@@ -216,12 +223,16 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
             [self.loadingView stopAnimating];
             self.duration = self.player.duration;
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-                [self setPlayerControlStatusPaused:NO];
+                if (!self.player.isPaused) {
+                    [self setPlayerControlStatusPaused:NO];
+                }
             }
             break;
         case YCPlayerStatusPlaying:
             [self.loadingView stopAnimating];
-            [self setPlayerControlStatusPaused:NO];
+            if (!self.player.isPaused) {
+                [self setPlayerControlStatusPaused:NO];
+            }
             break;
         case YCPlayerStatusPause:
             [self.loadingView stopAnimating];
@@ -260,6 +271,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
         return;
     }
     _duration = duration;
+    self.progressSlider.userInteractionEnabled = duration > 0.01;
     [self setDurationTimeTextWithTime:duration];
 }
 
@@ -338,7 +350,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
     NSURL *bundleURL = [[NSBundle mainBundle] URLForResource:@"YCPlayerManager" withExtension:@"bundle"];
     NSBundle *bundle = nil;
     if (bundleURL) {
-         bundle = [NSBundle bundleWithURL:bundleURL];
+        bundle = [NSBundle bundleWithURL:bundleURL];
     }
     return bundle;
 }
@@ -448,11 +460,12 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
         _progressSlider.maximumTrackTintColor = [UIColor clearColor];
         _progressSlider.value = 0.0;//指定初始值
         
+        UITapGestureRecognizer *progerssSliderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapProgerssSlider:)];
+        [_progressSlider addGestureRecognizer:progerssSliderTap];
         [_progressSlider addTarget:self action:@selector(didStartDragProgressSlider:)  forControlEvents:UIControlEventValueChanged];
         [_progressSlider addTarget:self action:@selector(didClickProgressSlider:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchUpOutside];
         
-        UITapGestureRecognizer *progerssSliderTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapProgerssSlider:)];
-        [_progressSlider addGestureRecognizer:progerssSliderTap];
+        
         
         _progressSlider.backgroundColor = [UIColor clearColor];
     }

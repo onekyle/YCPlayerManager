@@ -11,7 +11,11 @@
 NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNotificationKey";
 
 @interface YCPlayerManager () <YCPlayerViewEventControlDelegate>
+
+@property (nonatomic, copy) NSString *pausedMediaURLString;
+
 - (AVPlayer *)metaPlayer;
+- (BOOL)hasPausedByManual;
 @end
 
 @implementation YCPlayerManager
@@ -66,30 +70,52 @@ static YCPlayerManager *playerManager;
 #pragma mark - ControlEvent
 - (void)play
 {
+    if (!self.isControllable) {
+        return;
+    }
     if ([self currentTime] == [self duration]) {
         self.playerView.currentTime = 0.f;
     }
 //    [self.playerView setPlayerControlStatusPaused:NO];
+    self.pausedMediaURLString = nil;
     [self.metaPlayer play];
 }
 
 - (void)pause
 {
 //    [self.playerView setPlayerControlStatusPaused:YES];
+    if (!self.isControllable) {
+        return;
+    }
+    self.pausedMediaURLString = self.mediaURLString;
     [self.metaPlayer pause];
 }
 
 - (void)stop
 {
     self.metaPlayer.rate = 0.0;
+    self.pausedMediaURLString = nil;
     self.mediaURLString = nil;
     self.player.mediaURLString = nil;
-    [self player:self.player didChangeStatus:YCPlayerStatusStopped];
+    [self player:self.player didChangeToStatus:YCPlayerStatusStopped fromStatus:self.player.status];
+}
+    
+- (void)seekToTime:(NSTimeInterval)targetTime
+{
+    if (targetTime >= 0 && targetTime < self.duration) {
+        [self.player.currentItem cancelPendingSeeks];
+        [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(targetTime, self.player.currentItem.currentTime.timescale) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+    }
 }
 
 - (BOOL)isPaused
 {
     return self.metaPlayer.rate == 0.0;
+}
+
+- (BOOL)isControllable
+{
+    return self.player.status != YCPlayerStatustransitioning && self.player.isPlayable;
 }
 #pragma mark -
 
@@ -111,18 +137,14 @@ static YCPlayerManager *playerManager;
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
 {
     [self.player.currentItem cancelPendingSeeks];
-    Float64 seconds = sender.value * self.duration;
-    NSLog(@"seconds : %.3f, value: %.3f, sender: %d-1111111",seconds,sender.value, sender.tracking);
-    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.player.currentItem.currentTime.timescale)];
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
 }
 
 - (void)didTapPlayerViewProgressSlider:(UISlider *)sender
 {
     [self.player.currentItem cancelPendingSeeks];
-    Float64 seconds = sender.value * self.duration;
-    NSLog(@"seconds : %.3f, value: %.3f, sender: %d-2222222",seconds,sender.value, sender.tracking);
-    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(seconds, self.player.currentItem.currentTime.timescale)];
-    if (self.metaPlayer.rate == 0.f) {
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
+    if (self.isPaused == 0.f) {
         [self play];
     }
 }
@@ -146,14 +168,19 @@ static YCPlayerManager *playerManager;
     [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
 /** 播放状态*/
-- (void)player:(YCPlayer *)player didChangeStatus:(YCPlayerStatus)status
+- (void)player:(YCPlayer *)player didChangeToStatus:(YCPlayerStatus)status fromStatus:(YCPlayerStatus)fromStatus
 {
-    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
-        [player.metaPlayer play];
-    }
-    
     self.playerView.playerStatus = status;
     [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
+    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        if (!self.hasPausedByManual) {
+            [player.metaPlayer play];
+        }
+    } else if (fromStatus == YCPlayerStatusBuffering && status == YCPlayerStatusPlaying) {
+        if (!self.hasPausedByManual) {
+            [self play];
+        }
+    }
 }
 #pragma mark -
 
@@ -212,8 +239,12 @@ static YCPlayerManager *playerManager;
 {
     if (![_mediaURLString isEqualToString:mediaURLString]) {
         _mediaURLString = [mediaURLString copy];
-        self.player.mediaURLString = _mediaURLString;
-        self.playerView.player = self.player;
+        self.pausedMediaURLString = nil;
+        
+//        self.player.mediaURLString = _mediaURLString;
+        [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:^{
+            self.playerView.player = self.player;
+        }];
     }
 }
 #pragma mark -
@@ -226,12 +257,20 @@ static YCPlayerManager *playerManager;
 
 - (NSTimeInterval)currentTime
 {
+    if (self.player.status == YCPlayerStatustransitioning) {
+        return 0.0;
+    }
     return CMTimeGetSeconds([self.metaPlayer currentTime]);
 }
 
 - (NSTimeInterval)duration
 {
     return self.player.duration;
+}
+
+- (BOOL)hasPausedByManual
+{
+    return [self.pausedMediaURLString isEqualToString:self.mediaURLString];
 }
 #pragma mark -
 

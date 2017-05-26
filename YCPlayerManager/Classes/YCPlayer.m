@@ -59,7 +59,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 {
     self = [super init];
     if (self) {
-        self.mediaURLString = mediaURLString;
+        [self startPlayingWithMediaURLString:mediaURLString completionHandler:nil];
     }
     return self;
 }
@@ -75,7 +75,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     if ([playerDelegate conformsToProtocol:@protocol(YCPlayerDelegate)]) {
         _delegateFlags.playPeriodicTimeChanged = [playerDelegate respondsToSelector:@selector(player:playPeriodicTimeChangeTo:)];
         _delegateFlags.bufferingLoaded = [playerDelegate respondsToSelector:@selector(player:bufferingWithCurrentLoadedTime:duration:)];
-        _delegateFlags.statusChanged = [playerDelegate respondsToSelector:@selector(player:didChangeStatus:)];
+        _delegateFlags.statusChanged = [playerDelegate respondsToSelector:@selector(player:didChangeToStatus:fromStatus:)];
     } else {
         _delegateFlags.playPeriodicTimeChanged = NO;
         _delegateFlags.bufferingLoaded = NO;
@@ -83,19 +83,67 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     }
 }
 
-- (void)setMediaURLString:(NSString *)mediaURLString
+//- (void)setMediaURLString:(NSString *)mediaURLString
+//{
+//    _mediaURLString = [mediaURLString copy];
+//    if (mediaURLString == nil) {
+//        return;
+//    }
+//    AVAsset *asset = [self getAssetWithURLString:_mediaURLString];
+//    [asset loadValuesAsynchronouslyForKeys:@[@"duration"] completionHandler:^{
+//        
+//    }];
+//    self.currentItem = [self getPlayItemWithURLString:_mediaURLString];
+//    if (!_metaPlayer && _currentItem) {
+//        _metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:_currentItem];
+//        _metaPlayer.owner = self;
+//        _metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
+//        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_metaPlayer];
+//    }
+//    if (_mediaURLString) {
+//        self.status = YCPlayerStatusBuffering;
+//    }
+//}
+
+- (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(void(^)())completionHandler
 {
     _mediaURLString = [mediaURLString copy];
-    self.currentItem = [self getPlayItemWithURLString:_mediaURLString];
-    if (!_metaPlayer && _currentItem) {
-        _metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:_currentItem];
-        _metaPlayer.owner = self;
-        _metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
-        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_metaPlayer];
+    [self.metaPlayer pause];
+    self.status = YCPlayerStatustransitioning;
+    [self.currentItem.asset cancelLoading];
+    self.currentItem = nil;
+    if (mediaURLString == nil) {
+        return;
     }
-    if (_mediaURLString) {
-        self.status = YCPlayerStatusBuffering;
-    }
+    
+    AVAsset *asset = [self getAssetWithURLString:_mediaURLString];
+    __weak typeof(self) weakSelf = self;
+    [asset loadValuesAsynchronouslyForKeys:@[@"duration"] completionHandler:^{
+        AVKeyValueStatus status = [asset statusOfValueForKey:@"duration" error:nil];
+        if (status == AVKeyValueStatusLoaded) {
+            weakSelf.currentItem = [AVPlayerItem playerItemWithAsset:asset];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if (!strongSelf->_metaPlayer && strongSelf->_currentItem) {
+                strongSelf->_metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:strongSelf->_currentItem];
+                strongSelf->_metaPlayer.owner = weakSelf;
+                strongSelf->_metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
+                strongSelf->_currentLayer = [AVPlayerLayer playerLayerWithPlayer:strongSelf->_metaPlayer];
+            }
+            if (strongSelf->_mediaURLString) {
+                weakSelf.status = YCPlayerStatusBuffering;
+            }
+            if (completionHandler) {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    completionHandler();
+                });
+            }
+        } else if (status == AVKeyValueStatusFailed) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                weakSelf.status = YCPlayerStatusFailed;
+            });
+        }
+    }];
+    
 }
 
 - (void)setCurrentItem:(AVPlayerItem *)currentItem
@@ -122,18 +170,19 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
         for (NSString *keyPathStr in [YCPlayer observerKeyPathArray]) {
             [_currentItem addObserver:self forKeyPath:keyPathStr options:NSKeyValueObservingOptionNew context:YCPlayerStatusObservationContext];
         }
-        
         [self.metaPlayer replaceCurrentItemWithPlayerItem:_currentItem];
         _currentLayer = [AVPlayerLayer playerLayerWithPlayer:self.metaPlayer];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
+        
     }
 }
 
 - (void)setStatus:(YCPlayerStatus)status
 {
+    YCPlayerStatus oldStatus = _status;
     _status = status;
     if (_delegateFlags.statusChanged) {
-        [_playerDelegate player:self didChangeStatus:status];
+        [_playerDelegate player:self didChangeToStatus:status fromStatus:oldStatus];
     }
 }
 
@@ -188,18 +237,17 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     _currentLayer = nil;
 }
 
-- (AVPlayerItem *)getPlayItemWithURLString:(NSString *)url
+- (AVAsset *)getAssetWithURLString:(NSString *)url
 {
     if (!url.length) {
         return nil;
     }
     if ([url rangeOfString:@"http"].location != NSNotFound) {
-        AVPlayerItem *playerItem=[AVPlayerItem playerItemWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-        return playerItem;
+        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        return asset;
     } else {
-        AVAsset *movieAsset  = [[AVURLAsset alloc]initWithURL:[NSURL fileURLWithPath:url] options:nil];
-        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithAsset:movieAsset];
-        return playerItem;
+        AVAsset *asset  = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:url]];
+        return asset;
     }
 }
 
@@ -290,6 +338,16 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 - (NSTimeInterval)duration
 {
     return CMTimeGetSeconds(self.playerItemDuration);
+}
+
+- (BOOL)isPaused
+{
+    return _metaPlayer.rate == 0.0;
+}
+
+- (BOOL)isPlayable
+{
+    return self.currentItem == self.metaPlayer.currentItem;
 }
 
 + (NSArray *)observerKeyPathArray

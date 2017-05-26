@@ -32,7 +32,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithMediaURLString:(NSString *)mediaURLString NS_DESIGNATED_INITIALIZER;
 
+- (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void(^)())completionHandler;
+
 @property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
+
+- (BOOL)isPaused;
+
+- (BOOL)isPlayable;
 @end
 
 

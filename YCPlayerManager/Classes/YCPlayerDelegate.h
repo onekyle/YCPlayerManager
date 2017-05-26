@@ -15,6 +15,8 @@
 typedef NS_ENUM(NSInteger, YCPlayerStatus) {
     /** 播放失败*/
     YCPlayerStatusFailed = -1,
+    /** 切换播放源中, 一般用于移除旧视图, 将时间及各种状态复位*/
+    YCPlayerStatustransitioning,
     /** 缓冲中*/
     YCPlayerStatusBuffering,
     /** 将要播放*/
@@ -39,7 +41,7 @@ typedef NS_ENUM(NSInteger, YCPlayerStatus) {
 /** 缓存进度*/
 - (void)player:(YCPlayer *)player bufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration;
 /** 播放状态*/
-- (void)player:(YCPlayer *)player didChangeStatus:(YCPlayerStatus)status;
+- (void)player:(YCPlayer *)player didChangeToStatus:(YCPlayerStatus)status fromStatus:(YCPlayerStatus)fromStatus;
 
 @end
 
