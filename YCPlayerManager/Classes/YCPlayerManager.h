@@ -19,7 +19,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 @property (nonatomic, strong, readonly) YCPlayer *player;
 
-@property (nonatomic, copy, nullable) NSString *mediaURLString;
+@property (nonatomic, copy, readonly, nullable) NSString *mediaURLString;
 
 @property (nonatomic, strong, nullable) UIView<YCPlayerViewComponentDelegate> *playerView;
 
@@ -34,6 +34,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 - (instancetype)initWithplayer:(nullable YCPlayer *)player playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView NS_DESIGNATED_INITIALIZER;
 
+- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler;
 
 // control
 - (void)play;

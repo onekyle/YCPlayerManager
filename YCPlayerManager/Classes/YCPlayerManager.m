@@ -68,6 +68,23 @@ static YCPlayerManager *playerManager;
 #pragma mark -
 
 #pragma mark - ControlEvent
+
+- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler
+{
+    if (![_mediaURLString isEqualToString:mediaURLString]) {
+        _mediaURLString = [mediaURLString copy];
+        _pausedMediaURLString = nil;
+        
+        //        self.player.mediaURLString = _mediaURLString;
+        [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:^{
+            self.playerView.player = self.player;
+            if (completionHandler) {
+                completionHandler();
+            }
+        }];
+    }
+}
+
 - (void)play
 {
     if (!self.isControllable) {
@@ -87,7 +104,7 @@ static YCPlayerManager *playerManager;
     if (!self.isControllable) {
         return;
     }
-    self.pausedMediaURLString = self.mediaURLString;
+    _pausedMediaURLString = _mediaURLString;
     [self.metaPlayer pause];
 }
 
@@ -152,7 +169,7 @@ static YCPlayerManager *playerManager;
 
 - (BOOL)playerIsPlayingURLString:(NSString *)URLString
 {
-    return [self.mediaURLString isEqualToString:URLString] && !self.isPaused;
+    return [_mediaURLString isEqualToString:URLString] && !self.isPaused;
 }
 
 #pragma mark - YCPlayerDelegate
@@ -270,7 +287,7 @@ static YCPlayerManager *playerManager;
 
 - (BOOL)hasPausedByManual
 {
-    return [self.pausedMediaURLString isEqualToString:self.mediaURLString];
+    return [_pausedMediaURLString isEqualToString:_mediaURLString];
 }
 #pragma mark -
 
