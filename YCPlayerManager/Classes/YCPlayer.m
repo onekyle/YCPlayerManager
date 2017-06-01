@@ -63,11 +63,16 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 @implementation YCPlayer
 @synthesize metaPlayer = _metaPlayer;
 
-- (instancetype)initWithMediaURLString:(NSString *)mediaURLString
+- (instancetype)init
 {
     self = [super init];
     if (self) {
-        [self startPlayingWithMediaURLString:mediaURLString completionHandler:nil];
+        _metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:nil];
+        _metaPlayer.owner = self;
+        _metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
+        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_metaPlayer];
+        _currentLayer.backgroundColor = [UIColor blackColor].CGColor;
+        _status = YCPlayerStatusUnKnown;
     }
     return self;
 }
@@ -151,15 +156,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
         for (NSString *keyPathStr in [YCPlayer observerKeyPathArray]) {
             [_currentItem addObserver:self forKeyPath:keyPathStr options:NSKeyValueObservingOptionNew context:YCPlayerStatusObservationContext];
         }
-        if (!_metaPlayer) {
-            _metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:_currentItem];
-            _metaPlayer.owner = self;
-            _metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
-        } else {
-            [_metaPlayer replaceCurrentItemWithPlayerItem:_currentItem];
-        }
-        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_metaPlayer];
-        _currentLayer.backgroundColor = [UIColor blackColor].CGColor;
+        [_metaPlayer replaceCurrentItemWithPlayerItem:_currentItem];
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
         
     }

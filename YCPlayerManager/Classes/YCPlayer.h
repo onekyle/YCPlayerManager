@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL hasCorrectFalg;
 
 
-- (instancetype)initWithMediaURLString:(NSString *)mediaURLString NS_DESIGNATED_INITIALIZER;
+- (instancetype)init;
 
 - (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void(^)())completionHandler;
 

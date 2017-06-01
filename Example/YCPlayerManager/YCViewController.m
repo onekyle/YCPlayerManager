@@ -20,6 +20,8 @@ CGFloat kTopMargin = 0;
 @property (nonatomic, strong) UITableView *contentView;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, strong) NSMutableArray <NSArray *>*dataArray;
+@property (nonatomic, strong) AVPlayer *player;
+
 @end
 
 @implementation YCViewController
@@ -48,10 +50,6 @@ CGFloat kTopMargin = 0;
     
     _playerManager = [[YCPlayerManager alloc] init];
     _playerManager.enableBackgroundPlay = YES;
-    _playerManager.mediaURLString = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
-    _playerManager.playerView.frame = CGRectMake(0, 20, kScreenWidth, kScreenWidth);
-    _playerLayer = _playerManager.player.currentLayer;
-    _playerLayer.backgroundColor = [UIColor blackColor].CGColor;
 
     _contentView = [[UITableView alloc] initWithFrame:self.view.bounds];
     _contentView.dataSource = self;
@@ -219,14 +217,11 @@ CGFloat kTopMargin = 0;
         if (!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:model.reuseidentity];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            //        AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:_player];
-            _playerLayer.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
-            [cell.contentView.layer addSublayer:_playerLayer];
-            cell.backgroundColor = [UIColor blackColor];
-            [cell.contentView addSubview:_playerManager.playerView];
+            NSString *mediaURLString = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
             _playerManager.playerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
-            //        [_player play];
-            [_playerManager play];
+            [_playerManager playWithMediaURLString:mediaURLString completionHandler:nil];
+            [cell.contentView addSubview:_playerManager.playerView];
+            cell.backgroundColor = [UIColor blackColor];
         }
     } else {
         if (!cell) {
@@ -237,5 +232,12 @@ CGFloat kTopMargin = 0;
         cell.detailTextLabel.text = model.detailTitle;
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIViewController *vc = [UIViewController new];
+    vc.view.backgroundColor = [UIColor orangeColor];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 @end
