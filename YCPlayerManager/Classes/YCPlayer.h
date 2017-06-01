@@ -29,17 +29,15 @@ NS_ASSUME_NONNULL_BEGIN
 /** background play related*/
 @property (nonatomic, assign) BOOL hasCorrectFalg;
 
+@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval currentTime;
+@property (NS_NONATOMIC_IOSONLY, getter=isPaused, readonly) BOOL paused;
+@property (NS_NONATOMIC_IOSONLY, getter=isPlayable, readonly) BOOL playable;
 
 - (instancetype)init;
 
 - (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void(^)())completionHandler;
 
-@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
-@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval currentTime;
-
-- (BOOL)isPaused;
-
-- (BOOL)isPlayable;
 @end
 
 

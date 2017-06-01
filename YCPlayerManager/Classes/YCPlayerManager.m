@@ -90,7 +90,7 @@ static YCPlayerManager *playerManager;
     if (!self.isControllable) {
         return;
     }
-    if ([self currentTime] == [self duration]) {
+    if (self.currentTime == self.duration) {
         self.playerView.currentTime = 0.f;
     }
 //    [self.playerView setPlayerControlStatusPaused:NO];

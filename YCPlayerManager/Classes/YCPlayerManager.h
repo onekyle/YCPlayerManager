@@ -34,6 +34,8 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 @property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
 
+@property (NS_NONATOMIC_IOSONLY, getter=isControllable, readonly) BOOL controllable;
+
 
 + (instancetype)shareManager;
 
@@ -46,8 +48,6 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 - (void)pause;
 - (void)stop;
 - (void)seekToTime:(NSTimeInterval)targetTime;
-
-- (BOOL)isControllable;
 
 - (BOOL)playerIsPlayingURLString:(NSString *)URLString;
 
