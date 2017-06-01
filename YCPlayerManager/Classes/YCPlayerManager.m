@@ -114,7 +114,7 @@ static YCPlayerManager *playerManager;
     self.pausedMediaURLString = nil;
     self.mediaURLString = nil;
     self.player.mediaURLString = nil;
-    [self player:self.player didChangeToStatus:YCPlayerStatusStopped fromStatus:self.player.status];
+    self.player.status = YCPlayerStatusStopped;
 }
     
 - (void)seekToTime:(NSTimeInterval)targetTime
@@ -132,7 +132,7 @@ static YCPlayerManager *playerManager;
 
 - (BOOL)isControllable
 {
-    return self.player.status != YCPlayerStatustransitioning && self.player.isPlayable;
+    return  self.player.status == YCPlayerStatusStopped || (self.player.status != YCPlayerStatustransitioning && self.player.isPlayable);
 }
 #pragma mark -
 
@@ -277,7 +277,7 @@ static YCPlayerManager *playerManager;
     if (self.player.status == YCPlayerStatustransitioning) {
         return 0.0;
     }
-    return CMTimeGetSeconds([self.metaPlayer currentTime]);
+    return self.player.currentTime;
 }
 
 - (NSTimeInterval)duration

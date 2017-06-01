@@ -28,6 +28,11 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 // background related
 @property (nonatomic, assign, getter=isEnableBackgroundPlay) BOOL enableBackgroundPlay;
 
+@property (NS_NONATOMIC_IOSONLY, getter=isPaused, readonly) BOOL paused;
+
+@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval currentTime;
+
+@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
 
 
 + (instancetype)shareManager;
@@ -43,12 +48,6 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 - (void)seekToTime:(NSTimeInterval)targetTime;
 
 - (BOOL)isControllable;
-
-@property (NS_NONATOMIC_IOSONLY, getter=isPaused, readonly) BOOL paused;
-
-@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval currentTime;
-
-@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
 
 - (BOOL)playerIsPlayingURLString:(NSString *)URLString;
 

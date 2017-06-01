@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void(^)())completionHandler;
 
 @property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
+@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval currentTime;
 
 - (BOOL)isPaused;
 

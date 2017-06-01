@@ -23,6 +23,14 @@
     }
 }
 
+- (void)pauseWithNoChangeStatus
+{
+    YCPlayer *owner = _owner;
+    _owner = nil;
+    [self pause];
+    _owner = owner;
+}
+
 - (void)play
 {
     [super play];
@@ -83,32 +91,10 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     }
 }
 
-//- (void)setMediaURLString:(NSString *)mediaURLString
-//{
-//    _mediaURLString = [mediaURLString copy];
-//    if (mediaURLString == nil) {
-//        return;
-//    }
-//    AVAsset *asset = [self getAssetWithURLString:_mediaURLString];
-//    [asset loadValuesAsynchronouslyForKeys:@[@"duration"] completionHandler:^{
-//        
-//    }];
-//    self.currentItem = [self getPlayItemWithURLString:_mediaURLString];
-//    if (!_metaPlayer && _currentItem) {
-//        _metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:_currentItem];
-//        _metaPlayer.owner = self;
-//        _metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
-//        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_metaPlayer];
-//    }
-//    if (_mediaURLString) {
-//        self.status = YCPlayerStatusBuffering;
-//    }
-//}
-
 - (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(void(^)())completionHandler
 {
     _mediaURLString = [mediaURLString copy];
-    [self.metaPlayer pause];
+    [_metaPlayer pauseWithNoChangeStatus];
     self.status = YCPlayerStatustransitioning;
     [self.currentItem.asset cancelLoading];
     self.currentItem = nil;
@@ -119,29 +105,24 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     AVAsset *asset = [self getAssetWithURLString:_mediaURLString];
     __weak typeof(self) weakSelf = self;
     [asset loadValuesAsynchronouslyForKeys:@[@"duration"] completionHandler:^{
-        AVKeyValueStatus status = [asset statusOfValueForKey:@"duration" error:nil];
-        if (status == AVKeyValueStatusLoaded) {
-            weakSelf.currentItem = [AVPlayerItem playerItemWithAsset:asset];
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (!strongSelf->_metaPlayer && strongSelf->_currentItem) {
-                strongSelf->_metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:strongSelf->_currentItem];
-                strongSelf->_metaPlayer.owner = weakSelf;
-                strongSelf->_metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
-                strongSelf->_currentLayer = [AVPlayerLayer playerLayerWithPlayer:strongSelf->_metaPlayer];
-            }
-            if (strongSelf->_mediaURLString) {
-                weakSelf.status = YCPlayerStatusBuffering;
-            }
-            if (completionHandler) {
-                dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            AVKeyValueStatus status = [asset statusOfValueForKey:@"duration" error:nil];
+            if (status == AVKeyValueStatusLoaded) {
+                weakSelf.currentItem = [AVPlayerItem playerItemWithAsset:asset];
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+                if (strongSelf->_mediaURLString) {
+                    weakSelf.status = YCPlayerStatusBuffering;
+                }
+                if (completionHandler) {
                     completionHandler();
-                });
-            }
-        } else if (status == AVKeyValueStatusFailed) {
-            dispatch_sync(dispatch_get_main_queue(), ^{
+                }
+            } else if (status == AVKeyValueStatusFailed) {
+                [weakSelf.metaPlayer replaceCurrentItemWithPlayerItem:nil];
                 weakSelf.status = YCPlayerStatusFailed;
-            });
-        }
+            } else if (status == AVKeyValueStatusCancelled) {
+                [weakSelf.metaPlayer replaceCurrentItemWithPlayerItem:nil];
+            }
+        });
     }];
     
 }
@@ -154,8 +135,8 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     if (_currentItem) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
         @try {
-            [self.metaPlayer removeTimeObserver:self.playbackTimeObserver];
-            self.playbackTimeObserver = nil;
+            [_metaPlayer removeTimeObserver:_playbackTimeObserver];
+            _playbackTimeObserver = nil;
         } @catch (NSException *exception) {
             NSLog(@"func: %s, exception: %@",__func__,exception);
         }
@@ -170,8 +151,15 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
         for (NSString *keyPathStr in [YCPlayer observerKeyPathArray]) {
             [_currentItem addObserver:self forKeyPath:keyPathStr options:NSKeyValueObservingOptionNew context:YCPlayerStatusObservationContext];
         }
-        [self.metaPlayer replaceCurrentItemWithPlayerItem:_currentItem];
-        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:self.metaPlayer];
+        if (!_metaPlayer) {
+            _metaPlayer = [[_YCPrivatePlayer alloc] initWithPlayerItem:_currentItem];
+            _metaPlayer.owner = self;
+            _metaPlayer.usesExternalPlaybackWhileExternalScreenIsActive = YES;
+        } else {
+            [_metaPlayer replaceCurrentItemWithPlayerItem:_currentItem];
+        }
+        _currentLayer = [AVPlayerLayer playerLayerWithPlayer:_metaPlayer];
+        _currentLayer.backgroundColor = [UIColor blackColor].CGColor;
         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(moviePlayDidEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:_currentItem];
         
     }
@@ -220,17 +208,17 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 - (void)reset
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self.metaPlayer.currentItem cancelPendingSeeks];
-    [self.metaPlayer.currentItem.asset cancelLoading];
-    [self.metaPlayer pause];
+    [_metaPlayer.currentItem cancelPendingSeeks];
+    [_metaPlayer.currentItem.asset cancelLoading];
+    [_metaPlayer pause];
     
-    [self.metaPlayer removeTimeObserver:self.playbackTimeObserver];
+    [_metaPlayer removeTimeObserver:_playbackTimeObserver];
     //移除观察者
     for (NSString *keyPathStr in [YCPlayer observerKeyPathArray]) {
         [_currentItem removeObserver:self forKeyPath:keyPathStr];
     }
     
-    [self.metaPlayer replaceCurrentItemWithPlayerItem:nil];
+    [_metaPlayer replaceCurrentItemWithPlayerItem:nil];
     _metaPlayer = nil;
     _currentItem = nil;
     [_currentLayer removeFromSuperlayer];
@@ -258,15 +246,15 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     {
         return;
     }
-    if (self.playbackTimeObserver) {
+    if (_playbackTimeObserver) {
         @try {
-            [self.metaPlayer removeTimeObserver:self.playbackTimeObserver];
+            [_metaPlayer removeTimeObserver:_playbackTimeObserver];
         } @catch (NSException *exception) {
             NSLog(@"func: %s, exception: %@",__func__,exception);
         }
     }
     __weak typeof(self) weakSelf = self;
-    self.playbackTimeObserver =  [weakSelf.metaPlayer
+    _playbackTimeObserver =  [weakSelf.metaPlayer
                                   addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC)
                                   queue:dispatch_get_main_queue() /* If you pass NULL, the main queue is used. */
                                   usingBlock:^(CMTime time){
@@ -340,6 +328,11 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     return CMTimeGetSeconds(self.playerItemDuration);
 }
 
+- (NSTimeInterval)currentTime
+{
+    return CMTimeGetSeconds(_currentItem.currentTime);
+}
+
 - (BOOL)isPaused
 {
     return _metaPlayer.rate == 0.0;
@@ -347,7 +340,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 
 - (BOOL)isPlayable
 {
-    return self.currentItem == self.metaPlayer.currentItem;
+    return _currentItem == _metaPlayer.currentItem;
 }
 
 + (NSArray *)observerKeyPathArray
