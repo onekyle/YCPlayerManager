@@ -71,18 +71,32 @@ static YCPlayerManager *playerManager;
 
 - (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler
 {
+    [self playWithMediaURLString:mediaURLString completionHandler:completionHandler equivalentHandler:nil];
+}
+
+- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler equivalentHandler:(nullable void (^)())equivalentHandler
+{
     if (![_mediaURLString isEqualToString:mediaURLString]) {
         _mediaURLString = [mediaURLString copy];
         _pausedMediaURLString = nil;
         
         //        self.player.mediaURLString = _mediaURLString;
         [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:^{
-            self.playerView.player = self.player;
+            [self resetPlayerLayer];
             if (completionHandler) {
                 completionHandler();
             }
         }];
+    } else {
+        if (equivalentHandler) {
+            equivalentHandler();
+        }
     }
+}
+
+- (void)resetPlayerLayer
+{
+    self.playerView.player = self.player;
 }
 
 - (void)play
@@ -90,7 +104,7 @@ static YCPlayerManager *playerManager;
     if (!self.isControllable) {
         return;
     }
-    if (self.currentTime == self.duration) {
+    if ([self currentTime] == [self duration]) {
         self.playerView.currentTime = 0.f;
     }
 //    [self.playerView setPlayerControlStatusPaused:NO];
@@ -232,7 +246,7 @@ static YCPlayerManager *playerManager;
  {
      if (self.enableBackgroundPlay) {
          self.player.hasCorrectFalg = YES;
-         [self.player performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1];
+         [self.player performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1.5];
      } else {
          [self pause];
      }

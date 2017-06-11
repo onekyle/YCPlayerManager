@@ -98,19 +98,22 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 
 - (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(void(^)())completionHandler
 {
-    _mediaURLString = [mediaURLString copy];
     [_metaPlayer pauseWithNoChangeStatus];
     self.status = YCPlayerStatustransitioning;
+    _mediaURLString = [mediaURLString copy];
     [self.currentItem.asset cancelLoading];
     self.currentItem = nil;
     if (mediaURLString == nil) {
         return;
     }
     
-    AVAsset *asset = [self getAssetWithURLString:_mediaURLString];
+    AVURLAsset *asset = [self getAssetWithURLString:_mediaURLString];
     __weak typeof(self) weakSelf = self;
     [asset loadValuesAsynchronouslyForKeys:@[@"duration"] completionHandler:^{
         dispatch_sync(dispatch_get_main_queue(), ^{
+            if (![[weakSelf.mediaURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] isEqualToString:asset.URL.absoluteString]) {
+                return;
+            }
             AVKeyValueStatus status = [asset statusOfValueForKey:@"duration" error:nil];
             if (status == AVKeyValueStatusLoaded) {
                 weakSelf.currentItem = [AVPlayerItem playerItemWithAsset:asset];
@@ -222,16 +225,16 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     _currentLayer = nil;
 }
 
-- (AVAsset *)getAssetWithURLString:(NSString *)url
+- (AVURLAsset *)getAssetWithURLString:(NSString *)url
 {
     if (!url.length) {
         return nil;
     }
     if ([url rangeOfString:@"http"].location != NSNotFound) {
-        AVAsset *asset = [AVAsset assetWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         return asset;
     } else {
-        AVAsset *asset  = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:url]];
+        AVURLAsset *asset  = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:url]];
         return asset;
     }
 }
