@@ -9,6 +9,7 @@
 #import "YCViewController.h"
 #import <YCPlayerManager/YCPlayerManager.h>
 #import "YCNormalCellDataModel.h"
+#import "YCNormalVideoCell.h"
 
 CGFloat kTopMargin = 0;
 
@@ -48,7 +49,7 @@ CGFloat kTopMargin = 0;
         }
     }
     
-    _playerManager = [[YCPlayerManager alloc] init];
+    _playerManager = [YCPlayerManager shareManager];
     _playerManager.enableBackgroundPlay = YES;
 
     _contentView = [[UITableView alloc] initWithFrame:self.view.bounds];
@@ -56,12 +57,7 @@ CGFloat kTopMargin = 0;
     _contentView.delegate = self;
     _contentView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_contentView];
-    
-//    UIButton *rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-//    [rightBtn setTitle:@"click" forState:UIControlStateNormal];
-//    [rightBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-//    [rightBtn addTarget:self action:@selector(clickRight) forControlEvents:UIControlEventTouchUpInside];
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+
 }
 
 - (void)clickRight
@@ -76,6 +72,19 @@ CGFloat kTopMargin = 0;
     [super viewWillAppear:animated];
     kTopMargin = self.navigationController.navigationBarHidden ? 0 : 64;
     [self.contentView reloadData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    if (![self.navigationController.viewControllers containsObject:self]) {
+        [_playerManager stop];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -213,31 +222,35 @@ CGFloat kTopMargin = 0;
     NSInteger section = indexPath.section;
     YCNormalCellDataModel *model = _dataArray[section][indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:model.reuseidentity];
-    if (section == 0) {
-        if (!cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:model.reuseidentity];
+
+    if (!cell) {
+        if ([model.reuseidentity isEqualToString:@"video_cell"]) {
+            cell = [[YCNormalVideoCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:model.reuseidentity];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            NSString *mediaURLString = @"http://static.tripbe.com/videofiles/20121214/9533522808.f4v.mp4";
-            _playerManager.playerView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth);
+            NSString *mediaURLString = @"https://baobab.kaiyanapp.com/api/v1/playUrl?vid=20401&editionType=default&source=ucloud";
+            _playerManager.playerView = ((YCNormalVideoCell *)cell).playerView;
             [_playerManager playWithMediaURLString:mediaURLString completionHandler:nil];
-            [cell.contentView addSubview:_playerManager.playerView];
             cell.backgroundColor = [UIColor blackColor];
-        }
-    } else {
-        if (!cell) {
+        } else {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:model.reuseidentity];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.textLabel.text = model.title;
-        cell.detailTextLabel.text = model.detailTitle;
     }
+    cell.textLabel.text = model.title;
+    cell.detailTextLabel.text = model.detailTitle;
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    YCNormalCellDataModel *model = _dataArray[indexPath.section][indexPath.row];
+    if ([model.reuseidentity isEqualToString:@"video_cell"]) {
+        return;
+    }
     UIViewController *vc = [UIViewController new];
     vc.view.backgroundColor = [UIColor orangeColor];
+    vc.title = [NSString stringWithFormat:@"与%@的聊天",model.title];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

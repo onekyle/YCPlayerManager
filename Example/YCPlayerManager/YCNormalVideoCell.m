@@ -7,18 +7,34 @@
 //
 
 #import "YCNormalVideoCell.h"
+#import "YCNormalCellDataModel.h"
+
+@interface YCNormalVideoCell ()
+@property (nonatomic, strong, readwrite) YCVideoContentView *playerView;
+@end
 
 @implementation YCNormalVideoCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
+        [self.contentView addSubview:self.playerView];
+    }
+    return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    _playerView.frame = self.contentView.bounds;
+}
 
-    // Configure the view for the selected state
+- (YCVideoContentView *)playerView
+{
+    if (!_playerView) {
+        _playerView = [[YCVideoContentView alloc] init];
+    }
+    return _playerView;
 }
 
 @end

@@ -39,7 +39,23 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 - (instancetype)initWithplayer:(nullable YCPlayer *)player playerView:(nullable UIView <YCPlayerViewComponentDelegate>*)playerView NS_DESIGNATED_INITIALIZER;
 
+
+/**
+ 播放一个URL源.
+ 
+ @param mediaURLString URL源
+ @param completionHandler 加载完成的回调.
+ */
 - (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler;
+
+
+/**
+ 播放一个URL源.
+
+ @param mediaURLString URL源
+ @param completionHandler 加载完成的回调.
+ @param equivalentHandler 如果资源与旧资源相同的回调.
+ */
 - (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler equivalentHandler:(nullable void (^)())equivalentHandler;
 
 // control

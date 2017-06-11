@@ -80,7 +80,6 @@ static YCPlayerManager *playerManager;
         _mediaURLString = [mediaURLString copy];
         _pausedMediaURLString = nil;
         
-        //        self.player.mediaURLString = _mediaURLString;
         [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:^{
             [self resetPlayerLayer];
             if (completionHandler) {
@@ -203,11 +202,12 @@ static YCPlayerManager *playerManager;
 {
     self.playerView.playerStatus = status;
     [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
-    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+    
+    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) { // 当状态转变为准备播放 并且 app在前台时 才准许播放
         if (!self.hasPausedByManual) {
             [player.metaPlayer play];
         }
-    } else if (fromStatus == YCPlayerStatusBuffering && status == YCPlayerStatusPlaying) {
+    } else if (fromStatus == YCPlayerStatusBuffering && status == YCPlayerStatusPlaying) { //当状态由buffering转变为playing时
         if (!self.hasPausedByManual) {
             [self play];
         }
@@ -272,7 +272,6 @@ static YCPlayerManager *playerManager;
         _mediaURLString = [mediaURLString copy];
         self.pausedMediaURLString = nil;
         
-//        self.player.mediaURLString = _mediaURLString;
         [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:^{
             self.playerView.player = self.player;
         }];

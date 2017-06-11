@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface YCNormalCellDataModel : NSObject
+@property (nonatomic, copy) NSString *mediaURL;
 @property (nonatomic, copy) NSString *reuseidentity;
 @property (nonatomic, strong) UIColor *iconFake;
 //@property (nonatomic,strong) UIImage *iconImage;

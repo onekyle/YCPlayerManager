@@ -7,6 +7,7 @@
 //
 
 #import "YCVideoPlayerCell.h"
+#import "YCVideoCellDataModel.h"
 
 @interface YCVideoPlayerCell ()
 @property (nonatomic, strong) CALayer *coverLayer;
@@ -22,6 +23,11 @@
         [self _setUpUI];
     }
     return self;
+}
+
+- (void)setData:(YCVideoCellDataModel *)data
+{
+    _data = data;
 }
 
 - (void)setShow:(BOOL)show

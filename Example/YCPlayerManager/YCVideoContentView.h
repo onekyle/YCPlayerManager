@@ -6,8 +6,11 @@
 //  Copyright © 2017年 ych.wang@outlook.com. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <YCPlayerManager/YCPlayerManager.h>
 
-@interface YCVideoContentView : YCPlaerView
+@interface YCVideoContentView : YCPlayerView
+@property (nonatomic, strong) NSString *durationString;
+@property (nonatomic, strong) UIImageView *bottomBackImgV;
+@property (nonatomic, strong) UIImageView *placeholderImageView;
 
 @end

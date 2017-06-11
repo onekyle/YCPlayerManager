@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YCVideoContentView.h"
 
 @interface YCNormalVideoCell : UITableViewCell
-
+@property (nonatomic, strong, readonly) YCVideoContentView *playerView;
 @end
