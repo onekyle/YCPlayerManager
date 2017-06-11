@@ -6,9 +6,8 @@
 //  Copyright (c) 2017 ych.wang@outlook.com. All rights reserved.
 //
 
-@import UIKit;
 
-@interface YCViewController : UIViewController
+@interface YCViewController : YCBaseViewController
 
 
 @end

@@ -116,7 +116,7 @@
 
 - (void)didTapDoubleTimes
 {
-    [YCPlayerManager shareManager].isPaused ? [[YCPlayerManager shareManager] play] : [[YCPlayerManager shareManager] pause];
+    [DemoManager shareManager].isPaused ? [[DemoManager shareManager] play] : [[DemoManager shareManager] pause];
 }
 
 - (UIView *)topView

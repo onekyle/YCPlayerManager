@@ -7,7 +7,6 @@
 //
 
 #import "YCViewController.h"
-#import <YCPlayerManager/YCPlayerManager.h>
 #import "YCNormalCellDataModel.h"
 #import "YCNormalVideoCell.h"
 
@@ -17,7 +16,7 @@ CGFloat kTopMargin = 0;
 {
     BOOL _isSuspendFlag;
 }
-@property (nonatomic, strong) YCPlayerManager *playerManager;
+@property (nonatomic, strong) DemoManager *playerManager;
 @property (nonatomic, strong) UITableView *contentView;
 @property (nonatomic, strong) NSMutableArray <NSArray *>*dataArray;
 
@@ -52,7 +51,7 @@ CGFloat kTopMargin = 0;
         }
     }
     
-    _playerManager = [YCPlayerManager shareManager];
+    _playerManager = [DemoManager shareManager];
     _playerManager.enableBackgroundPlay = YES;
 
     _contentView = [[UITableView alloc] initWithFrame:self.view.bounds];
