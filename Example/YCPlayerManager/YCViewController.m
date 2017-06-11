@@ -19,13 +19,16 @@ CGFloat kTopMargin = 0;
 }
 @property (nonatomic, strong) YCPlayerManager *playerManager;
 @property (nonatomic, strong) UITableView *contentView;
-@property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, strong) NSMutableArray <NSArray *>*dataArray;
-@property (nonatomic, strong) AVPlayer *player;
 
 @end
 
 @implementation YCViewController
+
+- (void)dealloc
+{
+    NSLog(@"%@ dealloc", self);
+}
 
 - (void)viewDidLoad
 {
@@ -149,20 +152,6 @@ CGFloat kTopMargin = 0;
 - (void)resetPlayerLayerFromSuspendWithFrame:(CGRect)frame
 {
     AVPlayerLayer *playerLayer = _playerManager.player.currentLayer;
-    
-    
-    //    CABasicAnimation *easyDisppearAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    //    easyDisppearAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-    //    easyDisppearAnimation.toValue = [NSNumber numberWithFloat:0.0];
-    //    easyDisppearAnimation.duration = 0.3;        // 1 second
-    //    easyDisppearAnimation.autoreverses = NO;    // Back
-    //    easyDisppearAnimation.repeatCount = 1;       // Or whatever
-    //    easyDisppearAnimation.fillMode = kCAFillModeForwards;
-    ////    easyDisppearAnimation.removedOnCompletion = NO;
-    //    [playerLayer addAnimation:easyDisppearAnimation forKey:@"flashAnimation"];
-    //
-    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    // 取消layer的隐式动画
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
     [playerLayer removeFromSuperlayer];
@@ -171,8 +160,6 @@ CGFloat kTopMargin = 0;
     playerLayer.opacity = 1.0;
     [CATransaction setDisableActions:NO];
     [CATransaction commit];
-    
-    //    });
 }
 
 
