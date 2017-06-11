@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		13021A861E836B13003D03F5 /* YCTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13021A851E836B13003D03F5 /* YCTableViewController.m */; };
+		130E955D1EE3F894001C1646 /* YCNormalVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 130E955C1EE3F894001C1646 /* YCNormalVideoCell.m */; };
 		1355C4851EB8C6DD005926F3 /* YCNormalCellDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1355C4841EB8C6DD005926F3 /* YCNormalCellDataModel.m */; };
 		1355C4871EB8CEB7005926F3 /* normalcelldata.json in Resources */ = {isa = PBXBuildFile; fileRef = 1355C4861EB8CC09005926F3 /* normalcelldata.json */; };
 		1373DB351E84C2D9003331D7 /* YCVideoPlayerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1373DB341E84C2D9003331D7 /* YCVideoPlayerCell.m */; };
@@ -47,6 +48,8 @@
 		09891096C3F532179CC1B33A /* Pods-YCPlayerManager_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YCPlayerManager_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YCPlayerManager_Tests/Pods-YCPlayerManager_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		13021A841E836B13003D03F5 /* YCTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCTableViewController.h; sourceTree = "<group>"; };
 		13021A851E836B13003D03F5 /* YCTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCTableViewController.m; sourceTree = "<group>"; };
+		130E955B1EE3F894001C1646 /* YCNormalVideoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCNormalVideoCell.h; sourceTree = "<group>"; };
+		130E955C1EE3F894001C1646 /* YCNormalVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCNormalVideoCell.m; sourceTree = "<group>"; };
 		1355C4831EB8C6DD005926F3 /* YCNormalCellDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCNormalCellDataModel.h; sourceTree = "<group>"; };
 		1355C4841EB8C6DD005926F3 /* YCNormalCellDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCNormalCellDataModel.m; sourceTree = "<group>"; };
 		1355C4861EB8CC09005926F3 /* normalcelldata.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = normalcelldata.json; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 			children = (
 				6003F5A5195388D20070C39A /* YCViewController.h */,
 				6003F5A6195388D20070C39A /* YCViewController.m */,
+				130E955B1EE3F894001C1646 /* YCNormalVideoCell.h */,
+				130E955C1EE3F894001C1646 /* YCNormalVideoCell.m */,
 				1355C4831EB8C6DD005926F3 /* YCNormalCellDataModel.h */,
 				1355C4841EB8C6DD005926F3 /* YCNormalCellDataModel.m */,
 				1355C4861EB8CC09005926F3 /* normalcelldata.json */,
@@ -298,7 +303,7 @@
 				ORGANIZATIONNAME = "ych.wang@outlook.com";
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
-						DevelopmentTeam = MAJ37PQSZL;
+						DevelopmentTeam = G29F95377T;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -452,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1374658D1EBB74C60026CF5D /* YCBaseModel.m in Sources */,
+				130E955D1EE3F894001C1646 /* YCNormalVideoCell.m in Sources */,
 				1355C4851EB8C6DD005926F3 /* YCNormalCellDataModel.m in Sources */,
 				6003F59E195388D20070C39A /* YCAppDelegate.m in Sources */,
 				13021A861E836B13003D03F5 /* YCTableViewController.m in Sources */,
@@ -597,6 +603,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = G29F95377T;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YCPlayerManager/YCPlayerManager-Prefix.pch";
 				INFOPLIST_FILE = "YCPlayerManager/YCPlayerManager-Info.plist";
@@ -614,6 +621,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = G29F95377T;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YCPlayerManager/YCPlayerManager-Prefix.pch";
 				INFOPLIST_FILE = "YCPlayerManager/YCPlayerManager-Info.plist";
