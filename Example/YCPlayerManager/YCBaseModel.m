@@ -24,6 +24,16 @@
     NSLog(@"%s: find undefined key: %@ for value: %@",__func__,key,value);
 }
 
++ (NSDictionary *)dictionaryForReflect
+{
+    return nil;
+}
+
++ (NSDictionary *)dictionaryForExchange
+{
+    return nil;
+}
+
 - (NSString *)description
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];

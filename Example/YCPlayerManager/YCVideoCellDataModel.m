@@ -10,10 +10,70 @@
 
 @implementation YCVideoCoverModel
 
++ (instancetype)modelWithDict:(NSDictionary *)dict
+{
+    return [super modelWithDict:dict];
+}
+
 @end
 
 @implementation YCVideoCellDataModel
 
++ (NSDictionary *)dictionaryForReflect
+{
+    return @{@"cover": @"YCVideoCoverModel"};
+}
+
++ (NSDictionary *)dictionaryForExchange
+{
+    return @{@"description": @"detail"};
+}
+
+- (void)setValuesForKeysWithDictionary:(NSDictionary<NSString *,id> *)keyedValues
+{
+    NSDictionary *excDict = [[self class] dictionaryForExchange];
+    if (excDict.count == 0 || keyedValues.count == 0) {
+        return [super setValuesForKeysWithDictionary:keyedValues];
+    }
+    
+    NSMutableDictionary <NSString *,id> *keyedValuesM = keyedValues.mutableCopy;
+    [keyedValues enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSString *excKey = excDict[key];
+        if (excKey) {
+            keyedValuesM[excKey] = obj;
+            keyedValuesM[key] = nil;
+        }
+    }];
+    return [super setValuesForKeysWithDictionary:keyedValuesM];
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key
+{
+    struct label *defaultImp; // 只是为了提示
+    
+    if ([value isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *reflectDict = [[self class] dictionaryForReflect];
+        NSString *reflectKey = reflectDict[key];
+        if (!reflectKey) {
+            goto defaultImp;
+        } else {
+            Class SubModelClass = NSClassFromString(reflectKey);
+            if (![SubModelClass conformsToProtocol:@protocol(YCBaseModelProtocol)]) {
+                goto defaultImp;
+            } else {
+                id model = [((id <YCBaseModelProtocol>)SubModelClass) modelWithDict:value];
+                return [super setValue:model forKey:key];
+            }
+        }
+    }
+    
+    defaultImp : {
+        [super setValue:value forKey:key];
+    }
+    
+}
+
+/*
 - (void)setValue:(id)value forKey:(NSString *)key
 {
     if ([key isEqualToString:@"description"]) {
@@ -58,5 +118,5 @@
         [super setValue:value forKey:key];
     }
 }
-
+*/
 @end

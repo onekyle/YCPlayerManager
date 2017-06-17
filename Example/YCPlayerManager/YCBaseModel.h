@@ -8,6 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface YCBaseModel : NSObject
+@protocol YCBaseModelProtocol <NSObject>
+
+@required
 + (instancetype)modelWithDict:(NSDictionary *)dict;
+
+@optional
++ (NSDictionary *)dictionaryForReflect;
+
++ (NSDictionary *)dictionaryForExchange;
+
+@end
+
+@interface YCBaseModel : NSObject <YCBaseModelProtocol>
+
 @end
