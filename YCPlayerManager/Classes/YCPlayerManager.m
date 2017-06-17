@@ -13,6 +13,7 @@ NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNo
 @interface YCPlayerManager () <YCPlayerViewEventControlDelegate>
 
 @property (nonatomic, copy) NSString *pausedMediaURLString;
+@property (nonatomic, copy) void (^completionHandler)();
 
 - (AVPlayer *)metaPlayer;
 - (BOOL)hasPausedByManual;
@@ -80,12 +81,15 @@ static YCPlayerManager *playerManager;
         _mediaURLString = [mediaURLString copy];
         _pausedMediaURLString = nil;
         
-        [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:^{
-            [self resetPlayerLayer];
+        //        self.player.mediaURLString = _mediaURLString;
+        __weak typeof(self) weakSelf = self;
+        _completionHandler = ^{
+            [weakSelf resetPlayerLayer];
             if (completionHandler) {
                 completionHandler();
             }
-        }];
+        };
+        [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:nil];
     } else {
         if (equivalentHandler) {
             equivalentHandler();
@@ -124,6 +128,7 @@ static YCPlayerManager *playerManager;
 - (void)stop
 {
     self.metaPlayer.rate = 0.0;
+    _completionHandler = nil;
     self.pausedMediaURLString = nil;
     self.mediaURLString = nil;
     self.player.mediaURLString = nil;
@@ -202,12 +207,15 @@ static YCPlayerManager *playerManager;
 {
     self.playerView.playerStatus = status;
     [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
-    
-    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) { // 当状态转变为准备播放 并且 app在前台时 才准许播放
+    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         if (!self.hasPausedByManual) {
             [player.metaPlayer play];
+            if (_completionHandler) {
+                _completionHandler();
+                _completionHandler = nil;
+            }
         }
-    } else if (fromStatus == YCPlayerStatusBuffering && status == YCPlayerStatusPlaying) { //当状态由buffering转变为playing时
+    } else if (fromStatus == YCPlayerStatusBuffering && status == YCPlayerStatusPlaying) {
         if (!self.hasPausedByManual) {
             [self play];
         }
@@ -245,8 +253,12 @@ static YCPlayerManager *playerManager;
 - (void)onBecomeInactive:(NSNotification *)noti
  {
      if (self.enableBackgroundPlay) {
-         self.player.hasCorrectFalg = YES;
-         [self.player performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1.5];
+         if (!self.isPaused) {
+             self.player.hasCorrectFalg = YES;
+             if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+                 [self.player performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1.5];
+             }
+         }
      } else {
          [self pause];
      }
@@ -272,9 +284,12 @@ static YCPlayerManager *playerManager;
         _mediaURLString = [mediaURLString copy];
         self.pausedMediaURLString = nil;
         
-        [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:^{
-            self.playerView.player = self.player;
-        }];
+//        self.player.mediaURLString = _mediaURLString;
+        __weak typeof(self) weakSelf = self;
+        _completionHandler = ^{
+            weakSelf.playerView.player = weakSelf.player;
+        };
+        [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:nil];
     }
 }
 #pragma mark -

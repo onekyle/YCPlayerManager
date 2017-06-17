@@ -20,6 +20,8 @@
     if (!self.owner.hasCorrectFalg) {
         [super pause];
         self.owner.status = YCPlayerStatusPause;
+    } else if ([UIDevice currentDevice].systemVersion.floatValue >= 9.0) {
+        self.owner.hasCorrectFalg = NO;
     }
 }
 
