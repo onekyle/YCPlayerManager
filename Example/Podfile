@@ -2,7 +2,7 @@
 
 target 'YCPlayerManager_Example' do
   pod 'YCPlayerManager', :path => '../'
-
+  pod 'SDWebImage', '~> 4.0.0'
   target 'YCPlayerManager_Tests' do
     inherit! :search_paths
 

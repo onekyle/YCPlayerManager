@@ -1,7 +1,11 @@
 PODS:
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
   - YCPlayerManager (0.1.0)
 
 DEPENDENCIES:
+  - SDWebImage (~> 4.0.0)
   - YCPlayerManager (from `../`)
 
 EXTERNAL SOURCES:
@@ -9,8 +13,9 @@ EXTERNAL SOURCES:
     :path: ../
 
 SPEC CHECKSUMS:
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   YCPlayerManager: 24e836449a49f6e84ff6d8cee7626a7beea6a408
 
-PODFILE CHECKSUM: 25ca7ed4b180ca218967fc8caef5713a6ae8c3b1
+PODFILE CHECKSUM: 755ba4bfd4a8b441d66f34ed8dfbbd683b7155e1
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1
