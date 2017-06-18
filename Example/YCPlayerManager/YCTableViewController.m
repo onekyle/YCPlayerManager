@@ -48,10 +48,7 @@
             NSLog(@"%@",model);
             [_dataArray addObject:model];
         }
-
     }
-
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated

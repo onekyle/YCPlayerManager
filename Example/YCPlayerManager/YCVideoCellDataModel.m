@@ -9,19 +9,16 @@
 #import "YCVideoCellDataModel.h"
 
 @implementation YCVideoCoverModel
+@end
 
-+ (instancetype)modelWithDict:(NSDictionary *)dict
-{
-    return [super modelWithDict:dict];
-}
-
+@implementation YCVideoProviderModel
 @end
 
 @implementation YCVideoCellDataModel
 
 + (NSDictionary *)dictionaryForReflect
 {
-    return @{@"cover": @"YCVideoCoverModel"};
+    return @{@"cover": @"YCVideoCoverModel", @"provider": @"YCVideoProviderModel"};
 }
 
 + (NSDictionary *)dictionaryForExchange
@@ -49,7 +46,10 @@
 
 - (void)setValue:(id)value forKey:(NSString *)key
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-variable"
     struct label *defaultImp; // 只是为了提示
+#pragma clang diagnostic pop
     
     if ([value isKindOfClass:[NSDictionary class]]) {
         NSDictionary *reflectDict = [[self class] dictionaryForReflect];

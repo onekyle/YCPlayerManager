@@ -14,6 +14,11 @@
 @property (nonatomic, copy) NSString *blurred;
 @end
 
+@interface YCVideoProviderModel : YCBaseModel
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *icon;
+@end
+
 
 @interface YCVideoCellDataModel : YCBaseModel
 
@@ -22,6 +27,8 @@
 @property (nonatomic, copy) NSString *playUrl;
 @property (nonatomic, assign) NSTimeInterval duration;
 @property (nonatomic, strong) YCVideoCoverModel *cover;
+@property (nonatomic, strong) YCVideoProviderModel *provider;
+@property (nonatomic, copy) NSString *category;
 @property (nonatomic,strong) NSMutableArray <NSString *>*sdSources;
 @property (nonatomic, strong) NSMutableArray <NSString *>*hdSources;
 @end
