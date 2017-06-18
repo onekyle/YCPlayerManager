@@ -16,7 +16,8 @@
 }
 @property (nonatomic, strong) NSMutableArray <YCVideoCellDataModel *>*dataArray;
 @property (nonatomic, assign) CGPoint centerPoint;
-@property (nonatomic,strong) UIView *separatorView;
+//@property (nonatomic,strong) UIView *separatorView;
+@property (nonatomic, weak) YCVideoPlayerCell *scrollInCell;
 @end
 
 @implementation YCTableViewController
@@ -55,10 +56,10 @@
 {
     [super viewDidAppear:animated];
     if (_isFirstLoadFlag) {
-        UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, (kScreenHeight - 64) / 2, kScreenWidth, 1)];
-        separatorView.backgroundColor = [UIColor orangeColor];
-        [self.view.superview addSubview:separatorView];
-        _separatorView = separatorView;
+//        UIView *separatorView = [[UIView alloc] initWithFrame:CGRectMake(0, (kScreenHeight - 64) / 2, kScreenWidth, 1)];
+//        separatorView.backgroundColor = [UIColor orangeColor];
+//        [self.view.superview addSubview:separatorView];
+//        _separatorView = separatorView;
         
         // loaded first time
         if (self.tableView.contentOffset.y < 0.1) {
@@ -66,7 +67,11 @@
             [self changeVisibleCellsShowStatusForTableView:self.tableView withConditionBlock:^BOOL(__kindof UITableViewCell *cell) {
                 return cell == firstCell;
             }];
+            [_scrollInCell playVideo];
         }
+    }
+    if (![self.navigationController.viewControllers containsObject:self]) {
+        [[DemoManager shareManager] stop];
     }
 }
 
@@ -80,9 +85,9 @@
 
 - (void)scrollViewDidScroll:(UITableView *)tableView
 {
-    if (!tableView.isDragging) {
-        return;
-    }
+//    if (!tableView.isDragging) {
+//        return;
+//    }
     CGFloat offsetY = tableView.contentOffset.y;
     if (offsetY < 0.1) {
         UITableViewCell *firstCell = tableView.visibleCells.firstObject;
@@ -100,7 +105,18 @@
             return CGRectContainsPoint(cellFrame, _centerPoint);
         }];
     }
-    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if (!decelerate) {
+        [_scrollInCell playVideo];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [_scrollInCell playVideo];
 }
 
 - (void)changeVisibleCellsShowStatusForTableView:(UITableView *)tableView withConditionBlock:(BOOL(^)(__kindof UITableViewCell *cell))conditionBlock
@@ -111,6 +127,7 @@
     for (YCVideoPlayerCell *cell in tableView.visibleCells) {
         if (conditionBlock(cell)) {
             cell.show = YES;
+            _scrollInCell = cell;
         } else {
             cell.show = NO;
         }
@@ -121,7 +138,7 @@
 #pragma mark - UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return kScreenWidth;
+    return [YCVideoPlayerCell cellHeight];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -134,8 +151,9 @@ NSString *const kYCTabelViewCellID = @"kYCTabelViewCellID";
     YCVideoPlayerCell *cell = [tableView dequeueReusableCellWithIdentifier:kYCTabelViewCellID];
     if (!cell) {
         cell = [[YCVideoPlayerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kYCTabelViewCellID];
-        cell.backgroundColor = [self randomColor];
+        cell.backgroundColor = [UIColor blackColor];
     }
+    cell.data = _dataArray[indexPath.row];
     return cell;
 }
 

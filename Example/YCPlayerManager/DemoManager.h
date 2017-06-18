@@ -7,7 +7,9 @@
 //
 
 #import <YCPlayerManager/YCPlayerManager.h>
-
+#import "YCVideoPlayerCell.h"
 @interface DemoManager : YCPlayerManager
+
+@property (nonatomic, weak) YCVideoPlayerCell *currentActivityCell;
 
 @end

@@ -15,6 +15,8 @@
 		137465871EBA3E9A0026CF5D /* videocelldata.json in Resources */ = {isa = PBXBuildFile; fileRef = 137465861EBA3E9A0026CF5D /* videocelldata.json */; };
 		1374658A1EBAA9390026CF5D /* YCVideoCellDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 137465891EBAA9390026CF5D /* YCVideoCellDataModel.m */; };
 		1374658D1EBB74C60026CF5D /* YCBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1374658C1EBB74C60026CF5D /* YCBaseModel.m */; };
+		13A7062C1EF6530200B380DF /* YCVideoCellHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A7062B1EF6530200B380DF /* YCVideoCellHeaderView.m */; };
+		13A706321EF6548100B380DF /* UIFont+YCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A706301EF6548100B380DF /* UIFont+YCCategory.m */; };
 		13A72A031EED40E500AB2BA2 /* YCVideoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A72A021EED40E500AB2BA2 /* YCVideoContentView.m */; };
 		13A72A061EED6BA700AB2BA2 /* DemoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A72A051EED6BA700AB2BA2 /* DemoManager.m */; };
 		13A72A091EED6DC600AB2BA2 /* YCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A72A081EED6DC600AB2BA2 /* YCBaseViewController.m */; };
@@ -64,6 +66,10 @@
 		137465891EBAA9390026CF5D /* YCVideoCellDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoCellDataModel.m; sourceTree = "<group>"; };
 		1374658B1EBB74C60026CF5D /* YCBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCBaseModel.h; sourceTree = "<group>"; };
 		1374658C1EBB74C60026CF5D /* YCBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCBaseModel.m; sourceTree = "<group>"; };
+		13A7062A1EF6530200B380DF /* YCVideoCellHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCVideoCellHeaderView.h; sourceTree = "<group>"; };
+		13A7062B1EF6530200B380DF /* YCVideoCellHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoCellHeaderView.m; sourceTree = "<group>"; };
+		13A706301EF6548100B380DF /* UIFont+YCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+YCCategory.m"; sourceTree = "<group>"; };
+		13A706311EF6548100B380DF /* UIFont+YCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+YCCategory.h"; sourceTree = "<group>"; };
 		13A72A011EED40E500AB2BA2 /* YCVideoContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCVideoContentView.h; sourceTree = "<group>"; };
 		13A72A021EED40E500AB2BA2 /* YCVideoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoContentView.m; sourceTree = "<group>"; };
 		13A72A041EED6BA700AB2BA2 /* DemoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoManager.h; sourceTree = "<group>"; };
@@ -134,8 +140,7 @@
 			children = (
 				13021A841E836B13003D03F5 /* YCTableViewController.h */,
 				13021A851E836B13003D03F5 /* YCTableViewController.m */,
-				1373DB331E84C2D9003331D7 /* YCVideoPlayerCell.h */,
-				1373DB341E84C2D9003331D7 /* YCVideoPlayerCell.m */,
+				13A706291EF652E700B380DF /* VideoCell */,
 				137465881EBAA9390026CF5D /* YCVideoCellDataModel.h */,
 				137465891EBAA9390026CF5D /* YCVideoCellDataModel.m */,
 				1374658B1EBB74C60026CF5D /* YCBaseModel.h */,
@@ -159,6 +164,19 @@
 				1355C4861EB8CC09005926F3 /* normalcelldata.json */,
 			);
 			name = Normal;
+			sourceTree = "<group>";
+		};
+		13A706291EF652E700B380DF /* VideoCell */ = {
+			isa = PBXGroup;
+			children = (
+				1373DB331E84C2D9003331D7 /* YCVideoPlayerCell.h */,
+				1373DB341E84C2D9003331D7 /* YCVideoPlayerCell.m */,
+				13A7062A1EF6530200B380DF /* YCVideoCellHeaderView.h */,
+				13A7062B1EF6530200B380DF /* YCVideoCellHeaderView.m */,
+				13A706311EF6548100B380DF /* UIFont+YCCategory.h */,
+				13A706301EF6548100B380DF /* UIFont+YCCategory.m */,
+			);
+			name = VideoCell;
 			sourceTree = "<group>";
 		};
 		6003F581195388D10070C39A = {
@@ -489,6 +507,8 @@
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				1374658A1EBAA9390026CF5D /* YCVideoCellDataModel.m in Sources */,
 				13A72A061EED6BA700AB2BA2 /* DemoManager.m in Sources */,
+				13A706321EF6548100B380DF /* UIFont+YCCategory.m in Sources */,
+				13A7062C1EF6530200B380DF /* YCVideoCellHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

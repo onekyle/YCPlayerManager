@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YCVideoCellDataModel.h"
 
 @interface YCVideoPlayerCell : UITableViewCell
-@property (nonatomic, strong) id data;
+@property (nonatomic, strong) YCVideoCellDataModel *data;
 @property (nonatomic, assign) BOOL show;
 
++ (CGFloat)cellHeight;
+- (void)playVideo;
+- (void)makeCellActivity;
+- (void)resetActivityCell;
 @end
