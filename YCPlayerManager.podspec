@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YCPlayerManager'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of YCPlayerManager.'
+  s.version          = '0.1.1'
+  s.summary          = 'Media player.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -17,15 +17,13 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  s.description      = 'A lightweight media player base on AVPlayer in iOS platform'
 
-  s.homepage         = 'https://github.com/ych.wang@outlook.com/YCPlayerManager'
+  s.homepage         = 'https://github.com/flappyFeline/YCPlayerManager'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'ych.wang@outlook.com' => 'ych.wang@outlook.com' }
-  s.source           = { :git => 'https://github.com/ych.wang@outlook.com/YCPlayerManager.git', :tag => s.version.to_s }
+  s.author           = { 'Durand Wang' => 'ych.wang@outlook.com' }
+  s.source           = { :git => 'https://github.com/flappyFeline/YCPlayerManager.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '7.0'
