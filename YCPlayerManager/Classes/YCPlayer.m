@@ -321,8 +321,9 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 - (CMTime)playerItemDuration{
     if (_currentItem.status == AVPlayerItemStatusReadyToPlay){
         return(_currentItem.duration);
+    } else {
+        return kCMTimeZero;
     }
-    return(kCMTimeInvalid);
 }
 
 - (NSTimeInterval)duration

@@ -17,6 +17,7 @@
 		1374658D1EBB74C60026CF5D /* YCBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1374658C1EBB74C60026CF5D /* YCBaseModel.m */; };
 		13A7062C1EF6530200B380DF /* YCVideoCellHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A7062B1EF6530200B380DF /* YCVideoCellHeaderView.m */; };
 		13A706321EF6548100B380DF /* UIFont+YCCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A706301EF6548100B380DF /* UIFont+YCCategory.m */; };
+		13A706351EF6815B00B380DF /* YCMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A706341EF6815B00B380DF /* YCMainTableViewController.m */; };
 		13A72A031EED40E500AB2BA2 /* YCVideoContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A72A021EED40E500AB2BA2 /* YCVideoContentView.m */; };
 		13A72A061EED6BA700AB2BA2 /* DemoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A72A051EED6BA700AB2BA2 /* DemoManager.m */; };
 		13A72A091EED6DC600AB2BA2 /* YCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 13A72A081EED6DC600AB2BA2 /* YCBaseViewController.m */; };
@@ -70,6 +71,8 @@
 		13A7062B1EF6530200B380DF /* YCVideoCellHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoCellHeaderView.m; sourceTree = "<group>"; };
 		13A706301EF6548100B380DF /* UIFont+YCCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+YCCategory.m"; sourceTree = "<group>"; };
 		13A706311EF6548100B380DF /* UIFont+YCCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+YCCategory.h"; sourceTree = "<group>"; };
+		13A706331EF6815B00B380DF /* YCMainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCMainTableViewController.h; sourceTree = "<group>"; };
+		13A706341EF6815B00B380DF /* YCMainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCMainTableViewController.m; sourceTree = "<group>"; };
 		13A72A011EED40E500AB2BA2 /* YCVideoContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YCVideoContentView.h; sourceTree = "<group>"; };
 		13A72A021EED40E500AB2BA2 /* YCVideoContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YCVideoContentView.m; sourceTree = "<group>"; };
 		13A72A041EED6BA700AB2BA2 /* DemoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DemoManager.h; sourceTree = "<group>"; };
@@ -222,6 +225,8 @@
 				13A72A0B1EED6DF300AB2BA2 /* YCBaseNaviController.m */,
 				13A72A071EED6DC600AB2BA2 /* YCBaseViewController.h */,
 				13A72A081EED6DC600AB2BA2 /* YCBaseViewController.m */,
+				13A706331EF6815B00B380DF /* YCMainTableViewController.h */,
+				13A706341EF6815B00B380DF /* YCMainTableViewController.m */,
 				13A232B31E836A70008423AC /* Normal */,
 				13021A831E836AED003D03F5 /* TableView */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -508,6 +513,7 @@
 				1374658A1EBAA9390026CF5D /* YCVideoCellDataModel.m in Sources */,
 				13A72A061EED6BA700AB2BA2 /* DemoManager.m in Sources */,
 				13A706321EF6548100B380DF /* UIFont+YCCategory.m in Sources */,
+				13A706351EF6815B00B380DF /* YCMainTableViewController.m in Sources */,
 				13A7062C1EF6530200B380DF /* YCVideoCellHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -26,6 +26,7 @@
     [super viewDidLoad];
     _isFirstLoadFlag = YES;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.backgroundColor = [UIColor blackColor];
     _centerPoint = CGPointMake(0, (kScreenHeight - 64) / 2);
     
     NSData *data = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"videocelldata.json" ofType:nil]];
@@ -52,6 +53,12 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -70,15 +77,15 @@
             [_scrollInCell playVideo];
         }
     }
-    if (![self.navigationController.viewControllers containsObject:self]) {
-        [[DemoManager shareManager] stop];
-    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
     _isFirstLoadFlag = NO;
+    if (![self.navigationController.viewControllers containsObject:self]) {
+        [[DemoManager shareManager] stop];
+    }
 }
 
 #pragma mark - UITableViewDelegate
