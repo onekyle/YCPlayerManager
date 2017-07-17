@@ -216,10 +216,58 @@ static YCPlayerManager *playerManager;
             }
         }
     } else if (fromStatus == YCPlayerStatusBuffering && status == YCPlayerStatusPlaying) {
-        if (!self.hasPausedByManual) {
+        if (_completionHandler) {
+            if (!self.hasPausedByManual) {
+                [player.metaPlayer play];
+                if (_completionHandler) {
+                    _completionHandler();
+                    _completionHandler = nil;
+                }
+            }
+        } else if (!self.hasPausedByManual) {
             [self play];
         }
+    } else if (status == YCPlayerStatusFailed && fromStatus == YCPlayerStatustransitioning) {
+        [self stop];
     }
+}
+
+- (NSString *)ycStatusDescription:(YCPlayerStatus)status
+{
+    NSString *desc = nil;
+    switch (status) {
+        case YCPlayerStatusFailed:
+            desc = @"YCPlayerStatusFailed";
+            break;
+        case YCPlayerStatusUnKnown:
+            desc = @"YCPlayerStatusUnKnown";
+            break;
+        case YCPlayerStatustransitioning:
+            desc = @"YCPlayerStatustransitioning";
+            break;
+        case YCPlayerStatusBuffering:
+            desc = @"YCPlayerStatusBuffering";
+            break;
+        case YCPlayerStatusReadyToPlay:
+            desc = @"YCPlayerStatusReadyToPlay";
+            break;
+        case YCPlayerStatusPlaying:
+            desc = @"YCPlayerStatusPlaying";
+            break;
+        case YCPlayerStatusPause:
+            desc = @"YCPlayerStatusPause";
+            break;
+        case YCPlayerStatusStopped:
+            desc = @"YCPlayerStatusStopped";
+            break;
+        case YCPlayerStatusFinished:
+            desc = @"YCPlayerStatusFinished";
+            break;
+        default:
+            desc = @"NoOne";
+            break;
+    }
+    return desc;
 }
 #pragma mark -
 
@@ -228,8 +276,8 @@ static YCPlayerManager *playerManager;
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAudioSessionRouteChange:) name:AVAudioSessionRouteChangeNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onAudioSessionInterruptionEvent:) name:AVAudioSessionInterruptionNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeInactive:) name:UIApplicationWillResignActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeInactive:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onBecomeActive:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)onAudioSessionInterruptionEvent:(NSNotification *)noti

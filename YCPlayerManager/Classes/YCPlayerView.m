@@ -202,7 +202,6 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 
 - (void)setPlayerStatus:(YCPlayerStatus)playerStatus
 {
-    _playerStatus = playerStatus;
     switch (playerStatus) {
         case YCPlayerStatusFailed:
             [self.loadingView stopAnimating];
@@ -220,7 +219,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
             [self setPlayerControlStatusPaused:YES];
             break;
         case YCPlayerStatusReadyToPlay:
-            [self.loadingView stopAnimating];
+//            [self.loadingView stopAnimating];
             self.duration = self.player.duration;
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
                 if (!self.player.isPaused) {
@@ -235,7 +234,10 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
             }
             break;
         case YCPlayerStatusPause:
-            [self.loadingView stopAnimating];
+            if (_playerStatus == YCPlayerStatusReadyToPlay) {
+                [self.loadingView startAnimating];
+            }
+//            [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;
         case YCPlayerStatusStopped:
@@ -243,12 +245,13 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
             [self setPlayerControlStatusPaused:YES];
             break;
         case YCPlayerStatusFinished:
-            [self.loadingView stopAnimating];
+//            [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;
         default:
             break;
     }
+    _playerStatus = playerStatus;
 }
 
 - (void)setCurrentTime:(NSTimeInterval)currentTime

@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol YCPlayerViewComponentDelegate <NSObject>
 
 @optional
-@property (nonatomic, strong, nullable) YCPlayer *player;
+@property (nonatomic, strong) YCPlayer *player;
 
 @property (nonatomic, assign) YCPlayerStatus playerStatus;
 
@@ -125,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  更新缓冲进度
  *
- *  @param currentLoadedTime 当前加载到的时间
+ *  @param currentLoaderTime 当前加载到的时间
  *  @param duration          资源总共时长
  */
 - (void)updateBufferingProgressWithCurrentLoadedTime:(NSTimeInterval)currentLoadedTime duration:(NSTimeInterval)duration;

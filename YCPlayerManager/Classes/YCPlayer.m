@@ -297,7 +297,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
                 self.status = YCPlayerStatusBuffering;
             }
         } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
-            if (self.currentItem.isPlaybackLikelyToKeepUp && (self.status == YCPlayerStatusBuffering || self.status == YCPlayerStatusFailed)){
+            if (self.currentItem.isPlaybackLikelyToKeepUp && (self.status == YCPlayerStatusReadyToPlay || self.status == YCPlayerStatusBuffering || self.status == YCPlayerStatusFailed)) {
                 self.status = YCPlayerStatusPlaying;
             }
         }
@@ -321,9 +321,8 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 - (CMTime)playerItemDuration{
     if (_currentItem.status == AVPlayerItemStatusReadyToPlay){
         return(_currentItem.duration);
-    } else {
-        return kCMTimeZero;
     }
+    return(kCMTimeInvalid);
 }
 
 - (NSTimeInterval)duration
