@@ -9,7 +9,7 @@
 #import "YCPlayer.h"
 
 
-@interface _YCPrivatePlayer : AVPlayer
+@interface _YCPrivatePlayer : AVPlayer <YCPlayerControlAddtion>
 @property (nonatomic, weak) YCPlayer *owner;
 @end
 
@@ -25,7 +25,7 @@
     }
 }
 
-- (void)pauseWithNoChangeStatus
+- (void)pauseWithoutChangeStatus
 {
     YCPlayer *owner = _owner;
     _owner = nil;
@@ -37,6 +37,14 @@
 {
     [super play];
     self.owner.status = YCPlayerStatusPlaying;
+}
+
+- (void)playWithoutChangeStatus
+{
+    YCPlayer *owner = _owner;
+    _owner = nil;
+    [self play];
+    _owner = owner;
 }
 
 
@@ -100,7 +108,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 
 - (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(void(^)())completionHandler
 {
-    [_metaPlayer pauseWithNoChangeStatus];
+    [_metaPlayer pauseWithoutChangeStatus];
     self.status = YCPlayerStatustransitioning;
     _mediaURLString = [mediaURLString copy];
     [self.currentItem.asset cancelLoading];
@@ -119,8 +127,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
             AVKeyValueStatus status = [asset statusOfValueForKey:@"duration" error:nil];
             if (status == AVKeyValueStatusLoaded) {
                 weakSelf.currentItem = [AVPlayerItem playerItemWithAsset:asset];
-                __strong typeof(weakSelf) strongSelf = weakSelf;
-                if (strongSelf->_mediaURLString) {
+                if (weakSelf.mediaURLString) {
                     weakSelf.status = YCPlayerStatusBuffering;
                 }
                 if (completionHandler) {
@@ -209,6 +216,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 
 - (void)reset
 {
+    _playerDelegate = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_metaPlayer.currentItem cancelPendingSeeks];
     [_metaPlayer.currentItem.asset cancelLoading];
@@ -286,9 +294,9 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
         else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
             
             // 计算缓冲进度
-            NSTimeInterval currentLoadedTime = [self availableDuration];
-            NSTimeInterval duration = CMTimeGetSeconds(self.currentItem.duration);
             if (_delegateFlags.bufferingLoaded) {
+                NSTimeInterval currentLoadedTime = [self availableDuration];
+                NSTimeInterval duration = CMTimeGetSeconds(self.currentItem.duration);
                 [_playerDelegate player:self bufferingWithCurrentLoadedTime:currentLoadedTime duration:duration];
             }
         } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {

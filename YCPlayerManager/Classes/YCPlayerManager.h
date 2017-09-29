@@ -17,7 +17,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 @interface YCPlayerManager : NSObject <YCPlayerDelegate>
 
-@property (nonatomic, strong, readonly) YCPlayer *player;
+@property (nonatomic, strong) YCPlayer *player;
 
 @property (nonatomic, copy, readonly, nullable) NSString *mediaURLString;
 

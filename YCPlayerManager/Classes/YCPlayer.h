@@ -12,9 +12,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol YCPlayerControlAddtion <NSObject>
+
+- (void)pauseWithoutChangeStatus;
+
+- (void)playWithoutChangeStatus;
+
+@end
+
+
 @interface YCPlayer : NSObject
 
-@property (nonatomic, strong, readonly, nullable) AVPlayer *metaPlayer;
+@property (nonatomic, strong, readonly, nullable) AVPlayer<YCPlayerControlAddtion> *metaPlayer;
 
 @property (nonatomic, strong, readonly) AVPlayerLayer *currentLayer;
 
@@ -37,6 +46,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init;
 
 - (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void(^)())completionHandler;
+
+- (void)reset;
 
 @end
 

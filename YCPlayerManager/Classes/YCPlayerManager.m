@@ -80,7 +80,12 @@ static YCPlayerManager *playerManager;
     if (![_mediaURLString isEqualToString:mediaURLString]) {
         _mediaURLString = [mediaURLString copy];
         _pausedMediaURLString = nil;
-        
+        if (mediaURLString) {
+            [_player reset];
+            _player = [[YCPlayer alloc] init];
+            _player.playerDelegate = self;
+            _playerView.player = _player;
+        }
         //        self.player.mediaURLString = _mediaURLString;
         __weak typeof(self) weakSelf = self;
         _completionHandler = ^{
@@ -200,14 +205,25 @@ static YCPlayerManager *playerManager;
 /** 缓存进度*/
 - (void)player:(YCPlayer *)player bufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
 {
-    [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
+    // 当缓冲超过俩秒 就自动开始播放
+    if (self.player.status == YCPlayerStatusBuffering || self.player.status == YCPlayerStatustransitioning || (self.player.status == YCPlayerStatusPause && !self.hasPausedByManual)) {
+        if (loadedTime - self.currentTime > 2.0) {
+            [self play];
+        }
+    }
 }
 /** 播放状态*/
 - (void)player:(YCPlayer *)player didChangeToStatus:(YCPlayerStatus)status fromStatus:(YCPlayerStatus)fromStatus
 {
-    self.playerView.playerStatus = status;
+    if ([NSThread currentThread].isMainThread) {
+        self.playerView.playerStatus = status;
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            self.playerView.playerStatus = status;
+        });
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
-    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
         if (!self.hasPausedByManual) {
             [player.metaPlayer play];
             if (_completionHandler) {
@@ -231,44 +247,6 @@ static YCPlayerManager *playerManager;
         [self stop];
     }
 }
-
-- (NSString *)ycStatusDescription:(YCPlayerStatus)status
-{
-    NSString *desc = nil;
-    switch (status) {
-        case YCPlayerStatusFailed:
-            desc = @"YCPlayerStatusFailed";
-            break;
-        case YCPlayerStatusUnKnown:
-            desc = @"YCPlayerStatusUnKnown";
-            break;
-        case YCPlayerStatustransitioning:
-            desc = @"YCPlayerStatustransitioning";
-            break;
-        case YCPlayerStatusBuffering:
-            desc = @"YCPlayerStatusBuffering";
-            break;
-        case YCPlayerStatusReadyToPlay:
-            desc = @"YCPlayerStatusReadyToPlay";
-            break;
-        case YCPlayerStatusPlaying:
-            desc = @"YCPlayerStatusPlaying";
-            break;
-        case YCPlayerStatusPause:
-            desc = @"YCPlayerStatusPause";
-            break;
-        case YCPlayerStatusStopped:
-            desc = @"YCPlayerStatusStopped";
-            break;
-        case YCPlayerStatusFinished:
-            desc = @"YCPlayerStatusFinished";
-            break;
-        default:
-            desc = @"NoOne";
-            break;
-    }
-    return desc;
-}
 #pragma mark -
 
 #pragma mark - GlobalNotication
@@ -288,6 +266,11 @@ static YCPlayerManager *playerManager;
 
 - (void)onAudioSessionRouteChange:(NSNotification *)noti
 {
+    AVAudioSessionRouteChangeReason reason = [noti.userInfo[AVAudioSessionRouteChangeReasonKey] integerValue];
+    if (reason == AVAudioSessionRouteChangeReasonOverride) {
+        return;
+    }
+    
     self.player.hasCorrectFalg = NO;
     [self pause];
 }
@@ -303,8 +286,11 @@ static YCPlayerManager *playerManager;
      if (self.enableBackgroundPlay) {
          if (!self.isPaused) {
              self.player.hasCorrectFalg = YES;
-             if ([UIDevice currentDevice].systemVersion.floatValue < 9.0) {
+             float version = [UIDevice currentDevice].systemVersion.floatValue;
+             if (version < 9.0) {
                  [self.player performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1.5];
+             } else if (version >= 11.0) {
+                 [self.player.metaPlayer performSelector:@selector(playWithoutChangeStatus) withObject:nil afterDelay:0.01];
              }
          }
      } else {
@@ -367,6 +353,43 @@ static YCPlayerManager *playerManager;
 }
 #pragma mark -
 
+- (NSString *)ycStatusDescription:(YCPlayerStatus)status
+{
+    NSString *desc = nil;
+    switch (status) {
+        case YCPlayerStatusFailed:
+            desc = @"YCPlayerStatusFailed";
+            break;
+        case YCPlayerStatusUnKnown:
+            desc = @"YCPlayerStatusUnKnown";
+            break;
+        case YCPlayerStatustransitioning:
+            desc = @"YCPlayerStatustransitioning";
+            break;
+        case YCPlayerStatusBuffering:
+            desc = @"YCPlayerStatusBuffering";
+            break;
+        case YCPlayerStatusReadyToPlay:
+            desc = @"YCPlayerStatusReadyToPlay";
+            break;
+        case YCPlayerStatusPlaying:
+            desc = @"YCPlayerStatusPlaying";
+            break;
+        case YCPlayerStatusPause:
+            desc = @"YCPlayerStatusPause";
+            break;
+        case YCPlayerStatusStopped:
+            desc = @"YCPlayerStatusStopped";
+            break;
+        case YCPlayerStatusFinished:
+            desc = @"YCPlayerStatusFinished";
+            break;
+        default:
+            desc = @"NoOne";
+            break;
+    }
+    return desc;
+}
 @end
 
 
