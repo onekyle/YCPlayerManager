@@ -205,16 +205,18 @@ static YCPlayerManager *playerManager;
 /** 缓存进度*/
 - (void)player:(YCPlayer *)player bufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
 {
-    // 当缓冲超过俩秒 就自动开始播放
+	// 当缓冲超过俩秒 就自动开始播放
     if (self.player.status == YCPlayerStatusBuffering || self.player.status == YCPlayerStatustransitioning || (self.player.status == YCPlayerStatusPause && !self.hasPausedByManual)) {
         if (loadedTime - self.currentTime > 2.0) {
             [self play];
         }
     }
+//    [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
 /** 播放状态*/
 - (void)player:(YCPlayer *)player didChangeToStatus:(YCPlayerStatus)status fromStatus:(YCPlayerStatus)fromStatus
 {
+//    NSLog(@"from status: %@, to status: %@, state: %d, currentThread: %@", [self ycStatusDescription:fromStatus], [self ycStatusDescription:status],
     if ([NSThread currentThread].isMainThread) {
         self.playerView.playerStatus = status;
     } else {
@@ -247,6 +249,44 @@ static YCPlayerManager *playerManager;
         [self stop];
     }
 }
+
+- (NSString *)ycStatusDescription:(YCPlayerStatus)status
+{
+    NSString *desc = nil;
+    switch (status) {
+        case YCPlayerStatusFailed:
+            desc = @"YCPlayerStatusFailed";
+            break;
+        case YCPlayerStatusUnKnown:
+            desc = @"YCPlayerStatusUnKnown";
+            break;
+        case YCPlayerStatustransitioning:
+            desc = @"YCPlayerStatustransitioning";
+            break;
+        case YCPlayerStatusBuffering:
+            desc = @"YCPlayerStatusBuffering";
+            break;
+        case YCPlayerStatusReadyToPlay:
+            desc = @"YCPlayerStatusReadyToPlay";
+            break;
+        case YCPlayerStatusPlaying:
+            desc = @"YCPlayerStatusPlaying";
+            break;
+        case YCPlayerStatusPause:
+            desc = @"YCPlayerStatusPause";
+            break;
+        case YCPlayerStatusStopped:
+            desc = @"YCPlayerStatusStopped";
+            break;
+        case YCPlayerStatusFinished:
+            desc = @"YCPlayerStatusFinished";
+            break;
+        default:
+            desc = @"NoOne";
+            break;
+    }
+    return desc;
+}
 #pragma mark -
 
 #pragma mark - GlobalNotication
@@ -266,6 +306,7 @@ static YCPlayerManager *playerManager;
 
 - (void)onAudioSessionRouteChange:(NSNotification *)noti
 {
+    
     AVAudioSessionRouteChangeReason reason = [noti.userInfo[AVAudioSessionRouteChangeReasonKey] integerValue];
     if (reason == AVAudioSessionRouteChangeReasonOverride) {
         return;
@@ -353,43 +394,6 @@ static YCPlayerManager *playerManager;
 }
 #pragma mark -
 
-- (NSString *)ycStatusDescription:(YCPlayerStatus)status
-{
-    NSString *desc = nil;
-    switch (status) {
-        case YCPlayerStatusFailed:
-            desc = @"YCPlayerStatusFailed";
-            break;
-        case YCPlayerStatusUnKnown:
-            desc = @"YCPlayerStatusUnKnown";
-            break;
-        case YCPlayerStatustransitioning:
-            desc = @"YCPlayerStatustransitioning";
-            break;
-        case YCPlayerStatusBuffering:
-            desc = @"YCPlayerStatusBuffering";
-            break;
-        case YCPlayerStatusReadyToPlay:
-            desc = @"YCPlayerStatusReadyToPlay";
-            break;
-        case YCPlayerStatusPlaying:
-            desc = @"YCPlayerStatusPlaying";
-            break;
-        case YCPlayerStatusPause:
-            desc = @"YCPlayerStatusPause";
-            break;
-        case YCPlayerStatusStopped:
-            desc = @"YCPlayerStatusStopped";
-            break;
-        case YCPlayerStatusFinished:
-            desc = @"YCPlayerStatusFinished";
-            break;
-        default:
-            desc = @"NoOne";
-            break;
-    }
-    return desc;
-}
 @end
 
 
