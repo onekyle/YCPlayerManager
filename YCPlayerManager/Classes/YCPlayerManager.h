@@ -46,7 +46,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
  @param mediaURLString URL源
  @param completionHandler 加载完成的回调.
  */
-- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler;
+- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)(void))completionHandler;
 
 
 /**
@@ -56,7 +56,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
  @param completionHandler 加载完成的回调.
  @param equivalentHandler 如果资源与旧资源相同的回调.
  */
-- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler equivalentHandler:(nullable void (^)())equivalentHandler;
+- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)(void))completionHandler equivalentHandler:(nullable void (^)(void))equivalentHandler;
 
 // control
 - (void)play;

@@ -106,7 +106,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     }
 }
 
-- (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(void(^)())completionHandler
+- (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void(^)(void))completionHandler
 {
     [_metaPlayer pauseWithoutChangeStatus];
     self.status = YCPlayerStatustransitioning;

@@ -13,7 +13,7 @@ NSString *const kYCPlayerStatusChangeNotificationKey = @"kYCPlayerStatusChangeNo
 @interface YCPlayerManager () <YCPlayerViewEventControlDelegate>
 
 @property (nonatomic, copy) NSString *pausedMediaURLString;
-@property (nonatomic, copy) void (^completionHandler)();
+@property (nonatomic, copy) void (^completionHandler)(void);
 
 - (AVPlayer *)metaPlayer;
 - (BOOL)hasPausedByManual;
@@ -70,12 +70,12 @@ static YCPlayerManager *playerManager;
 
 #pragma mark - ControlEvent
 
-- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler
+- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)(void))completionHandler
 {
     [self playWithMediaURLString:mediaURLString completionHandler:completionHandler equivalentHandler:nil];
 }
 
-- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)())completionHandler equivalentHandler:(nullable void (^)())equivalentHandler
+- (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)(void))completionHandler equivalentHandler:(nullable void (^)(void))equivalentHandler
 {
     if (![_mediaURLString isEqualToString:mediaURLString]) {
         _mediaURLString = [mediaURLString copy];

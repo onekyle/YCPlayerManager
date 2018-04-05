@@ -1,19 +1,19 @@
 {
   "name": "YCPlayerManager",
-  "version": "0.1.0",
-  "summary": "A short description of YCPlayerManager.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/ych.wang@outlook.com/YCPlayerManager",
+  "version": "0.1.3",
+  "summary": "Media player.",
+  "description": "A lightweight media player base on AVPlayer in iOS platform",
+  "homepage": "https://github.com/flappyFeline/YCPlayerManager",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "ych.wang@outlook.com": "ych.wang@outlook.com"
+    "Durand Wang": "ych.wang@outlook.com"
   },
   "source": {
-    "git": "https://github.com/ych.wang@outlook.com/YCPlayerManager.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/flappyFeline/YCPlayerManager.git",
+    "tag": "0.1.3"
   },
   "platforms": {
     "ios": "7.0"

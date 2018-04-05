@@ -9,55 +9,55 @@
 /* Begin PBXBuildFile section */
 		0037F0C8C05DD0761D48C308809E8CEA /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 0515B8FFDF02AC747460BF06B7147C92 /* NSData+ImageContentType.m */; };
 		02CB8EF8181E6CA53EC72FA887E91394 /* SDImageCacheConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 017851524E3ABDA65B7BF9B37C3D7034 /* SDImageCacheConfig.m */; };
-		06EBD399427C58752BE8BA66A67B6B1A /* UIButton+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = F84F89DA463D5F013F47620258BECA2C /* UIButton+WebCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		073372234CF070EFEACAE74A5876371E /* Pods-YCPlayerManager_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FDA9DAC67C63644EA99D608FC38EC472 /* Pods-YCPlayerManager_Tests-dummy.m */; };
 		08A8ED4198DB75007CDACDD10B674854 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE29CF4FF5C02028C0A06EC0D2A6120 /* Foundation.framework */; };
+		15AE990508BF7914ABB03483FBDCD2E6 /* UIView+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = FC24B0F8787681FFD86A7FF97C481764 /* UIView+WebCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		18578F16E2AF84D591E86135C44EA060 /* SDWebImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 061BD245946E3501DC9722976B6AD69F /* SDWebImageDownloader.m */; };
 		1A8D4F2374C17CEF23E6FD751003B945 /* UIButton+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 123A809310FA5938787013915F3D64B4 /* UIButton+WebCache.m */; };
-		1B602319C587CF6417AC2D515150E2B3 /* SDImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E2890C6456A666BDAAC0FA873AC628D /* SDImageCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1B62C5632E99BB92CF30B1460B01A274 /* YCPlayerManager-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C47690C48EC8D44496685ACBF22AAB16 /* YCPlayerManager-dummy.m */; };
-		1BD6D8C1BBA03B5787AF112C4F6B72C6 /* UIView+WebCacheOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A82F610DA462435F1AF2E40069B468A /* UIView+WebCacheOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1FB2D70B10141FADCED33A14C9823394 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = AC1B1D53218A33DDF03E78CC1D10282D /* SDWebImageCompat.m */; };
 		216F6E287EDBCA2BD7E16D5F895F8C54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE29CF4FF5C02028C0A06EC0D2A6120 /* Foundation.framework */; };
+		239280338F74E0EE078F16799571ABF0 /* UIImageView+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B0E9B6DF8E857C9B0D2F99FC304F5C /* UIImageView+WebCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2C0C05767B9EB3DBF232049B6C6536AD /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = F922701ABE8790DD84BD643BFA3F9D9E /* UIImageView+WebCache.m */; };
-		352B8E46674552B850D1ADED98C8589B /* SDWebImagePrefetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FF5AFAC79DED4F0C94D1BB961D2D557 /* SDWebImagePrefetcher.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		369F0F42AF11DADA538E064E13D05981 /* SDWebImage-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 63C421E1831E29906D3404BDCA1B2C1B /* SDWebImage-dummy.m */; };
-		3839176BE6249755CD6E91EB07155EF7 /* UIImageView+HighlightedWebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F24A6DBFFEDC06E98C0AFD080F1D24D /* UIImageView+HighlightedWebCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3BFF39CBF4CE30C03C028A0560C7BBBF /* SDImageCacheConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 169F96E9B9B5F19875E606404AF824BE /* SDImageCacheConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5ED11D6030CFCC89E0B52EBFEF30185F /* YCPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = E000ADA2C8A5E243E0CD124F4367E76D /* YCPlayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55A29FC92BBBF018478C3F97291871E4 /* YCPlayerView.h in Headers */ = {isa = PBXBuildFile; fileRef = AF8D2AFF2715936A8290C3DFCA2718DD /* YCPlayerView.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		5AEF0ADF2DCA8F91350F80CAC35B198B /* UIButton+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = F84F89DA463D5F013F47620258BECA2C /* UIButton+WebCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		5B3E64B04E18B04D2A0A00E50790CD08 /* YCPlayerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2BD2898DC2138F7327A86F7E714A5D02 /* YCPlayerManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		669A37CE055ACE5E9E2095A64F4280A4 /* NSData+ImageContentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 151184230168224C23550D1C654C722F /* NSData+ImageContentType.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		6BD304FECB5712DC94C1DE54867DBA69 /* YCPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = FD414E79545D4188E7D30A371A9D56B3 /* YCPlayer.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		6E622452BAF4FF78677B6B7FEFE1A19C /* UIImage+GIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 003ABD753CAF59EF000CA534C832D14D /* UIImage+GIF.m */; };
+		720B9BD5ABE6DD577386BCA44236A6F5 /* UIImage+GIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ACCB8B450CC4B80A63EE725C41C0B29 /* UIImage+GIF.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		74F6A51643B79ADF05FB28FCB7468703 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 33187D162677C128060029C7359C0024 /* SDImageCache.m */; };
-		760EBD4ACDE5A12E479048BB14EFEA10 /* UIView+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = FC24B0F8787681FFD86A7FF97C481764 /* UIView+WebCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7736AB64E51ED4EC044D21D0649339E8 /* YCPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BCD0BA0069CDA64357E15CE0FA3AE7 /* YCPlayerManager.m */; };
+		75E634B770B879A381B39E82AD424E9F /* SDWebImageOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1278B5233127A1E722D53F10E7FA5EC8 /* SDWebImageOperation.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		785FEA6FD1A2E31A3C49C92A7B3CD7EC /* YCPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 62D4F7EB9AD677852B0E9935BEC8A07E /* YCPlayerView.m */; };
 		7FF28273A357AC535A182C0404E793FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE29CF4FF5C02028C0A06EC0D2A6120 /* Foundation.framework */; };
 		8D9000843DAB7139DD648F398FBD5766 /* Pods-YCPlayerManager_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9AD5B21A940DF157FDB633FEF49E63 /* Pods-YCPlayerManager_Example-dummy.m */; };
-		8FAC6C97FA142FD0F66878CBC7B52C39 /* YCPlayerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4EA45889C071BC8EE8631E0AD1890B36 /* YCPlayerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		943FE019A116709E8088CEF0AFB1030F /* UIImageView+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = F3B0E9B6DF8E857C9B0D2F99FC304F5C /* UIImageView+WebCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9737AAB6FCB9C4B1FC0B03CB23EC33D9 /* YCPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4AD0C865281951D6DFFCD8A7C56557D7 /* YCPlayerView.m */; };
-		996A9E22DD5E24E4952B123B938DA0CD /* UIImage+GIF.h in Headers */ = {isa = PBXBuildFile; fileRef = 0ACCB8B450CC4B80A63EE725C41C0B29 /* UIImage+GIF.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8F292F35B7E2F4E7D5FDC533084A2145 /* YCPlayerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 4146C6139E6737641641532F3652C6EE /* YCPlayerDelegate.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		9441301275224702A35F5214BF2E6072 /* SDWebImageDownloaderOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FAAAA9369B44B0CACDD1C0E8FCD6F43 /* SDWebImageDownloaderOperation.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		998C50437E3392007DA683AE77BE4B10 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB52CF8D4721A70A8DBB80842994D97 /* UIImageView+HighlightedWebCache.m */; };
+		9DFEB7EC26730240141A1E7B1265C646 /* SDWebImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4FF8277985072AA2414C8092B0E5E8 /* SDWebImageManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		9F7E7C2FC5FEAE8A3EE9D670454F4D80 /* SDWebImageCompat.h in Headers */ = {isa = PBXBuildFile; fileRef = 800D2AB9BD2022E1D6C504CF6566681F /* SDWebImageCompat.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A238D2084C42B0D0D358788588B199B3 /* SDWebImageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B2D7436D47BF86BE7F4C22F258A0154 /* SDWebImageManager.m */; };
-		A4532EF770BEB5725F8D4B3A2F0AAB46 /* YCPlayerManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F7C7A73F99908C8867216EAECF6DB2B /* YCPlayerManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A9BF9AEB0327BDE419DD93C3C1E167CE /* SDWebImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = D0AAD31650A9E6056BF51E6E7F5DC451 /* SDWebImageDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AAAECAF9D67A5BF195C8F21A30B0B0E5 /* NSData+ImageContentType.h in Headers */ = {isa = PBXBuildFile; fileRef = 151184230168224C23550D1C654C722F /* NSData+ImageContentType.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAE66AA0DBB23646A229869648B8E985 /* NSImage+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 38144E417F1BCD6B1FAEC6B8717E1E23 /* NSImage+WebCache.m */; };
-		C045742E7C49B766702DD6FF0C388AC1 /* SDWebImageCompat.h in Headers */ = {isa = PBXBuildFile; fileRef = 800D2AB9BD2022E1D6C504CF6566681F /* SDWebImageCompat.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		C49D1AE3FA0B8B2F4DAFA7B28B7692BE /* UIImage+MultiFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B730BABFE2264BB576806D96D5292B1 /* UIImage+MultiFormat.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B5B1BEA6ADDC38D1A6DF3493BF8E7C41 /* UIView+WebCacheOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A82F610DA462435F1AF2E40069B468A /* UIView+WebCacheOperation.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B5BB4625E81BCDEB96734FA4477ECA7B /* SDWebImageDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B1FC992CB7BD5112195C879B7F23ACC8 /* SDWebImageDecoder.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B85F81EFD2889FB61CFC58F34BBDF1A9 /* YCPlayerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E4D221B0624409FE5AED9F320D76E3FD /* YCPlayerManager.m */; };
+		B92F1D4112BBE2057306213F94BA0F7A /* SDImageCacheConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 169F96E9B9B5F19875E606404AF824BE /* SDImageCacheConfig.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C7583D683A35EFF347E497BD7C3C3978 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CE29CF4FF5C02028C0A06EC0D2A6120 /* Foundation.framework */; };
 		CA9F802714C98FF2019D02AE027ABB5E /* UIView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F2BB2A6F6DDDD53BC079622F286FF42 /* UIView+WebCache.m */; };
-		D4050D0275F01B5B9AF356D7B75869D4 /* SDWebImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AC4FF8277985072AA2414C8092B0E5E8 /* SDWebImageManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D77287E5554590FE672E90B4007F8171 /* YCPlayerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 139BE654D06721B956111484336BAB3A /* YCPlayerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E2B19FF7EE00091A7D9F77052D3CB685 /* SDWebImageDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = B1FC992CB7BD5112195C879B7F23ACC8 /* SDWebImageDecoder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D39AA1F30C090E19F16D2BA5B61ABB1C /* SDImageCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E2890C6456A666BDAAC0FA873AC628D /* SDImageCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		DC9639CCBC3A56D11AC21E8E705A534A /* SDWebImageDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = D0AAD31650A9E6056BF51E6E7F5DC451 /* SDWebImageDownloader.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		E0980C710B88D40516ECC08EF3F13056 /* YCPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 335F6AA82F4B93C863F37A57B1349A6B /* YCPlayer.m */; };
 		E52B7149EC63CEBCD8B3E7C6ADB1DDC6 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A96738A124145BD661891641E09D321 /* UIView+WebCacheOperation.m */; };
 		E5303597A8BB2DC03CC08905F399B53E /* SDWebImagePrefetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = B1D5D1B92B920495205ECC5F01A79B18 /* SDWebImagePrefetcher.m */; };
 		EAAC3C6206A130A84D8A82BC6503D497 /* SDWebImageDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A6E5B273CF39F8FC2FD8786F72729B7 /* SDWebImageDecoder.m */; };
-		EBE1F73F83469DA63BD60103D5B41D1A /* SDWebImageDownloaderOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FAAAA9369B44B0CACDD1C0E8FCD6F43 /* SDWebImageDownloaderOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EF1039C58692B51717F15CB6577E1877 /* NSImage+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = CC6C5BEF90DB5C23F890DDF3AE04E82D /* NSImage+WebCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EF7C27A582A500C00E42B71D9E731CFB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635A4BD1CEF7E623C71F97A54BFC3616 /* ImageIO.framework */; };
-		F492B9F037E576165F0A1145802B72F2 /* NSImage+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = CC6C5BEF90DB5C23F890DDF3AE04E82D /* NSImage+WebCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F28B09FD76D452D6B0287AF3B5FBB5A1 /* YCPlayerManager-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 40ED996668F3456D505CD87EB35508AF /* YCPlayerManager-dummy.m */; };
+		F74293CD496367DABB9AC74CA85C4950 /* SDWebImagePrefetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FF5AFAC79DED4F0C94D1BB961D2D557 /* SDWebImagePrefetcher.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		F7E82D8B55491B2E2C1A650A63CB6E06 /* SDWebImageDownloaderOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7175586325AADB8BA8C4ECB09907EA10 /* SDWebImageDownloaderOperation.m */; };
+		F8A8EA843431133568610569821DFC27 /* UIImageView+HighlightedWebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F24A6DBFFEDC06E98C0AFD080F1D24D /* UIImageView+HighlightedWebCache.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		F9556BC755F3EAC6C21DC86A0AAF29D1 /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE46DB6FE0E8D812F73130BD83794EB /* UIImage+MultiFormat.m */; };
-		F95970E4755E5CFDFAF031E49B2AEDCD /* SDWebImageOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1278B5233127A1E722D53F10E7FA5EC8 /* SDWebImageOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FC165E41F170D826AEF0700FED8874F5 /* YCPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E6E96041013217073B1173C0A8778961 /* YCPlayer.m */; };
+		F9A33055B55DD4AF0B66B3208F217978 /* UIImage+MultiFormat.h in Headers */ = {isa = PBXBuildFile; fileRef = 8B730BABFE2264BB576806D96D5292B1 /* UIImage+MultiFormat.h */; settings = {ATTRIBUTES = (Project, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,23 +88,24 @@
 		11B475992056932FB8B02F593F7E3473 /* Pods-YCPlayerManager_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YCPlayerManager_Tests-resources.sh"; sourceTree = "<group>"; };
 		123A809310FA5938787013915F3D64B4 /* UIButton+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIButton+WebCache.m"; path = "SDWebImage/UIButton+WebCache.m"; sourceTree = "<group>"; };
 		1278B5233127A1E722D53F10E7FA5EC8 /* SDWebImageOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageOperation.h; path = SDWebImage/SDWebImageOperation.h; sourceTree = "<group>"; };
-		139BE654D06721B956111484336BAB3A /* YCPlayerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = YCPlayerView.h; sourceTree = "<group>"; };
 		151184230168224C23550D1C654C722F /* NSData+ImageContentType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSData+ImageContentType.h"; path = "SDWebImage/NSData+ImageContentType.h"; sourceTree = "<group>"; };
 		169F96E9B9B5F19875E606404AF824BE /* SDImageCacheConfig.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDImageCacheConfig.h; path = SDWebImage/SDImageCacheConfig.h; sourceTree = "<group>"; };
 		1EF8198CA78C7E17C5665C8336F95CD3 /* Pods-YCPlayerManager_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YCPlayerManager_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		1F2BB2A6F6DDDD53BC079622F286FF42 /* UIView+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+WebCache.m"; path = "SDWebImage/UIView+WebCache.m"; sourceTree = "<group>"; };
-		1F7C7A73F99908C8867216EAECF6DB2B /* YCPlayerManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = YCPlayerManager.h; sourceTree = "<group>"; };
-		234636C44573868336716D370B1BC053 /* YCPlayerManager-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YCPlayerManager-prefix.pch"; sourceTree = "<group>"; };
+		2BD2898DC2138F7327A86F7E714A5D02 /* YCPlayerManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YCPlayerManager.h; path = YCPlayerManager/Classes/YCPlayerManager.h; sourceTree = "<group>"; };
 		33187D162677C128060029C7359C0024 /* SDImageCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDImageCache.m; path = SDWebImage/SDImageCache.m; sourceTree = "<group>"; };
+		335F6AA82F4B93C863F37A57B1349A6B /* YCPlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YCPlayer.m; path = YCPlayerManager/Classes/YCPlayer.m; sourceTree = "<group>"; };
 		38144E417F1BCD6B1FAEC6B8717E1E23 /* NSImage+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSImage+WebCache.m"; path = "SDWebImage/NSImage+WebCache.m"; sourceTree = "<group>"; };
+		3B75EAF88BE173EC657266DCF3AC6AC5 /* YCPlayerManager.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = YCPlayerManager.bundle; path = YCPlayerManager/YCPlayerManager.bundle; sourceTree = "<group>"; };
+		40ED996668F3456D505CD87EB35508AF /* YCPlayerManager-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YCPlayerManager-dummy.m"; sourceTree = "<group>"; };
+		4146C6139E6737641641532F3652C6EE /* YCPlayerDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YCPlayerDelegate.h; path = YCPlayerManager/Classes/YCPlayerDelegate.h; sourceTree = "<group>"; };
 		47E105A9DDFAFC93FB079CEC076E7DC8 /* Pods-YCPlayerManager_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-YCPlayerManager_Example-acknowledgements.plist"; sourceTree = "<group>"; };
-		4AD0C865281951D6DFFCD8A7C56557D7 /* YCPlayerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = YCPlayerView.m; sourceTree = "<group>"; };
 		4BE46DB6FE0E8D812F73130BD83794EB /* UIImage+MultiFormat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImage+MultiFormat.m"; path = "SDWebImage/UIImage+MultiFormat.m"; sourceTree = "<group>"; };
-		4EA45889C071BC8EE8631E0AD1890B36 /* YCPlayerDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = YCPlayerDelegate.h; sourceTree = "<group>"; };
 		5437AD385EDE551AEDFF150954990560 /* SDWebImage.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SDWebImage.xcconfig; sourceTree = "<group>"; };
 		5498F4E300BC16139F8A6203B7E099F1 /* SDWebImage-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SDWebImage-prefix.pch"; sourceTree = "<group>"; };
 		5F9AD5B21A940DF157FDB633FEF49E63 /* Pods-YCPlayerManager_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-YCPlayerManager_Example-dummy.m"; sourceTree = "<group>"; };
 		6212AB188B2534782715B8DA8C178F44 /* Pods-YCPlayerManager_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-YCPlayerManager_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
+		62D4F7EB9AD677852B0E9935BEC8A07E /* YCPlayerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YCPlayerView.m; path = YCPlayerManager/Classes/YCPlayerView.m; sourceTree = "<group>"; };
 		635A4BD1CEF7E623C71F97A54BFC3616 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/ImageIO.framework; sourceTree = DEVELOPER_DIR; };
 		63C421E1831E29906D3404BDCA1B2C1B /* SDWebImage-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SDWebImage-dummy.m"; sourceTree = "<group>"; };
 		6B2D7436D47BF86BE7F4C22F258A0154 /* SDWebImageManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageManager.m; path = SDWebImage/SDWebImageManager.m; sourceTree = "<group>"; };
@@ -112,6 +113,7 @@
 		7175586325AADB8BA8C4ECB09907EA10 /* SDWebImageDownloaderOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDownloaderOperation.m; path = SDWebImage/SDWebImageDownloaderOperation.m; sourceTree = "<group>"; };
 		800D2AB9BD2022E1D6C504CF6566681F /* SDWebImageCompat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageCompat.h; path = SDWebImage/SDWebImageCompat.h; sourceTree = "<group>"; };
 		8A6E5B273CF39F8FC2FD8786F72729B7 /* SDWebImageDecoder.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageDecoder.m; path = SDWebImage/SDWebImageDecoder.m; sourceTree = "<group>"; };
+		8AF511B978A95C5B35FC339987EC696E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
 		8B730BABFE2264BB576806D96D5292B1 /* UIImage+MultiFormat.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImage+MultiFormat.h"; path = "SDWebImage/UIImage+MultiFormat.h"; sourceTree = "<group>"; };
 		8FF5AFAC79DED4F0C94D1BB961D2D557 /* SDWebImagePrefetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImagePrefetcher.h; path = SDWebImage/SDWebImagePrefetcher.h; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
@@ -119,34 +121,35 @@
 		9A96738A124145BD661891641E09D321 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+WebCacheOperation.m"; path = "SDWebImage/UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		9F24A6DBFFEDC06E98C0AFD080F1D24D /* UIImageView+HighlightedWebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+HighlightedWebCache.h"; path = "SDWebImage/UIImageView+HighlightedWebCache.h"; sourceTree = "<group>"; };
 		9FAAAA9369B44B0CACDD1C0E8FCD6F43 /* SDWebImageDownloaderOperation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloaderOperation.h; path = SDWebImage/SDWebImageDownloaderOperation.h; sourceTree = "<group>"; };
-		A1BCD0BA0069CDA64357E15CE0FA3AE7 /* YCPlayerManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = YCPlayerManager.m; sourceTree = "<group>"; };
 		A7E62BB772FCBD2DB2E65E20C658EA39 /* libYCPlayerManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libYCPlayerManager.a; path = libYCPlayerManager.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA1FE3EC37C757516B02E8099796D1BA /* YCPlayerManager.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; path = YCPlayerManager.bundle; sourceTree = "<group>"; };
 		AC1B1D53218A33DDF03E78CC1D10282D /* SDWebImageCompat.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImageCompat.m; path = SDWebImage/SDWebImageCompat.m; sourceTree = "<group>"; };
 		AC4FF8277985072AA2414C8092B0E5E8 /* SDWebImageManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageManager.h; path = SDWebImage/SDWebImageManager.h; sourceTree = "<group>"; };
 		AC8A9A6BA626DF04847498EE6244AE59 /* Pods-YCPlayerManager_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YCPlayerManager_Example-resources.sh"; sourceTree = "<group>"; };
+		AF8D2AFF2715936A8290C3DFCA2718DD /* YCPlayerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YCPlayerView.h; path = YCPlayerManager/Classes/YCPlayerView.h; sourceTree = "<group>"; };
 		B1D5D1B92B920495205ECC5F01A79B18 /* SDWebImagePrefetcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SDWebImagePrefetcher.m; path = SDWebImage/SDWebImagePrefetcher.m; sourceTree = "<group>"; };
 		B1FC992CB7BD5112195C879B7F23ACC8 /* SDWebImageDecoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDecoder.h; path = SDWebImage/SDWebImageDecoder.h; sourceTree = "<group>"; };
 		B7F963F89FC996B40F02A497BD1115A1 /* Pods-YCPlayerManager_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YCPlayerManager_Example-frameworks.sh"; sourceTree = "<group>"; };
 		B9A8B3E25F57A056664DCC2F31EF041C /* libPods-YCPlayerManager_Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-YCPlayerManager_Tests.a"; path = "libPods-YCPlayerManager_Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C47690C48EC8D44496685ACBF22AAB16 /* YCPlayerManager-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "YCPlayerManager-dummy.m"; sourceTree = "<group>"; };
+		BF53F530F00B037C161C4370EE8893FA /* YCPlayerManager-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "YCPlayerManager-prefix.pch"; sourceTree = "<group>"; };
 		CAAAD554B40D7B59D5581327884A9E7E /* Pods-YCPlayerManager_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YCPlayerManager_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		CC6C5BEF90DB5C23F890DDF3AE04E82D /* NSImage+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSImage+WebCache.h"; path = "SDWebImage/NSImage+WebCache.h"; sourceTree = "<group>"; };
 		D0AAD31650A9E6056BF51E6E7F5DC451 /* SDWebImageDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SDWebImageDownloader.h; path = SDWebImage/SDWebImageDownloader.h; sourceTree = "<group>"; };
 		D73BAD2B35C0864B1842D3784C57D334 /* Pods-YCPlayerManager_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-YCPlayerManager_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
+		D77FF97F62BD3514743FC109A0AE3738 /* YCPlayerManager.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = YCPlayerManager.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		D97CB1ED565A846230D9749BE90E44A5 /* Pods-YCPlayerManager_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YCPlayerManager_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		E000ADA2C8A5E243E0CD124F4367E76D /* YCPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = YCPlayer.h; sourceTree = "<group>"; };
-		E6E96041013217073B1173C0A8778961 /* YCPlayer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = YCPlayer.m; sourceTree = "<group>"; };
-		E816498875614FB245EC4EE8E630BCB7 /* YCPlayerManager.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YCPlayerManager.xcconfig; sourceTree = "<group>"; };
+		E2F364A58E78F6727C9F195EAF451AF6 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		E4D221B0624409FE5AED9F320D76E3FD /* YCPlayerManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = YCPlayerManager.m; path = YCPlayerManager/Classes/YCPlayerManager.m; sourceTree = "<group>"; };
 		E8D74BA21718EF9BA203FE895F031D19 /* Pods-YCPlayerManager_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-YCPlayerManager_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		EAFF92D82415A13D33CBDFB70FC77E62 /* Pods-YCPlayerManager_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-YCPlayerManager_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		EBB52CF8D4721A70A8DBB80842994D97 /* UIImageView+HighlightedWebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+HighlightedWebCache.m"; path = "SDWebImage/UIImageView+HighlightedWebCache.m"; sourceTree = "<group>"; };
+		EDD0DEE798851A03574935C13685D806 /* YCPlayerManager.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = YCPlayerManager.xcconfig; sourceTree = "<group>"; };
 		F3B0E9B6DF8E857C9B0D2F99FC304F5C /* UIImageView+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIImageView+WebCache.h"; path = "SDWebImage/UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		F693122129288066F96564186E6DDDD5 /* libSDWebImage.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libSDWebImage.a; path = libSDWebImage.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F84F89DA463D5F013F47620258BECA2C /* UIButton+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIButton+WebCache.h"; path = "SDWebImage/UIButton+WebCache.h"; sourceTree = "<group>"; };
 		F922701ABE8790DD84BD643BFA3F9D9E /* UIImageView+WebCache.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIImageView+WebCache.m"; path = "SDWebImage/UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		FBF8A0027C48ED42800FD5E9E0286CEB /* Pods-YCPlayerManager_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-YCPlayerManager_Example.release.xcconfig"; sourceTree = "<group>"; };
 		FC24B0F8787681FFD86A7FF97C481764 /* UIView+WebCache.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+WebCache.h"; path = "SDWebImage/UIView+WebCache.h"; sourceTree = "<group>"; };
+		FD414E79545D4188E7D30A371A9D56B3 /* YCPlayer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = YCPlayer.h; path = YCPlayerManager/Classes/YCPlayer.h; sourceTree = "<group>"; };
 		FDA9DAC67C63644EA99D608FC38EC472 /* Pods-YCPlayerManager_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-YCPlayerManager_Tests-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -187,17 +190,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0669863BC3DA86849F26E8CE20E987AC /* YCPlayerManager */ = {
-			isa = PBXGroup;
-			children = (
-				312E0137A2B35C61D83739BBE8150A4B /* Resources */,
-				96C2A84035EFFD62450CCD2239410F30 /* Support Files */,
-				1732E6AFBB55D7D58FBEFB71CE4D21A3 /* YCPlayerManager */,
-			);
-			name = YCPlayerManager;
-			path = ../..;
-			sourceTree = "<group>";
-		};
 		0B3A2341D139ED8F608BC1E84218DBDD /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,15 +198,6 @@
 			);
 			name = SDWebImage;
 			path = SDWebImage;
-			sourceTree = "<group>";
-		};
-		1732E6AFBB55D7D58FBEFB71CE4D21A3 /* YCPlayerManager */ = {
-			isa = PBXGroup;
-			children = (
-				32A45E0D3724297032C0CAC6168A6665 /* Classes */,
-			);
-			name = YCPlayerManager;
-			path = YCPlayerManager;
 			sourceTree = "<group>";
 		};
 		1DB8D2F874FBA8D9A51070A14A1D305B /* Products */ = {
@@ -237,27 +220,22 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		312E0137A2B35C61D83739BBE8150A4B /* Resources */ = {
+		2301B62F3493AAF6B8762082BDFA58B9 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				9DA1D658BA00775C6B941689322C2E1C /* YCPlayerManager */,
+				E2F364A58E78F6727C9F195EAF451AF6 /* LICENSE */,
+				8AF511B978A95C5B35FC339987EC696E /* README.md */,
+				D77FF97F62BD3514743FC109A0AE3738 /* YCPlayerManager.podspec */,
 			);
-			name = Resources;
+			name = Pod;
 			sourceTree = "<group>";
 		};
-		32A45E0D3724297032C0CAC6168A6665 /* Classes */ = {
+		3CB49B18FEADBBA9CFF180E81D90C572 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				E000ADA2C8A5E243E0CD124F4367E76D /* YCPlayer.h */,
-				E6E96041013217073B1173C0A8778961 /* YCPlayer.m */,
-				4EA45889C071BC8EE8631E0AD1890B36 /* YCPlayerDelegate.h */,
-				1F7C7A73F99908C8867216EAECF6DB2B /* YCPlayerManager.h */,
-				A1BCD0BA0069CDA64357E15CE0FA3AE7 /* YCPlayerManager.m */,
-				139BE654D06721B956111484336BAB3A /* YCPlayerView.h */,
-				4AD0C865281951D6DFFCD8A7C56557D7 /* YCPlayerView.m */,
+				3B75EAF88BE173EC657266DCF3AC6AC5 /* YCPlayerManager.bundle */,
 			);
-			name = Classes;
-			path = Classes;
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		433CD3331B6C3787F473C941B61FC68F /* Frameworks */ = {
@@ -268,11 +246,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5BEFFD5AAB12FD7FC305EC76BF55B02C /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A5F88B37EB760293898EC2EE77472345 /* YCPlayerManager */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				DE2DF329940C7C75CC19907CA73150BD /* Development Pods */,
+				5BEFFD5AAB12FD7FC305EC76BF55B02C /* Development Pods */,
 				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
 				BF4B13718B20D23D5B220FA33C2583D8 /* Pods */,
 				1DB8D2F874FBA8D9A51070A14A1D305B /* Products */,
@@ -295,24 +281,33 @@
 			path = "Target Support Files/Pods-YCPlayerManager_Example";
 			sourceTree = "<group>";
 		};
-		96C2A84035EFFD62450CCD2239410F30 /* Support Files */ = {
+		A5F88B37EB760293898EC2EE77472345 /* YCPlayerManager */ = {
 			isa = PBXGroup;
 			children = (
-				E816498875614FB245EC4EE8E630BCB7 /* YCPlayerManager.xcconfig */,
-				C47690C48EC8D44496685ACBF22AAB16 /* YCPlayerManager-dummy.m */,
-				234636C44573868336716D370B1BC053 /* YCPlayerManager-prefix.pch */,
+				FD414E79545D4188E7D30A371A9D56B3 /* YCPlayer.h */,
+				335F6AA82F4B93C863F37A57B1349A6B /* YCPlayer.m */,
+				4146C6139E6737641641532F3652C6EE /* YCPlayerDelegate.h */,
+				2BD2898DC2138F7327A86F7E714A5D02 /* YCPlayerManager.h */,
+				E4D221B0624409FE5AED9F320D76E3FD /* YCPlayerManager.m */,
+				AF8D2AFF2715936A8290C3DFCA2718DD /* YCPlayerView.h */,
+				62D4F7EB9AD677852B0E9935BEC8A07E /* YCPlayerView.m */,
+				2301B62F3493AAF6B8762082BDFA58B9 /* Pod */,
+				3CB49B18FEADBBA9CFF180E81D90C572 /* Resources */,
+				AE740ADC1E1D959BE85B1B108E056747 /* Support Files */,
+			);
+			name = YCPlayerManager;
+			path = ../..;
+			sourceTree = "<group>";
+		};
+		AE740ADC1E1D959BE85B1B108E056747 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				EDD0DEE798851A03574935C13685D806 /* YCPlayerManager.xcconfig */,
+				40ED996668F3456D505CD87EB35508AF /* YCPlayerManager-dummy.m */,
+				BF53F530F00B037C161C4370EE8893FA /* YCPlayerManager-prefix.pch */,
 			);
 			name = "Support Files";
 			path = "Example/Pods/Target Support Files/YCPlayerManager";
-			sourceTree = "<group>";
-		};
-		9DA1D658BA00775C6B941689322C2E1C /* YCPlayerManager */ = {
-			isa = PBXGroup;
-			children = (
-				AA1FE3EC37C757516B02E8099796D1BA /* YCPlayerManager.bundle */,
-			);
-			name = YCPlayerManager;
-			path = YCPlayerManager;
 			sourceTree = "<group>";
 		};
 		BF4B13718B20D23D5B220FA33C2583D8 /* Pods */ = {
@@ -391,14 +386,6 @@
 			name = Core;
 			sourceTree = "<group>";
 		};
-		DE2DF329940C7C75CC19907CA73150BD /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				0669863BC3DA86849F26E8CE20E987AC /* YCPlayerManager */,
-			);
-			name = "Development Pods";
-			sourceTree = "<group>";
-		};
 		E48DE553B13241C3AA75D3A62E0601AA /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -415,35 +402,35 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAAECAF9D67A5BF195C8F21A30B0B0E5 /* NSData+ImageContentType.h in Headers */,
-				F492B9F037E576165F0A1145802B72F2 /* NSImage+WebCache.h in Headers */,
-				1B602319C587CF6417AC2D515150E2B3 /* SDImageCache.h in Headers */,
-				3BFF39CBF4CE30C03C028A0560C7BBBF /* SDImageCacheConfig.h in Headers */,
-				C045742E7C49B766702DD6FF0C388AC1 /* SDWebImageCompat.h in Headers */,
-				E2B19FF7EE00091A7D9F77052D3CB685 /* SDWebImageDecoder.h in Headers */,
-				A9BF9AEB0327BDE419DD93C3C1E167CE /* SDWebImageDownloader.h in Headers */,
-				EBE1F73F83469DA63BD60103D5B41D1A /* SDWebImageDownloaderOperation.h in Headers */,
-				D4050D0275F01B5B9AF356D7B75869D4 /* SDWebImageManager.h in Headers */,
-				F95970E4755E5CFDFAF031E49B2AEDCD /* SDWebImageOperation.h in Headers */,
-				352B8E46674552B850D1ADED98C8589B /* SDWebImagePrefetcher.h in Headers */,
-				06EBD399427C58752BE8BA66A67B6B1A /* UIButton+WebCache.h in Headers */,
-				996A9E22DD5E24E4952B123B938DA0CD /* UIImage+GIF.h in Headers */,
-				C49D1AE3FA0B8B2F4DAFA7B28B7692BE /* UIImage+MultiFormat.h in Headers */,
-				3839176BE6249755CD6E91EB07155EF7 /* UIImageView+HighlightedWebCache.h in Headers */,
-				943FE019A116709E8088CEF0AFB1030F /* UIImageView+WebCache.h in Headers */,
-				760EBD4ACDE5A12E479048BB14EFEA10 /* UIView+WebCache.h in Headers */,
-				1BD6D8C1BBA03B5787AF112C4F6B72C6 /* UIView+WebCacheOperation.h in Headers */,
+				669A37CE055ACE5E9E2095A64F4280A4 /* NSData+ImageContentType.h in Headers */,
+				EF1039C58692B51717F15CB6577E1877 /* NSImage+WebCache.h in Headers */,
+				D39AA1F30C090E19F16D2BA5B61ABB1C /* SDImageCache.h in Headers */,
+				B92F1D4112BBE2057306213F94BA0F7A /* SDImageCacheConfig.h in Headers */,
+				9F7E7C2FC5FEAE8A3EE9D670454F4D80 /* SDWebImageCompat.h in Headers */,
+				B5BB4625E81BCDEB96734FA4477ECA7B /* SDWebImageDecoder.h in Headers */,
+				DC9639CCBC3A56D11AC21E8E705A534A /* SDWebImageDownloader.h in Headers */,
+				9441301275224702A35F5214BF2E6072 /* SDWebImageDownloaderOperation.h in Headers */,
+				9DFEB7EC26730240141A1E7B1265C646 /* SDWebImageManager.h in Headers */,
+				75E634B770B879A381B39E82AD424E9F /* SDWebImageOperation.h in Headers */,
+				F74293CD496367DABB9AC74CA85C4950 /* SDWebImagePrefetcher.h in Headers */,
+				5AEF0ADF2DCA8F91350F80CAC35B198B /* UIButton+WebCache.h in Headers */,
+				720B9BD5ABE6DD577386BCA44236A6F5 /* UIImage+GIF.h in Headers */,
+				F9A33055B55DD4AF0B66B3208F217978 /* UIImage+MultiFormat.h in Headers */,
+				F8A8EA843431133568610569821DFC27 /* UIImageView+HighlightedWebCache.h in Headers */,
+				239280338F74E0EE078F16799571ABF0 /* UIImageView+WebCache.h in Headers */,
+				15AE990508BF7914ABB03483FBDCD2E6 /* UIView+WebCache.h in Headers */,
+				B5B1BEA6ADDC38D1A6DF3493BF8E7C41 /* UIView+WebCacheOperation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F23892A83CEC9D95749179BBE69D8D4D /* Headers */ = {
+		EEB413CFAF1C2F32FF85C5D64EBEE322 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5ED11D6030CFCC89E0B52EBFEF30185F /* YCPlayer.h in Headers */,
-				8FAC6C97FA142FD0F66878CBC7B52C39 /* YCPlayerDelegate.h in Headers */,
-				A4532EF770BEB5725F8D4B3A2F0AAB46 /* YCPlayerManager.h in Headers */,
-				D77287E5554590FE672E90B4007F8171 /* YCPlayerView.h in Headers */,
+				6BD304FECB5712DC94C1DE54867DBA69 /* YCPlayer.h in Headers */,
+				8F292F35B7E2F4E7D5FDC533084A2145 /* YCPlayerDelegate.h in Headers */,
+				5B3E64B04E18B04D2A0A00E50790CD08 /* YCPlayerManager.h in Headers */,
+				55A29FC92BBBF018478C3F97291871E4 /* YCPlayerView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,9 +492,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B32C8928EC4CD69612A7D995B21A0AB9 /* Build configuration list for PBXNativeTarget "YCPlayerManager" */;
 			buildPhases = (
-				02E2912AEAEDF7412A5E0601B9D0E192 /* Sources */,
+				49B4EFCDF94F03102D4121FC61222355 /* Sources */,
 				141DAF7835E90B81443962EB658EFF9A /* Frameworks */,
-				F23892A83CEC9D95749179BBE69D8D4D /* Headers */,
+				EEB413CFAF1C2F32FF85C5D64EBEE322 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -524,8 +511,8 @@
 		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0700;
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -548,22 +535,22 @@
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		02E2912AEAEDF7412A5E0601B9D0E192 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC165E41F170D826AEF0700FED8874F5 /* YCPlayer.m in Sources */,
-				1B62C5632E99BB92CF30B1460B01A274 /* YCPlayerManager-dummy.m in Sources */,
-				7736AB64E51ED4EC044D21D0649339E8 /* YCPlayerManager.m in Sources */,
-				9737AAB6FCB9C4B1FC0B03CB23EC33D9 /* YCPlayerView.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3DAFDB040CF828288AD4C67E07441D82 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				8D9000843DAB7139DD648F398FBD5766 /* Pods-YCPlayerManager_Example-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		49B4EFCDF94F03102D4121FC61222355 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E0980C710B88D40516ECC08EF3F13056 /* YCPlayer.m in Sources */,
+				F28B09FD76D452D6B0287AF3B5FBB5A1 /* YCPlayerManager-dummy.m in Sources */,
+				B85F81EFD2889FB61CFC58F34BBDF1A9 /* YCPlayerManager.m in Sources */,
+				785FEA6FD1A2E31A3C49C92A7B3CD7EC /* YCPlayerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,281 +605,294 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		00FF96BA1D1D9CB9244FD529DC74BD75 /* Release */ = {
+		13AE71820F68353CA6B6534C4750A99B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5437AD385EDE551AEDFF150954990560 /* SDWebImage.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/SDWebImage/SDWebImage-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		167DEE9493B027A0677A08724196C9BB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = CAAAD554B40D7B59D5581327884A9E7E /* Pods-YCPlayerManager_Example.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		1A826449CD0B1A69D46983CFD13CA11C /* Release */ = {
+		1CC70FF0D188EBE546FD6516656FF136 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E816498875614FB245EC4EE8E630BCB7 /* YCPlayerManager.xcconfig */;
+			baseConfigurationReference = EDD0DEE798851A03574935C13685D806 /* YCPlayerManager.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/YCPlayerManager/YCPlayerManager-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		1EC6F06088B5E0BFCB65723A46ED027A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1EF8198CA78C7E17C5665C8336F95CD3 /* Pods-YCPlayerManager_Tests.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		34FE9531DA9AF2820790339988D5FF41 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGNING_REQUIRED = NO;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		79F7384958D8EE957B34D61C0EB7CCCA /* Release */ = {
+		55E021DF55293E9DF338FC70B6004C62 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FBF8A0027C48ED42800FD5E9E0286CEB /* Pods-YCPlayerManager_Example.release.xcconfig */;
+			baseConfigurationReference = 1EF8198CA78C7E17C5665C8336F95CD3 /* Pods-YCPlayerManager_Tests.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
-		C104F7F091290C3D1E248192F07FE689 /* Debug */ = {
+		7BFA5E3EE4CD0E8479A2FD8FD827D765 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EDD0DEE798851A03574935C13685D806 /* YCPlayerManager.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/YCPlayerManager/YCPlayerManager-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8FF263516C80FEB29C9ACC4FFB05759B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CAAAD554B40D7B59D5581327884A9E7E /* Pods-YCPlayerManager_Example.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C3E37FB098AE76440E29106ADBF00CEB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"POD_CONFIGURATION_DEBUG=1",
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		E80B0D73278EE8AF36A7C36AA14A40AB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5437AD385EDE551AEDFF150954990560 /* SDWebImage.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SDWebImage/SDWebImage-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		F0903DABE82453D53039F0F4A5B88D86 /* Debug */ = {
+		C4C4A71245D558FDC9B2AB9CF157CA4B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D97CB1ED565A846230D9749BE90E44A5 /* Pods-YCPlayerManager_Tests.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		F2DBDE2DB1A0BDAC1068BD3EDD0AE870 /* Debug */ = {
+		DA03565BE765DB55C6448FB363A44481 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E816498875614FB245EC4EE8E630BCB7 /* YCPlayerManager.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		DD1A254513ABEE0B0E61EF11857C6C51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5437AD385EDE551AEDFF150954990560 /* SDWebImage.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/YCPlayerManager/YCPlayerManager-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/SDWebImage/SDWebImage-prefix.pch";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Debug;
+			name = Release;
+		};
+		EBD68C5A0760C5BD577CD327B9764082 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBF8A0027C48ED42800FD5E9E0286CEB /* Pods-YCPlayerManager_Example.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -900,8 +900,8 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C104F7F091290C3D1E248192F07FE689 /* Debug */,
-				34FE9531DA9AF2820790339988D5FF41 /* Release */,
+				C3E37FB098AE76440E29106ADBF00CEB /* Debug */,
+				DA03565BE765DB55C6448FB363A44481 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -909,8 +909,8 @@
 		581B6BA81EC350EE6B0E57016108E6CD /* Build configuration list for PBXNativeTarget "Pods-YCPlayerManager_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				167DEE9493B027A0677A08724196C9BB /* Debug */,
-				79F7384958D8EE957B34D61C0EB7CCCA /* Release */,
+				8FF263516C80FEB29C9ACC4FFB05759B /* Debug */,
+				EBD68C5A0760C5BD577CD327B9764082 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -918,8 +918,8 @@
 		6F8955308BCC3685C5463B7F4E48051E /* Build configuration list for PBXNativeTarget "SDWebImage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E80B0D73278EE8AF36A7C36AA14A40AB /* Debug */,
-				00FF96BA1D1D9CB9244FD529DC74BD75 /* Release */,
+				13AE71820F68353CA6B6534C4750A99B /* Debug */,
+				DD1A254513ABEE0B0E61EF11857C6C51 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -927,8 +927,8 @@
 		AD700634426C074A7DF6F405061FA14C /* Build configuration list for PBXNativeTarget "Pods-YCPlayerManager_Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F0903DABE82453D53039F0F4A5B88D86 /* Debug */,
-				1EC6F06088B5E0BFCB65723A46ED027A /* Release */,
+				C4C4A71245D558FDC9B2AB9CF157CA4B /* Debug */,
+				55E021DF55293E9DF338FC70B6004C62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -936,8 +936,8 @@
 		B32C8928EC4CD69612A7D995B21A0AB9 /* Build configuration list for PBXNativeTarget "YCPlayerManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F2DBDE2DB1A0BDAC1068BD3EDD0AE870 /* Debug */,
-				1A826449CD0B1A69D46983CFD13CA11C /* Release */,
+				7BFA5E3EE4CD0E8479A2FD8FD827D765 /* Debug */,
+				1CC70FF0D188EBE546FD6516656FF136 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

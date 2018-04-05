@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init;
 
-- (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void(^)())completionHandler;
+- (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void(^)(void))completionHandler;
 
 - (void)reset;
 
