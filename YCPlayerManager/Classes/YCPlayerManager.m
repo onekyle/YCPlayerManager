@@ -211,7 +211,7 @@ static YCPlayerManager *playerManager;
             [self play];
         }
     }
-//    [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
+    [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
 /** 播放状态*/
 - (void)player:(YCPlayer *)player didChangeToStatus:(YCPlayerStatus)status fromStatus:(YCPlayerStatus)fromStatus
@@ -381,6 +381,13 @@ static YCPlayerManager *playerManager;
         return 0.0;
     }
     return self.player.currentTime;
+}
+
+- (void)setCurrentTime:(NSTimeInterval)currentTime
+{
+    if (self.player.isPlayable) {
+        [self seekToTime:currentTime];
+    }
 }
 
 - (NSTimeInterval)duration

@@ -78,6 +78,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)resetPlayerView;
 
+- (void)setPlayer:(YCPlayer *)player;
+
 // UIComponent target selector
 /** 开始拖拽*/
 - (void)didStartDragProgressSlider:(UISlider *)sender;

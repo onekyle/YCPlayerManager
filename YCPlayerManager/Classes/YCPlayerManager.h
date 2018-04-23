@@ -30,7 +30,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 @property (NS_NONATOMIC_IOSONLY, getter=isPaused, readonly) BOOL paused;
 
-@property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval currentTime;
+@property (NS_NONATOMIC_IOSONLY) NSTimeInterval currentTime;
 
 @property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval duration;
 
@@ -77,6 +77,8 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 - (void)onBecomeInactive:(NSNotification *)notification YC_REQUIRES_SUPER;
 
+
+- (BOOL)hasPausedByManual;
 @end
 
 NS_ASSUME_NONNULL_END

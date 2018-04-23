@@ -121,10 +121,14 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     __weak typeof(self) weakSelf = self;
     [asset loadValuesAsynchronouslyForKeys:@[@"duration"] completionHandler:^{
         dispatch_sync(dispatch_get_main_queue(), ^{
-            if (![[weakSelf.mediaURLString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] isEqualToString:asset.URL.absoluteString]) {
+            if (![[weakSelf getAssetWithURLString:weakSelf.mediaURLString].URL.absoluteString isEqualToString:asset.URL.absoluteString]) {
                 return;
             }
-            AVKeyValueStatus status = [asset statusOfValueForKey:@"duration" error:nil];
+            NSError *error;
+            AVKeyValueStatus status = [asset statusOfValueForKey:@"duration" error:&error];
+            if (error) {
+                NSLog(@"YCPlayerManager error: %@", error);
+            }
             if (status == AVKeyValueStatusLoaded) {
                 weakSelf.currentItem = [AVPlayerItem playerItemWithAsset:asset];
                 if (weakSelf.mediaURLString) {
@@ -241,12 +245,29 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
         return nil;
     }
     if ([url rangeOfString:@"http"].location != NSNotFound) {
-        AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL URLWithString:[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL URLWithString:[self stringByAddingPercentEscapesSafely:url]]];
         return asset;
     } else {
-        AVURLAsset *asset  = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:url]];
+        AVURLAsset *asset;
+        if ([url hasPrefix:@"file:"]) {
+            asset  = [AVURLAsset assetWithURL:[NSURL URLWithString:[self stringByAddingPercentEscapesSafely:url]]];
+        } else {
+            asset  = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:[self stringByAddingPercentEscapesSafely:url]]];
+        }
+        
         return asset;
     }
+}
+
+- (NSString *)stringByAddingPercentEscapesSafely:(NSString *)oringinString
+{
+    NSString *encodedString = oringinString.copy;
+    CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                              (CFStringRef)encodedString,
+                                                              (CFStringRef)@"!$&'()*+,-./:;=?@_~%#[]",
+                                                              NULL,
+                                                              kCFStringEncodingUTF8));
+    return encodedString;
 }
 
 - (void)addplayerPlayProgressTimeObserver
