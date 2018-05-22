@@ -19,11 +19,11 @@ Pod::Spec.new do |s|
 
   s.description      = 'A lightweight media player base on AVPlayer in iOS platform'
 
-  s.homepage         = 'https://github.com/flappyFeline/YCPlayerManager'
+  s.homepage         = 'https://github.com/onekyle/YCPlayerManager'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Durand Wang' => 'ych.wang@outlook.com' }
-  s.source           = { :git => 'https://github.com/flappyFeline/YCPlayerManager.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/onekyle/YCPlayerManager.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '7.0'
