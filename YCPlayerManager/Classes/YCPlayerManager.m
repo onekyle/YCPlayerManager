@@ -211,11 +211,9 @@ static YCPlayerManager *playerManager;
 	// 当缓冲超过俩秒 就自动开始播放
     if (self.player.status == YCPlayerStatusBuffering || self.player.status == YCPlayerStatustransitioning || (self.player.status == YCPlayerStatusPause && !self.hasPausedByManual) || (self.player.status == YCPlayerStatusPlaying && self.currentTime < 0.01 && !self.hasPausedByManual)) {
         if (loadedTime - self.currentTime > 2.0) {
-            //                NSLog(@"start play~~~~~~~~");
             [self play];
         }
     }
-    //    NSLog(@"status : %@, currentTime: %f, loadedTime: %f", [self ycStatusDescription:self.player.status], self.currentTime, loadedTime);
     [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
 /** 播放状态*/
