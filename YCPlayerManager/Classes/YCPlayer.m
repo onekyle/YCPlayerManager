@@ -7,7 +7,7 @@
 //
 
 #import "YCPlayer.h"
-
+#import "YCRangeStreamer.h"
 
 @interface _YCPrivatePlayer : AVPlayer <YCPlayerControlAddtion>
 @property (nonatomic, weak) YCPlayer *owner;
@@ -68,6 +68,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 /** 监听播放进度的timer*/
 @property (nonatomic ,strong) id playbackTimeObserver;
 @property (nonatomic, assign) YCPlayerDelegateFlags delegateFlags;
+@property (nonatomic, strong) YCRangeStreamer *ranger;
 @end
 
 @implementation YCPlayer
@@ -117,11 +118,24 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
         return;
     }
     
-    AVURLAsset *asset = [self getAssetWithURLString:_mediaURLString];
+    NSURL *requestURL = [self getURLWithString:_mediaURLString]; //[self streamingURL:[self getURLWithString:_mediaURLString]]
+    AVURLAsset *asset = [AVURLAsset assetWithURL:requestURL];
+//    _ranger = [YCRangeStreamer new];
+//    [asset.resourceLoader setDelegate:_ranger queue:dispatch_queue_create(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
     __weak typeof(self) weakSelf = self;
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        self.currentItem = [AVPlayerItem playerItemWithAsset:asset];
+//        if (weakSelf.mediaURLString) {
+//            weakSelf.status = YCPlayerStatusBuffering;
+//        }
+//        if (completionHandler) {
+//            completionHandler();
+//        }
+//    });
+
     [asset loadValuesAsynchronouslyForKeys:@[@"duration"] completionHandler:^{
         dispatch_sync(dispatch_get_main_queue(), ^{
-            if (![[weakSelf getAssetWithURLString:weakSelf.mediaURLString].URL.absoluteString isEqualToString:asset.URL.absoluteString]) {
+            if (![[weakSelf getURLWithString:weakSelf.mediaURLString].path isEqualToString:asset.URL.path]) {
                 return;
             }
             NSError *error;
@@ -140,8 +154,10 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
             } else if (status == AVKeyValueStatusFailed) {
                 [weakSelf.metaPlayer replaceCurrentItemWithPlayerItem:nil];
                 weakSelf.status = YCPlayerStatusFailed;
+                weakSelf.ranger = nil;
             } else if (status == AVKeyValueStatusCancelled) {
                 [weakSelf.metaPlayer replaceCurrentItemWithPlayerItem:nil];
+                weakSelf.ranger = nil;
             }
         });
     }];
@@ -239,24 +255,62 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     _currentLayer = nil;
 }
 
-- (AVURLAsset *)getAssetWithURLString:(NSString *)url
+- (NSURL *)getURLWithString:(NSString *)urlString
 {
-    if (!url.length) {
+    if (!urlString.length) {
         return nil;
     }
-    if ([url rangeOfString:@"http"].location != NSNotFound) {
-        AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL URLWithString:[self stringByAddingPercentEscapesSafely:url]]];
-        return asset;
+    
+    if ([urlString hasPrefix:@"http"] || [urlString hasPrefix:@"streaming"]) {
+        
+        return [NSURL URLWithString:[self stringByAddingPercentEscapesSafely:urlString]];
     } else {
-        AVURLAsset *asset;
-        if ([url hasPrefix:@"file:"]) {
-            asset  = [AVURLAsset assetWithURL:[NSURL URLWithString:[self stringByAddingPercentEscapesSafely:url]]];
+        NSURL *url;
+        if ([urlString hasPrefix:@"file:"]) {
+            url = [NSURL URLWithString:[self stringByAddingPercentEscapesSafely:urlString]];
         } else {
-            asset  = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:[self stringByAddingPercentEscapesSafely:url]]];
+            url = [NSURL fileURLWithPath:[self stringByAddingPercentEscapesSafely:urlString]];
         }
         
-        return asset;
+        return url;
     }
+}
+
+//- (AVURLAsset *)getAssetWithURLString:(NSString *)url
+//{
+//    if (!url.length) {
+//        return nil;
+//    }
+//
+//    if ([url hasPrefix:@"http"] || [url hasPrefix:@"streaming"]) {
+//        AVURLAsset *asset = [AVURLAsset assetWithURL:[NSURL URLWithString:[self stringByAddingPercentEscapesSafely:url]]];
+//        return asset;
+//    } else {
+//        AVURLAsset *asset;
+//        if ([url hasPrefix:@"file:"]) {
+//            asset  = [AVURLAsset assetWithURL:[NSURL URLWithString:[self stringByAddingPercentEscapesSafely:url]]];
+//        } else {
+//            asset  = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:[self stringByAddingPercentEscapesSafely:url]]];
+//        }
+//
+//        return asset;
+//    }
+//}
+
+- (NSURL *)streamingURL:(NSURL *)originURL
+{
+    NSURLComponents *commpents = [NSURLComponents componentsWithString:originURL.absoluteString];
+    [commpents setScheme:@"streaming"];
+    
+    return [commpents URL];
+}
+
+- (NSURL *)httpURL:(NSURL *)originURL
+{
+    NSURLComponents *commpents = [NSURLComponents componentsWithString:originURL.absoluteString];
+    [commpents setScheme:@"http"];
+    
+    return [commpents URL];
 }
 
 - (NSString *)stringByAddingPercentEscapesSafely:(NSString *)oringinString
