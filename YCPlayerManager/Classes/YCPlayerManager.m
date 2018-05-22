@@ -110,10 +110,10 @@ static YCPlayerManager *playerManager;
     self.playerView.player = self.player;
 }
 
-- (void)play
+- (BOOL)play
 {
     if (!self.isControllable) {
-        return;
+        return NO;
     }
     if ([self currentTime] == [self duration]) {
         self.playerView.currentTime = 0.f;
@@ -121,16 +121,18 @@ static YCPlayerManager *playerManager;
 //    [self.playerView setPlayerControlStatusPaused:NO];
     self.pausedMediaURLString = nil;
     [self.metaPlayer play];
+    return YES;
 }
 
-- (void)pause
+- (BOOL)pause
 {
 //    [self.playerView setPlayerControlStatusPaused:YES];
     if (!self.isControllable) {
-        return;
+        return NO;
     }
     _pausedMediaURLString = _mediaURLString;
     [self.metaPlayer pause];
+    return YES;
 }
 
 - (void)stop

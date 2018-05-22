@@ -59,8 +59,8 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 - (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)(void))completionHandler equivalentHandler:(nullable void (^)(void))equivalentHandler;
 
 // control
-- (void)play;
-- (void)pause;
+- (BOOL)play;
+- (BOOL)pause;
 - (void)stop;
 - (void)seekToTime:(NSTimeInterval)targetTime;
 - (void)resetPlayerLayer;
