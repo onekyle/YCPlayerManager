@@ -69,13 +69,13 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 - (BOOL)playerIsPlayingURLString:(NSString *)URLString;
 
-- (void)onAudioSessionInterruptionEvent:(NSNotification *)notification YC_REQUIRES_SUPER;
+- (void)onAudioSessionInterruptionEvent:(NSNotification *)notification;
 
-- (void)onAudioSessionRouteChange:(NSNotification *)notification YC_REQUIRES_SUPER;
+- (void)onAudioSessionRouteChange:(NSNotification *)notification;
 
-- (void)onBecomeActive:(NSNotification *)notification YC_REQUIRES_SUPER;
+- (void)onBecomeActive:(NSNotification *)notification;
 
-- (void)onBecomeInactive:(NSNotification *)notification YC_REQUIRES_SUPER;
+- (void)onBecomeInactive:(NSNotification *)notification;
 
 
 - (BOOL)hasPausedByManual;

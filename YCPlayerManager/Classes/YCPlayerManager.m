@@ -147,9 +147,10 @@ static YCPlayerManager *playerManager;
     
 - (void)seekToTime:(NSTimeInterval)targetTime
 {
-    if (targetTime >= 0 && targetTime < self.duration) {
+    if (targetTime >= 0 && targetTime <= self.duration) {
         [self.player.currentItem cancelPendingSeeks];
-        [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(targetTime, self.player.currentItem.currentTime.timescale) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+        CMTime seekToTime = CMTimeMakeWithSeconds(targetTime, self.player.currentItem.currentTime.timescale);
+        [self.metaPlayer seekToTime:seekToTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
     }
 }
 
@@ -176,19 +177,17 @@ static YCPlayerManager *playerManager;
 
 - (void)didClickPlayerViewCloseButton:(UIButton *)sender
 {
-
+    
 }
 
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
 {
-    [self.player.currentItem cancelPendingSeeks];
-    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
+    [self setCurrentTime:sender.value * self.duration];
 }
 
 - (void)didTapPlayerViewProgressSlider:(UISlider *)sender
 {
-    [self.player.currentItem cancelPendingSeeks];
-    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
+    [self setCurrentTime:sender.value * self.duration];
     if (self.isPaused == 0.f) {
         [self play];
     }
@@ -205,7 +204,8 @@ static YCPlayerManager *playerManager;
 /** 播放进度*/
 - (void)player:(YCPlayer *)player playPeriodicTimeChangeTo:(CMTime)currentTime
 {
-    _playerView.currentTime = CMTimeGetSeconds(currentTime);
+    NSTimeInterval time = CMTimeGetSeconds(currentTime);
+    _playerView.currentTime = time;
 }
 /** 缓存进度*/
 - (void)player:(YCPlayer *)player bufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
@@ -221,7 +221,7 @@ static YCPlayerManager *playerManager;
 /** 播放状态*/
 - (void)player:(YCPlayer *)player didChangeToStatus:(YCPlayerStatus)status fromStatus:(YCPlayerStatus)fromStatus
 {
-//    NSLog(@"from status: %@, to status: %@, state: %d, currentThread: %@", [self ycStatusDescription:fromStatus], [self ycStatusDescription:status],
+//    NSLog(@"from status: %@, to status: %@", [self ycStatusDescription:fromStatus], [self ycStatusDescription:status]);
     if ([NSThread currentThread].isMainThread) {
         self.playerView.playerStatus = status;
     } else {
@@ -230,7 +230,7 @@ static YCPlayerManager *playerManager;
         });
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
-    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
+    if (status == YCPlayerStatusReadyToPlay && (self.isEnableBackgroundPlay || [UIApplication sharedApplication].applicationState != UIApplicationStateBackground)) {
         if (!self.hasPausedByManual) {
             [player.metaPlayer play];
             if (_completionHandler) {
@@ -312,13 +312,27 @@ static YCPlayerManager *playerManager;
 - (void)onAudioSessionRouteChange:(NSNotification *)noti
 {
     
-    AVAudioSessionRouteChangeReason reason = [noti.userInfo[AVAudioSessionRouteChangeReasonKey] integerValue];
-    if (reason == AVAudioSessionRouteChangeReasonOverride) {
-        return;
+    NSLog(@"route change: %@", noti.userInfo);
+    AVAudioSessionRouteChangeReason routeChangeReason = [noti.userInfo[AVAudioSessionRouteChangeReasonKey] integerValue];
+    switch (routeChangeReason) {
+        case AVAudioSessionRouteChangeReasonNewDeviceAvailable: {
+//            self.player.hasCorrectFalg = NO;
+//            [self pause];
+        }
+            break;
+        case AVAudioSessionRouteChangeReasonOldDeviceUnavailable: {
+            self.player.hasCorrectFalg = NO;
+            [self pause];
+        }
+            break;
+        case AVAudioSessionRouteChangeReasonCategoryChange: {
+            
+        }
+            break;
+            
+        default:
+            break;
     }
-    
-    self.player.hasCorrectFalg = NO;
-    [self pause];
 }
 
 - (void)onBecomeActive:(NSNotification *)noti

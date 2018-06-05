@@ -91,6 +91,11 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     [self reset];
 }
 
+- (void)setHasCorrectFalg:(BOOL)hasCorrectFalg
+{
+    _hasCorrectFalg = hasCorrectFalg;
+}
+
 - (void)setPlayerDelegate:(id<YCPlayerDelegate>)playerDelegate
 {
     _playerDelegate = playerDelegate;
@@ -117,7 +122,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     }
     
     NSURL *requestURL = [self getURLWithString:_mediaURLString];
-    AVURLAsset *asset = [AVURLAsset assetWithURL:requestURL];
+    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:requestURL options:@{AVURLAssetPreferPreciseDurationAndTimingKey: @(YES)}];
     __weak typeof(self) weakSelf = self;
     
     [asset loadValuesAsynchronouslyForKeys:@[@"duration"] completionHandler:^{
@@ -300,12 +305,10 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 
 - (void)moviePlayDidEnd:(NSNotification *)notification
 {
-//    [self.player removeTimeObserver:self.playbackTimeObserver];
     [self.metaPlayer seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         
     }];
     self.status = YCPlayerStatusFinished;
-    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
