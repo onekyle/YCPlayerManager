@@ -219,7 +219,6 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
             [self setPlayerControlStatusPaused:YES];
             break;
         case YCPlayerStatusReadyToPlay:
-//            [self.loadingView stopAnimating];
             self.duration = self.player.duration;
             if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
                 if (!self.player.isPaused) {
@@ -237,7 +236,6 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
             if (_playerStatus == YCPlayerStatusReadyToPlay) {
                 [self.loadingView startAnimating];
             }
-//            [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;
         case YCPlayerStatusStopped:
@@ -245,7 +243,6 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
             [self setPlayerControlStatusPaused:YES];
             break;
         case YCPlayerStatusFinished:
-//            [self.loadingView stopAnimating];
             [self setPlayerControlStatusPaused:YES];
             break;
         default:
@@ -273,9 +270,13 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
     if (!duration) {
         return;
     }
-    _duration = duration;
-    self.progressSlider.userInteractionEnabled = duration > 0.01;
-    [self setDurationTimeTextWithTime:duration];
+    if (isnan(duration)) {
+        _duration = 0.001;
+    } else {
+        _duration = duration;
+    }
+    self.progressSlider.userInteractionEnabled = _duration > 0.01;
+    [self setDurationTimeTextWithTime:_duration];
 }
 
 - (void)setDurationTimeTextWithTime:(NSTimeInterval)durationTime

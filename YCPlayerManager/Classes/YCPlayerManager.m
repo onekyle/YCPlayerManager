@@ -118,7 +118,7 @@ static YCPlayerManager *playerManager;
     if ([self currentTime] == [self duration]) {
         self.playerView.currentTime = 0.f;
     }
-//    [self.playerView setPlayerControlStatusPaused:NO];
+    //    [self.playerView setPlayerControlStatusPaused:NO];
     self.pausedMediaURLString = nil;
     [self.metaPlayer play];
     return YES;
@@ -126,7 +126,7 @@ static YCPlayerManager *playerManager;
 
 - (BOOL)pause
 {
-//    [self.playerView setPlayerControlStatusPaused:YES];
+    //    [self.playerView setPlayerControlStatusPaused:YES];
     if (!self.isControllable) {
         return NO;
     }
@@ -144,13 +144,12 @@ static YCPlayerManager *playerManager;
     self.player.mediaURLString = nil;
     self.player.status = YCPlayerStatusStopped;
 }
-    
+
 - (void)seekToTime:(NSTimeInterval)targetTime
 {
-    if (targetTime >= 0 && targetTime <= self.duration) {
+    if (targetTime >= 0 && targetTime < self.duration) {
         [self.player.currentItem cancelPendingSeeks];
-        CMTime seekToTime = CMTimeMakeWithSeconds(targetTime, self.player.currentItem.currentTime.timescale);
-        [self.metaPlayer seekToTime:seekToTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+        [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(targetTime, self.player.currentItem.currentTime.timescale) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
     }
 }
 
@@ -182,12 +181,14 @@ static YCPlayerManager *playerManager;
 
 - (void)didClickPlayerViewProgressSlider:(UISlider *)sender
 {
-    [self setCurrentTime:sender.value * self.duration];
+    [self.player.currentItem cancelPendingSeeks];
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
 }
 
 - (void)didTapPlayerViewProgressSlider:(UISlider *)sender
 {
-    [self setCurrentTime:sender.value * self.duration];
+    [self.player.currentItem cancelPendingSeeks];
+    [self.metaPlayer seekToTime:CMTimeMakeWithSeconds(sender.value * self.duration, self.player.currentItem.currentTime.timescale)];
     if (self.isPaused == 0.f) {
         [self play];
     }
@@ -204,13 +205,12 @@ static YCPlayerManager *playerManager;
 /** 播放进度*/
 - (void)player:(YCPlayer *)player playPeriodicTimeChangeTo:(CMTime)currentTime
 {
-    NSTimeInterval time = CMTimeGetSeconds(currentTime);
-    _playerView.currentTime = time;
+    _playerView.currentTime = CMTimeGetSeconds(currentTime);
 }
 /** 缓存进度*/
 - (void)player:(YCPlayer *)player bufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
 {
-	// 当缓冲超过俩秒 就自动开始播放
+    // 当缓冲超过俩秒 就自动开始播放
     if (self.player.status == YCPlayerStatusBuffering || self.player.status == YCPlayerStatustransitioning || (self.player.status == YCPlayerStatusPause && !self.hasPausedByManual) || (self.player.status == YCPlayerStatusPlaying && self.currentTime < 0.01 && !self.hasPausedByManual)) {
         if (loadedTime - self.currentTime > 2.0) {
             [self play];
@@ -221,7 +221,7 @@ static YCPlayerManager *playerManager;
 /** 播放状态*/
 - (void)player:(YCPlayer *)player didChangeToStatus:(YCPlayerStatus)status fromStatus:(YCPlayerStatus)fromStatus
 {
-//    NSLog(@"from status: %@, to status: %@", [self ycStatusDescription:fromStatus], [self ycStatusDescription:status]);
+    //    NSLog(@"from status: %@, to status: %@, state: %d, currentThread: %@", [self ycStatusDescription:fromStatus], [self ycStatusDescription:status],
     if ([NSThread currentThread].isMainThread) {
         self.playerView.playerStatus = status;
     } else {
@@ -230,7 +230,7 @@ static YCPlayerManager *playerManager;
         });
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
-    if (status == YCPlayerStatusReadyToPlay && (self.isEnableBackgroundPlay || [UIApplication sharedApplication].applicationState != UIApplicationStateBackground)) {
+    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
         if (!self.hasPausedByManual) {
             [player.metaPlayer play];
             if (_completionHandler) {
@@ -312,51 +312,37 @@ static YCPlayerManager *playerManager;
 - (void)onAudioSessionRouteChange:(NSNotification *)noti
 {
     
-    NSLog(@"route change: %@", noti.userInfo);
-    AVAudioSessionRouteChangeReason routeChangeReason = [noti.userInfo[AVAudioSessionRouteChangeReasonKey] integerValue];
-    switch (routeChangeReason) {
-        case AVAudioSessionRouteChangeReasonNewDeviceAvailable: {
-//            self.player.hasCorrectFalg = NO;
-//            [self pause];
-        }
-            break;
-        case AVAudioSessionRouteChangeReasonOldDeviceUnavailable: {
-            self.player.hasCorrectFalg = NO;
-            [self pause];
-        }
-            break;
-        case AVAudioSessionRouteChangeReasonCategoryChange: {
-            
-        }
-            break;
-            
-        default:
-            break;
+    AVAudioSessionRouteChangeReason reason = [noti.userInfo[AVAudioSessionRouteChangeReasonKey] integerValue];
+    if (reason == AVAudioSessionRouteChangeReasonOverride) {
+        return;
     }
+    
+    self.player.hasCorrectFalg = NO;
+    [self pause];
 }
 
 - (void)onBecomeActive:(NSNotification *)noti
 {
     self.player.hasCorrectFalg = NO;
-//    [self pause];
+    //    [self pause];
 }
 
 - (void)onBecomeInactive:(NSNotification *)noti
- {
-     if (self.enableBackgroundPlay) {
-         if (!self.isPaused) {
-             self.player.hasCorrectFalg = YES;
-             float version = [UIDevice currentDevice].systemVersion.floatValue;
-             if (version < 9.0) {
-                 [self.player performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1.5];
-             } else if (version >= 11.0) {
-                 [self.player.metaPlayer performSelector:@selector(playWithoutChangeStatus) withObject:nil afterDelay:0.01];
-             }
-         }
-     } else {
-         [self pause];
-     }
- }
+{
+    if (self.enableBackgroundPlay) {
+        if (!self.isPaused) {
+            self.player.hasCorrectFalg = YES;
+            float version = [UIDevice currentDevice].systemVersion.floatValue;
+            if (version < 9.0) {
+                [self.player performSelector:@selector(setHasCorrectFalg:) withObject:@(NO) afterDelay:1.5];
+            } else if (version >= 11.0) {
+                [self.player.metaPlayer performSelector:@selector(playWithoutChangeStatus) withObject:nil afterDelay:0.01];
+            }
+        }
+    } else {
+        [self pause];
+    }
+}
 
 #pragma mark -
 
@@ -364,7 +350,7 @@ static YCPlayerManager *playerManager;
 - (void)setPlayerView:(UIView<YCPlayerViewComponentDelegate> *)playerView
 {
     if (_playerView != playerView) {
-//        [_playerView removeFromSuperview];
+        //        [_playerView removeFromSuperview];
         [_playerView resetPlayerView];
         _playerView = playerView;
         _playerView.eventControl = self;
@@ -378,7 +364,7 @@ static YCPlayerManager *playerManager;
         _mediaURLString = [mediaURLString copy];
         self.pausedMediaURLString = nil;
         
-//        self.player.mediaURLString = _mediaURLString;
+        //        self.player.mediaURLString = _mediaURLString;
         __weak typeof(self) weakSelf = self;
         _completionHandler = ^{
             weakSelf.playerView.player = weakSelf.player;

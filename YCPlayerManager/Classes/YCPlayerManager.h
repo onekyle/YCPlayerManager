@@ -51,7 +51,7 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 /**
  播放一个URL源.
-
+ 
  @param mediaURLString URL源
  @param completionHandler 加载完成的回调.
  @param equivalentHandler 如果资源与旧资源相同的回调.
@@ -69,13 +69,13 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 - (BOOL)playerIsPlayingURLString:(NSString *)URLString;
 
-- (void)onAudioSessionInterruptionEvent:(NSNotification *)notification;
+- (void)onAudioSessionInterruptionEvent:(NSNotification *)notification YC_REQUIRES_SUPER;
 
-- (void)onAudioSessionRouteChange:(NSNotification *)notification;
+- (void)onAudioSessionRouteChange:(NSNotification *)notification YC_REQUIRES_SUPER;
 
-- (void)onBecomeActive:(NSNotification *)notification;
+- (void)onBecomeActive:(NSNotification *)notification YC_REQUIRES_SUPER;
 
-- (void)onBecomeInactive:(NSNotification *)notification;
+- (void)onBecomeInactive:(NSNotification *)notification YC_REQUIRES_SUPER;
 
 
 - (BOOL)hasPausedByManual;

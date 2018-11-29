@@ -91,11 +91,6 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     [self reset];
 }
 
-- (void)setHasCorrectFalg:(BOOL)hasCorrectFalg
-{
-    _hasCorrectFalg = hasCorrectFalg;
-}
-
 - (void)setPlayerDelegate:(id<YCPlayerDelegate>)playerDelegate
 {
     _playerDelegate = playerDelegate;
@@ -122,7 +117,7 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     }
     
     NSURL *requestURL = [self getURLWithString:_mediaURLString];
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:requestURL options:@{AVURLAssetPreferPreciseDurationAndTimingKey: @(YES)}];
+    AVURLAsset *asset = [AVURLAsset assetWithURL:requestURL];
     __weak typeof(self) weakSelf = self;
     
     [asset loadValuesAsynchronouslyForKeys:@[@"duration"] completionHandler:^{
@@ -294,21 +289,23 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     }
     __weak typeof(self) weakSelf = self;
     _playbackTimeObserver =  [weakSelf.metaPlayer
-                                  addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC)
-                                  queue:dispatch_get_main_queue() /* If you pass NULL, the main queue is used. */
-                                  usingBlock:^(CMTime time){
-                                      if (weakSelf.delegateFlags.playPeriodicTimeChanged) {
-                                          [weakSelf.playerDelegate player:weakSelf playPeriodicTimeChangeTo:time];
-                                      }
-                                  }];
+                              addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(0.1, NSEC_PER_SEC)
+                              queue:dispatch_get_main_queue() /* If you pass NULL, the main queue is used. */
+                              usingBlock:^(CMTime time){
+                                  if (weakSelf.delegateFlags.playPeriodicTimeChanged) {
+                                      [weakSelf.playerDelegate player:weakSelf playPeriodicTimeChangeTo:time];
+                                  }
+                              }];
 }
 
 - (void)moviePlayDidEnd:(NSNotification *)notification
 {
+    //    [self.player removeTimeObserver:self.playbackTimeObserver];
     [self.metaPlayer seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         
     }];
     self.status = YCPlayerStatusFinished;
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context
