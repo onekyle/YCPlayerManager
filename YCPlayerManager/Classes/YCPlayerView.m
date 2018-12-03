@@ -48,8 +48,6 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 @synthesize loadingProgress = _loadingProgress;
 @synthesize leftTimeLabel = _leftTimeLabel;
 @synthesize rightTimeLabel = _rightTimeLabel;
-
-@synthesize dateFormatter = _dateFormatter;
 #pragma mark -
 
 #pragma mark - LifeCycle
@@ -379,20 +377,19 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 }
 
 - (NSString *)changeToStringByTime:(CGFloat)second{
-    NSDate *d = [NSDate dateWithTimeIntervalSince1970:second];
-    if (second/3600 >= 1) {
-        self.dateFormatter.dateFormat = @"HH:mm:ss";
-    } else {
-        self.dateFormatter.dateFormat = @"mm:ss";
+    NSInteger time = (NSInteger)second;
+    if (time / 3600 > 0) { // 时分秒
+        NSInteger hour   = time / 3600;
+        NSInteger minute = (time % 3600) / 60;
+        NSInteger second = (time % 3600) % 60;
+        
+        return [NSString stringWithFormat:@"%02zd:%02zd:%02zd", hour, minute, second];
+    }else { // 分秒
+        NSInteger minute = time / 60;
+        NSInteger second = time % 60;
+        
+        return [NSString stringWithFormat:@"%02zd:%02zd", minute, second];
     }
-    return [self.dateFormatter stringFromDate:d];
-}
-
-- (NSDateFormatter *)dateFormatter {
-    if (!_dateFormatter) {
-        _dateFormatter = [[NSDateFormatter alloc] init];
-    }
-    return _dateFormatter;
 }
 #pragma mark -
 

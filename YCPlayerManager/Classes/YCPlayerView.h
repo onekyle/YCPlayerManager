@@ -71,9 +71,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel        *leftTimeLabel;
 @property (nonatomic, strong) UILabel        *rightTimeLabel;
 
-/** 时间文字显示格式*/
-@property (nonatomic, strong) NSDateFormatter *dateFormatter;
-
 @required
 
 - (void)resetPlayerView;
