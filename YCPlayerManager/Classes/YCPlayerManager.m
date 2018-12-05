@@ -78,9 +78,13 @@ static YCPlayerManager *playerManager;
 - (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)(void))completionHandler equivalentHandler:(nullable void (^)(void))equivalentHandler
 {
     if (![_mediaURLString isEqualToString:mediaURLString]) {
+        NSString *oldMediaURLString = [_mediaURLString copy];
         _mediaURLString = [mediaURLString copy];
         _pausedMediaURLString = nil;
         if (mediaURLString) {
+            if (oldMediaURLString) {
+                [self stop];
+            }
             [_player reset];
             _player = [[YCPlayer alloc] init];
             if (@available(iOS 10.0, *)) {
@@ -137,12 +141,12 @@ static YCPlayerManager *playerManager;
 
 - (void)stop
 {
+    self.player.status = YCPlayerStatusStopped;
     self.metaPlayer.rate = 0.0;
     _completionHandler = nil;
     self.pausedMediaURLString = nil;
     self.mediaURLString = nil;
     self.player.mediaURLString = nil;
-    self.player.status = YCPlayerStatusStopped;
 }
 
 - (void)seekToTime:(NSTimeInterval)targetTime
