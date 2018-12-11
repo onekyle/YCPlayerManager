@@ -107,14 +107,14 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 
 - (void)startPlayingWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void(^)(void))completionHandler
 {
-    [_metaPlayer pauseWithoutChangeStatus];
-    self.status = YCPlayerStatustransitioning;
-    _mediaURLString = [mediaURLString copy];
     [self.currentItem.asset cancelLoading];
     self.currentItem = nil;
+    _mediaURLString = [mediaURLString copy];
     if (mediaURLString == nil) {
         return;
     }
+    [_metaPlayer pauseWithoutChangeStatus];
+    self.status = YCPlayerStatustransitioning;
     
     NSURL *requestURL = [self getURLWithString:_mediaURLString];
     AVURLAsset *asset = [AVURLAsset assetWithURL:requestURL];

@@ -79,12 +79,12 @@ static YCPlayerManager *playerManager;
 {
     if (![_mediaURLString isEqualToString:mediaURLString]) {
         NSString *oldMediaURLString = [_mediaURLString copy];
-        _mediaURLString = [mediaURLString copy];
         _pausedMediaURLString = nil;
         if (mediaURLString) {
             if (oldMediaURLString) {
                 [self stop];
             }
+            _mediaURLString = [mediaURLString copy];
             [_player reset];
             _player = [[YCPlayer alloc] init];
             if (@available(iOS 10.0, *)) {
@@ -103,6 +103,7 @@ static YCPlayerManager *playerManager;
         };
         [self.player startPlayingWithMediaURLString:_mediaURLString completionHandler:nil];
     } else {
+        _mediaURLString = [mediaURLString copy];
         if (equivalentHandler) {
             equivalentHandler();
         }
