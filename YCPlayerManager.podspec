@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'YCPlayerManager'
-  s.version          = '0.1.7.2'
+  s.version          = '0.1.7.3'
   s.summary          = 'Media player.'
 
 # This description is used to generate tags and improve search results.

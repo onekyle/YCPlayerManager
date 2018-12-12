@@ -215,12 +215,6 @@ static YCPlayerManager *playerManager;
 /** 缓存进度*/
 - (void)player:(YCPlayer *)player bufferingWithCurrentLoadedTime:(NSTimeInterval)loadedTime duration:(NSTimeInterval)duration
 {
-    // 当缓冲超过俩秒 就自动开始播放
-    if (self.player.status == YCPlayerStatusBuffering || self.player.status == YCPlayerStatustransitioning || (self.player.status == YCPlayerStatusPause && !self.hasPausedByManual) || (self.player.status == YCPlayerStatusPlaying && self.currentTime < 0.01 && !self.hasPausedByManual)) {
-        if (loadedTime - self.currentTime > 2.0) {
-            [self play];
-        }
-    }
     [self.playerView updateBufferingProgressWithCurrentLoadedTime:loadedTime duration:duration];
 }
 /** 播放状态*/
