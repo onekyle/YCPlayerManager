@@ -253,44 +253,6 @@ static YCPlayerManager *playerManager;
         [self stop];
     }
 }
-
-- (NSString *)ycStatusDescription:(YCPlayerStatus)status
-{
-    NSString *desc = nil;
-    switch (status) {
-        case YCPlayerStatusFailed:
-            desc = @"YCPlayerStatusFailed";
-            break;
-        case YCPlayerStatusUnKnown:
-            desc = @"YCPlayerStatusUnKnown";
-            break;
-        case YCPlayerStatustransitioning:
-            desc = @"YCPlayerStatustransitioning";
-            break;
-        case YCPlayerStatusBuffering:
-            desc = @"YCPlayerStatusBuffering";
-            break;
-        case YCPlayerStatusReadyToPlay:
-            desc = @"YCPlayerStatusReadyToPlay";
-            break;
-        case YCPlayerStatusPlaying:
-            desc = @"YCPlayerStatusPlaying";
-            break;
-        case YCPlayerStatusPause:
-            desc = @"YCPlayerStatusPause";
-            break;
-        case YCPlayerStatusStopped:
-            desc = @"YCPlayerStatusStopped";
-            break;
-        case YCPlayerStatusFinished:
-            desc = @"YCPlayerStatusFinished";
-            break;
-        default:
-            desc = @"NoOne";
-            break;
-    }
-    return desc;
-}
 #pragma mark -
 
 #pragma mark - GlobalNotication

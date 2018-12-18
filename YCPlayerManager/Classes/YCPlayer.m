@@ -72,6 +72,44 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 @implementation YCPlayer
 @synthesize metaPlayer = _metaPlayer;
 
++ (NSString *)ycStatusDescription:(YCPlayerStatus)status
+{
+    NSString *desc = nil;
+    switch (status) {
+        case YCPlayerStatusFailed:
+            desc = @"YCPlayerStatusFailed";
+            break;
+        case YCPlayerStatusUnKnown:
+            desc = @"YCPlayerStatusUnKnown";
+            break;
+        case YCPlayerStatustransitioning:
+            desc = @"YCPlayerStatustransitioning";
+            break;
+        case YCPlayerStatusBuffering:
+            desc = @"YCPlayerStatusBuffering";
+            break;
+        case YCPlayerStatusReadyToPlay:
+            desc = @"YCPlayerStatusReadyToPlay";
+            break;
+        case YCPlayerStatusPlaying:
+            desc = @"YCPlayerStatusPlaying";
+            break;
+        case YCPlayerStatusPause:
+            desc = @"YCPlayerStatusPause";
+            break;
+        case YCPlayerStatusStopped:
+            desc = @"YCPlayerStatusStopped";
+            break;
+        case YCPlayerStatusFinished:
+            desc = @"YCPlayerStatusFinished";
+            break;
+        default:
+            desc = @"NoOne";
+            break;
+    }
+    return desc;
+}
+
 - (instancetype)init
 {
     self = [super init];
@@ -185,6 +223,8 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
     _status = status;
     if (_delegateFlags.statusChanged) {
         [_playerDelegate player:self didChangeToStatus:status fromStatus:oldStatus];
+    } else if (_playerStatusDidChangedBlock) {
+        _playerStatusDidChangedBlock(status, oldStatus);
     }
 }
 

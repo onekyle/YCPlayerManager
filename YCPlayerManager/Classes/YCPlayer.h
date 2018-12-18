@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *mediaURLString;
 
 @property (nonatomic, assign) YCPlayerStatus status;
+@property (nonatomic, copy, nullable) void (^playerStatusDidChangedBlock)(YCPlayerStatus current, YCPlayerStatus from);
 
 @property (nonatomic, weak) id<YCPlayerDelegate> playerDelegate;
 
@@ -42,6 +43,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (NS_NONATOMIC_IOSONLY, readonly) NSTimeInterval currentTime;
 @property (NS_NONATOMIC_IOSONLY, getter=isPaused, readonly) BOOL paused;
 @property (NS_NONATOMIC_IOSONLY, getter=isPlayable, readonly) BOOL playable;
+
++ (NSString *)ycStatusDescription:(YCPlayerStatus)status;
 
 - (instancetype)init;
 
