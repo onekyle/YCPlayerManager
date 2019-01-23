@@ -243,9 +243,6 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
                 self.status = YCPlayerStatusReadyToPlay;
                 [self addplayerPlayProgressTimeObserver];
             }
-            /* Once the AVPlayerItem becomes ready to play, i.e.
-             [playerItem status] == AVPlayerItemStatusReadyToPlay,
-             its duration can be fetched from the item. */
         }
             break;
             
@@ -340,7 +337,6 @@ typedef struct YCPlayerDelegateFlags YCPlayerDelegateFlags;
 
 - (void)moviePlayDidEnd:(NSNotification *)notification
 {
-    //    [self.player removeTimeObserver:self.playbackTimeObserver];
     [self.metaPlayer seekToTime:kCMTimeZero completionHandler:^(BOOL finished) {
         
     }];

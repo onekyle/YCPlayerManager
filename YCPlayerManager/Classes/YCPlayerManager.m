@@ -78,12 +78,8 @@ static YCPlayerManager *playerManager;
 - (void)playWithMediaURLString:(NSString *)mediaURLString completionHandler:(nullable void (^)(void))completionHandler equivalentHandler:(nullable void (^)(void))equivalentHandler
 {
     if (![_mediaURLString isEqualToString:mediaURLString]) {
-        NSString *oldMediaURLString = [_mediaURLString copy];
         _pausedMediaURLString = nil;
         if (mediaURLString) {
-            if (oldMediaURLString) {
-                [self stop];
-            }
             _mediaURLString = [mediaURLString copy];
             [_player reset];
             _player = [[YCPlayer alloc] init];
@@ -93,7 +89,6 @@ static YCPlayerManager *playerManager;
             _player.playerDelegate = self;
             _playerView.player = _player;
         }
-        //        self.player.mediaURLString = _mediaURLString;
         __weak typeof(self) weakSelf = self;
         _completionHandler = ^{
             [weakSelf resetPlayerLayer];
@@ -123,7 +118,6 @@ static YCPlayerManager *playerManager;
     if ([self currentTime] == [self duration]) {
         self.playerView.currentTime = 0.f;
     }
-    //    [self.playerView setPlayerControlStatusPaused:NO];
     self.pausedMediaURLString = nil;
     [self.metaPlayer play];
     return YES;
@@ -131,7 +125,6 @@ static YCPlayerManager *playerManager;
 
 - (BOOL)pause
 {
-    //    [self.playerView setPlayerControlStatusPaused:YES];
     if (!self.isControllable) {
         return NO;
     }
@@ -311,7 +304,6 @@ static YCPlayerManager *playerManager;
 - (void)setPlayerView:(UIView<YCPlayerViewComponentDelegate> *)playerView
 {
     if (_playerView != playerView) {
-        //        [_playerView removeFromSuperview];
         [_playerView resetPlayerView];
         _playerView = playerView;
         _playerView.eventControl = self;
@@ -324,8 +316,6 @@ static YCPlayerManager *playerManager;
     if (![_mediaURLString isEqualToString:mediaURLString]) {
         _mediaURLString = [mediaURLString copy];
         self.pausedMediaURLString = nil;
-        
-        //        self.player.mediaURLString = _mediaURLString;
         __weak typeof(self) weakSelf = self;
         _completionHandler = ^{
             weakSelf.playerView.player = weakSelf.player;

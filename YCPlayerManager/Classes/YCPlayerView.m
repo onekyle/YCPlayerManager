@@ -24,6 +24,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
     BOOL _isResponsingSlider;
 }
 @property (nonatomic, assign) YCPlayerViewDelegateFlags delegateFlags;
+@property (nonatomic, assign, readwrite) BOOL isProgerssSliderActivity;
 @end
 
 @implementation YCPlayerView
@@ -193,9 +194,6 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
     self.playerLayer = player.currentLayer;
     self.playerLayer.frame = self.layer.bounds;
     [self.layer insertSublayer:_playerLayer atIndex:0];
-    //    self.playerLayer.backgroundColor = [UIColor blackColor].CGColor;
-    //视频的默认填充模式，AVLayerVideoGravityResizeAspect
-    //    self.playerLayer.videoGravity = AVLayerVideoGravityResize;
 }
 
 - (void)setPlayerStatus:(YCPlayerStatus)playerStatus
@@ -304,7 +302,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
         _isResponsingSlider = NO;
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _isProgerssSliderActivity = NO;
+        self.isProgerssSliderActivity = NO;
     });
 }
 
@@ -322,7 +320,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
         _isResponsingSlider = NO;
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _isProgerssSliderActivity = NO;
+        self.isProgerssSliderActivity = NO;
     });
 }
 
