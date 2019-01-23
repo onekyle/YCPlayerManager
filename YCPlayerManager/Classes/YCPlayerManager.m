@@ -213,16 +213,12 @@ static YCPlayerManager *playerManager;
 /** 播放状态*/
 - (void)player:(YCPlayer *)player didChangeToStatus:(YCPlayerStatus)status fromStatus:(YCPlayerStatus)fromStatus
 {
-    //    NSLog(@"from status: %@, to status: %@, state: %d, currentThread: %@", [self ycStatusDescription:fromStatus], [self ycStatusDescription:status],
-    if ([NSThread currentThread].isMainThread) {
+    dispatch_async(dispatch_get_main_queue(), ^{
         self.playerView.playerStatus = status;
-    } else {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            self.playerView.playerStatus = status;
-        });
-    }
+    });
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
-    if (status == YCPlayerStatusReadyToPlay && [UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
+    if (status == YCPlayerStatusReadyToPlay) {
         if (!self.hasPausedByManual) {
             [player.metaPlayer play];
             if (_completionHandler) {

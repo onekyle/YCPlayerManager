@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class YCPlayer,AVPlayerLayer;
 @protocol YCPlayerViewComponentDelegate <NSObject>
 
-@optional
+@required
 @property (nonatomic, strong, nullable) YCPlayer *player;
 
 @property (nonatomic, assign) YCPlayerStatus playerStatus;
@@ -38,6 +38,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSTimeInterval currentTime;
 
 @property (nonatomic, assign) NSTimeInterval duration;
+
+@optional
+
 
 /** 播放暂停按钮*/
 @property (nonatomic, strong, nullable) UIButton    *playerControlBtn;
