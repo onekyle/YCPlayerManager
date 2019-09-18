@@ -38,7 +38,7 @@
     NSArray *videoDataArray = dataDict[@"itemList"];
     _dataArray = [NSMutableArray arrayWithCapacity:videoDataArray.count];
     for (NSDictionary *dict in videoDataArray) {
-        if (![dict[@"type"] isEqualToString:@"video"]) {
+        if (![dict[@"type"] hasPrefix:@"video"]) {
             continue;
         }
         NSDictionary *data = dict[@"data"];

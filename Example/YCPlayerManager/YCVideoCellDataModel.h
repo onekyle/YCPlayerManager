@@ -19,6 +19,11 @@
 @property (nonatomic, copy) NSString *icon;
 @end
 
+@interface YCAuthor : YCBaseModel
+@property (nonatomic, copy) NSString *icon;
+@property (nonatomic, copy) NSString *name;
+@end
+
 
 @interface YCVideoCellDataModel : YCBaseModel
 
@@ -28,6 +33,8 @@
 @property (nonatomic, assign) NSTimeInterval duration;
 @property (nonatomic, strong) YCVideoCoverModel *cover;
 @property (nonatomic, strong) YCVideoProviderModel *provider;
+@property (nonatomic, strong) YCAuthor *author;
+
 @property (nonatomic, copy) NSString *category;
 @property (nonatomic,strong) NSMutableArray <NSString *>*sdSources;
 @property (nonatomic, strong) NSMutableArray <NSString *>*hdSources;

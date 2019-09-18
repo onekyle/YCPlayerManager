@@ -213,9 +213,8 @@ CGFloat kTopMargin = 0;
         if ([model.reuseidentity isEqualToString:@"video_cell"]) {
             cell = [[YCNormalVideoCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:model.reuseidentity];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            NSString *mediaURLString = @"https://baobab.kaiyanapp.com/api/v1/playUrl?vid=20401&editionType=default&source=ucloud";
             _playerManager.playerView = ((YCNormalVideoCell *)cell).playerView;
-            [_playerManager playWithMediaURLString:mediaURLString completionHandler:nil];
+            [_playerManager playWithMediaURLString:model.mediaURL completionHandler:nil];
             cell.backgroundColor = [UIColor blackColor];
         } else {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:model.reuseidentity];

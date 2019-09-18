@@ -14,11 +14,14 @@
 @implementation YCVideoProviderModel
 @end
 
+@implementation YCAuthor
+@end
+
 @implementation YCVideoCellDataModel
 
 + (NSDictionary *)dictionaryForReflect
 {
-    return @{@"cover": @"YCVideoCoverModel", @"provider": @"YCVideoProviderModel"};
+    return @{@"cover": @"YCVideoCoverModel", @"provider": @"YCVideoProviderModel", @"author": @"YCAuthor"};
 }
 
 + (NSDictionary *)dictionaryForExchange

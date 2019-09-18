@@ -20,7 +20,6 @@
 @property (nonatomic, strong) YCVideoCellHeaderView *headerView;
 @property (nonatomic, strong) UIImageView *videoContainerView;
 @property (nonatomic, strong) UIButton *controlButton;
-//@property (nonatomic, strong) YCVideoContentView *videoView;
 @property (nonatomic, strong) UILabel *detailInfoLabel;
 @property (nonatomic, strong) UIView *separatorView;
 @property (nonatomic, strong) CALayer *coverLayer;
@@ -45,9 +44,19 @@ CGFloat kSeparatoHeight = 15;
 - (void)setData:(YCVideoCellDataModel *)data
 {
     _data = data;
-    [_headerView.userIconView sd_setImageWithURL:[NSURL URLWithString:data.provider.icon] placeholderImage:nil];
+    
+    NSString *iconUrl;
+    NSString *providerName;
+    if (data.provider.name == nil || data.author != nil) {
+        iconUrl = data.author.icon;
+        providerName = data.author.name;
+    } else {
+        iconUrl = data.provider.icon;
+        providerName = data.author.name;
+    }
+    [_headerView.userIconView sd_setImageWithURL:[NSURL URLWithString:iconUrl] placeholderImage:nil];
     if (data.category.length) {
-        _headerView.userNameLabel.text = [NSString stringWithFormat:@"%@ #%@",data.provider.name, data.category];
+        _headerView.userNameLabel.text = [NSString stringWithFormat:@"%@ #%@",providerName, data.category];
     } else {
         _headerView.userNameLabel.text = data.provider.name;
     }
@@ -128,18 +137,16 @@ CGFloat kSeparatoHeight = 15;
     
     // 4.开始播放, 将这一步放在判断之外, 是得益于YCPlayerManager内部对于相同播放源不处理的原因.
     __weak typeof(self) weakSelf = self;
-    void (^loadAsssertCallBack)() = ^{
+    void (^loadAsssertCallBack)(void) = ^{
         
         UIImageView *playerViewPlaceholder = ((YCVideoContentView *)weakSelf.playerManager.playerView).placeholderImageView;
         playerViewPlaceholder.image = weakSelf.videoContainerView.image;
         if (weakSelf.playerManager.currentTime < 0.01) {
-            //            [weakSelf.playerManager.playerView removeFromSuperview];
             
             playerViewPlaceholder.alpha = 1.0;
         } else {
             playerViewPlaceholder.alpha = 0.0;
         }
-        //        [weakSelf.playerContainerView addSubview:weakSelf.playerManager.playerView];
         if (playerViewPlaceholder.alpha > 0.0) {
             [UIView animateWithDuration:1.0 delay:0.5 options:UIViewAnimationOptionTransitionNone animations:^{
                 playerViewPlaceholder.alpha = 0.0;
@@ -191,7 +198,6 @@ CGFloat kSeparatoHeight = 15;
 {
     [super layoutSubviews];
     CGFloat width = self.contentView.bounds.size.width;
-//    CGFloat height = self.contentView.bounds.size.height;
     _backImageView.frame = self.contentView.bounds;
     _coverLayer.frame = self.contentView.bounds;
     _headerView.frame = CGRectMake(0, 0, width, kHeaderHeight);
@@ -227,7 +233,6 @@ CGFloat kSeparatoHeight = 15;
     _videoContainerView = ({
         UIImageView *imgView = [[UIImageView alloc] init];
         imgView.contentMode = UIViewContentModeScaleAspectFill;
-//        imgView.backgroundColor = [UIColor blackColor];
         imgView.userInteractionEnabled = YES;
         imgView;
     });
