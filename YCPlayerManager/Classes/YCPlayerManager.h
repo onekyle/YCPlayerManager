@@ -23,6 +23,11 @@ FOUNDATION_EXTERN NSString *const kYCPlayerStatusChangeNotificationKey;
 
 @property (nonatomic, strong, nullable) UIView<YCPlayerViewComponentDelegate> *playerView;
 
+/**
+ 加载完成自动播放, default == YES
+ */
+@property (nonatomic, assign, getter=isEnableAutoPlay) BOOL enableAutoPlay;
+
 @property (nonatomic, assign, readonly, getter=isSuspending) BOOL suspending;
 
 // background related

@@ -51,7 +51,7 @@ static YCPlayerManager *playerManager;
 {
     self = [super init];
     if (self) {
-        
+        _enableAutoPlay = YES;
         if (!player) {
             player = [[YCPlayer alloc] init];
         }
@@ -220,7 +220,9 @@ static YCPlayerManager *playerManager;
     [[NSNotificationCenter defaultCenter] postNotificationName:kYCPlayerStatusChangeNotificationKey object:nil userInfo:@{@"toStatus": @(status)}];
     if (status == YCPlayerStatusReadyToPlay) {
         if (!self.hasPausedByManual) {
-            [player.metaPlayer play];
+            if (self.isEnableAutoPlay) {
+                [player.metaPlayer play];
+            }
             if (_completionHandler) {
                 _completionHandler();
                 _completionHandler = nil;
@@ -229,7 +231,9 @@ static YCPlayerManager *playerManager;
     } else if (fromStatus == YCPlayerStatusBuffering && status == YCPlayerStatusPlaying) {
         if (_completionHandler) {
             if (!self.hasPausedByManual) {
-                [player.metaPlayer play];
+                if (self.isEnableAutoPlay) {
+                    [player.metaPlayer play];
+                }
                 if (_completionHandler) {
                     _completionHandler();
                     _completionHandler = nil;
