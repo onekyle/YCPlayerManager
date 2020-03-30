@@ -99,10 +99,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  在下面俩个方法中,默认更新相应的显示时间的label.公开出来是适应某些特殊显示需求.
  */
-
 - (void)setCurrentTimeTextWithTime:(NSTimeInterval)currentTime;
 
 - (void)setDurationTimeTextWithTime:(NSTimeInterval)durationTime;
+
+- (void)updatePlayingProgressValue:(float)value;
+
 /**
  *  设置当前播放按钮状态
  *

@@ -251,9 +251,7 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 {
     _currentTime = currentTime;
     [self setCurrentTimeTextWithTime:currentTime];
-    if (!_isProgerssSliderActivity) {
-        self.progressSlider.value = currentTime / self.duration;
-    }
+    [self updatePlayingProgressValue:currentTime / self.duration];
 }
 
 - (void)setCurrentTimeTextWithTime:(NSTimeInterval)currentTime
@@ -278,6 +276,13 @@ typedef struct YCPlayerViewDelegateFlags YCPlayerViewDelegateFlags;
 - (void)setDurationTimeTextWithTime:(NSTimeInterval)durationTime
 {
     self.rightTimeLabel.text = [self changeToStringByTime:durationTime];
+}
+
+- (void)updatePlayingProgressValue:(float)value
+{
+    if (!_isProgerssSliderActivity) {
+        self.progressSlider.value = value;
+    }
 }
 
 - (void)setPlayerControlStatusPaused:(BOOL)Paused
